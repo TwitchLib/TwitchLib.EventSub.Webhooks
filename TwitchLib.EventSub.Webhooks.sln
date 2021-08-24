@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.223
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchLib.EventSub.Webhooks", "TwitchLib.EventSub.Webhooks\TwitchLib.EventSub.Webhooks.csproj", "{6176B27E-E417-41C8-BDEE-CB09FD342CA5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchLib.EventSub.Webhooks.Example", "TwitchLib.EventSub.Webhooks.Example\TwitchLib.EventSub.Webhooks.Example.csproj", "{26079F7D-9C72-43F9-BCAC-AD7E96AAC5C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6176B27E-E417-41C8-BDEE-CB09FD342CA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6176B27E-E417-41C8-BDEE-CB09FD342CA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6176B27E-E417-41C8-BDEE-CB09FD342CA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6176B27E-E417-41C8-BDEE-CB09FD342CA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26079F7D-9C72-43F9-BCAC-AD7E96AAC5C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26079F7D-9C72-43F9-BCAC-AD7E96AAC5C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26079F7D-9C72-43F9-BCAC-AD7E96AAC5C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26079F7D-9C72-43F9-BCAC-AD7E96AAC5C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {13902B52-706F-4DA9-8B5F-A1AD45FB4989}
+	EndGlobalSection
+EndGlobal
