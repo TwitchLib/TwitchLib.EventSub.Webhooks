@@ -5,6 +5,20 @@ Setting up a Twitch EventSub server can be daunting and has some moving parts th
 TwitchLib.EventSub.Webhooks was build with that in mind and makes it as easy as it can get.
 You only need a few lines of code to add and configure it.
 
+## Installation
+
+| NuGet            |       | [![TwitchLib.EventSub.Webhooks][1]][2]                                       |
+| :--------------- | ----: | :--------------------------------------------------------------------------- |
+| Package Manager  | `PM>` | `Install-Package TwitchLib.EventSub.Webhooks -Version 1.0.0`                 |
+| .NET CLI         | `>`   | `dotnet add package TwitchLib.EventSub.Webhooks --version 1.0.0`             |
+| PackageReference |       | `<PackageReference Include="TwitchLib.EventSub.Webhooks" Version="1.0.0" />` |
+| Paket CLI        | `>`   | `paket add TwitchLib.EventSub.Webhooks --version 1.0.0`                      |
+
+[1]: https://img.shields.io/nuget/v/TwitchLib.EventSub.Webhooks.svg?label=TwitchLib.EventSub.Webhooks
+[2]: https://www.nuget.org/packages/TwitchLib.EventSub.Webhooks
+
+## Setup
+
 Step 1: Create a new ASP.NET Core project (.NET 5.0 and up)
 
 Step 2: Add necessary services and config to the DI Container
@@ -103,15 +117,3 @@ That is all that you need to do to setup a Twitch EventSub Webhook Server with T
 Easy isn't it?
 
 Alternatively you can also just clone the https://github.com/TwitchLib/TwitchLib.EventSub.Webhooks/tree/master/TwitchLib.EventSub.Webhooks.Example
-
-## Installation
-
-| NuGet            |       | [![TwitchLib.EventSub.Webhooks][1]][2]                                       |
-| :--------------- | ----: | :--------------------------------------------------------------------------- |
-| Package Manager  | `PM>` | `Install-Package TwitchLib.EventSub.Webhooks -Version 1.0.0`                 |
-| .NET CLI         | `>`   | `dotnet add package TwitchLib.EventSub.Webhooks --version 1.0.0`             |
-| PackageReference |       | `<PackageReference Include="TwitchLib.EventSub.Webhooks" Version="1.0.0" />` |
-| Paket CLI        | `>`   | `paket add TwitchLib.EventSub.Webhooks --version 1.0.0`                      |
-
-[1]: https://img.shields.io/nuget/v/TwitchLib.EventSub.Webhooks.svg?label=TwitchLib.EventSub.Webhooks
-[2]: https://www.nuget.org/packages/TwitchLib.EventSub.Webhooks
