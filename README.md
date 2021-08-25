@@ -21,7 +21,9 @@ You only need a few lines of code to add and configure it.
 
 Step 1: Create a new ASP.NET Core project (.NET 5.0 and up)
 
-Step 2: Add necessary services and config to the DI Container
+Step 2: Install the TwitchLib.EventSub.Webhooks nuget package. (See above on how to do that)
+
+Step 3: Add necessary services and config to the DI Container
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
@@ -38,7 +40,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-Step 3: Put the TwitchLib.EventSub.Webhooks middleware in the request pipeline
+Step 4: Put the TwitchLib.EventSub.Webhooks middleware in the request pipeline
 
 ```csharp
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -61,7 +63,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 }
 ```
 
-Step 4: Create the HostedService and listen for events
+Step 5: Create the HostedService and listen for events
 
 ```csharp
 using Microsoft.Extensions.Hosting;
