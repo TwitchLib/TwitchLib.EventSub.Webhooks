@@ -103,3 +103,15 @@ That is all that you need to do to setup a Twitch EventSub Webhook Server with T
 Easy isn't it?
 
 Alternatively you can also just clone the https://github.com/TwitchLib/TwitchLib.EventSub.Webhooks/tree/master/TwitchLib.EventSub.Webhooks.Example
+
+## Installation
+
+| NuGet            |       | [![TwitchLib.EventSub.Webhooks][1]][2]                                       |
+| :--------------- | ----: | :--------------------------------------------------------------------------- |
+| Package Manager  | `PM>` | `Install-Package TwitchLib.EventSub.Webhooks -Version 1.0.0`                 |
+| .NET CLI         | `>`   | `dotnet add package TwitchLib.EventSub.Webhooks --version 1.0.0`             |
+| PackageReference |       | `<PackageReference Include="TwitchLib.EventSub.Webhooks" Version="1.0.0" />` |
+| Paket CLI        | `>`   | `paket add TwitchLib.EventSub.Webhooks --version 1.0.0`                      |
+
+[1]: https://img.shields.io/nuget/v/TwitchLib.EventSub.Webhooks.svg?label=TwitchLib.EventSub.Webhooks
+[2]: https://www.nuget.org/packages/TwitchLib.EventSub.Webhooks
