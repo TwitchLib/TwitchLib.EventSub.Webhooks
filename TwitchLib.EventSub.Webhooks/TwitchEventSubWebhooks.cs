@@ -40,6 +40,12 @@ namespace TwitchLib.EventSub.Webhooks
         /// <inheritdoc/>
         public event EventHandler<ChannelFollowArgs>? OnChannelFollow;
         /// <inheritdoc/>
+        public event EventHandler<ChannelGoalBeginArgs>? OnChannelGoalBegin;
+        /// <inheritdoc/>
+        public event EventHandler<ChannelGoalEndArgs>? OnChannelGoalEnd;
+        /// <inheritdoc/>
+        public event EventHandler<ChannelGoalProgressArgs>? OnChannelGoalProgress;
+        /// <inheritdoc/>
         public event EventHandler<ChannelHypeTrainBeginArgs>? OnChannelHypeTrainBegin;
         /// <inheritdoc/>
         public event EventHandler<ChannelHypeTrainEndArgs>? OnChannelHypeTrainEnd;
@@ -130,6 +136,18 @@ namespace TwitchLib.EventSub.Webhooks
                     case "channel.follow":
                         var followNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelFollow>>(body, _jsonSerializerOptions);
                         OnChannelFollow?.Invoke(this, new ChannelFollowArgs { Headers = headers, Notification = followNotification! });
+                        break;
+                    case "channel.goal.begin":
+                        var goalBeginNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelGoalBegin>>(body, _jsonSerializerOptions);
+                        OnChannelGoalBegin?.Invoke(this, new ChannelGoalBeginArgs { Headers = headers, Notification = goalBeginNotification! });
+                        break;
+                    case "channel.goal.end":
+                        var goalEndNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelGoalEnd>>(body, _jsonSerializerOptions);
+                        OnChannelGoalEnd?.Invoke(this, new ChannelGoalEndArgs { Headers = headers, Notification = goalEndNotification! });
+                        break;
+                    case "channel.goal.progress":
+                        var goalProgressNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelGoalProgress>>(body, _jsonSerializerOptions);
+                        OnChannelGoalProgress?.Invoke(this, new ChannelGoalProgressArgs { Headers = headers, Notification = goalProgressNotification! });
                         break;
                     case "channel.hype_train.begin":
                         var hypeTrainBeginNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<HypeTrainBegin>>(body, _jsonSerializerOptions);

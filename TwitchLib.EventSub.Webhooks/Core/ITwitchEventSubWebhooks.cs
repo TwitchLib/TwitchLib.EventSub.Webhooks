@@ -30,6 +30,18 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// </summary>
         event EventHandler<ChannelFollowArgs>? OnChannelFollow;
         /// <summary>
+        /// Event that triggers on "channel.goal.begin" notifications
+        /// </summary>
+        event EventHandler<ChannelGoalBeginArgs>? OnChannelGoalBegin;
+        /// <summary>
+        /// Event that triggers on "channel.goal.end" notifications
+        /// </summary>
+        event EventHandler<ChannelGoalEndArgs>? OnChannelGoalEnd;
+        /// <summary>
+        /// Event that triggers on "channel.goal.progress" notifications
+        /// </summary>
+        event EventHandler<ChannelGoalProgressArgs>? OnChannelGoalProgress; 
+        /// <summary>
         /// Event that triggers on "channel.hype_train.begin" notifications
         /// </summary>
         event EventHandler<ChannelHypeTrainBeginArgs>? OnChannelHypeTrainBegin;
