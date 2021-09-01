@@ -6,11 +6,11 @@
     <Authors>swiftyspiffy, Prom3theu5, Syzuna, LuckyNoS7evin</Authors>
     <PackageTags>twitchlib;twitch,eventsub;webhooks</PackageTags>
     <PackageIconUrl>http://swiftyspiffy.com/img/twitchlib.png</PackageIconUrl>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>1.1.0</VersionPrefix>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
-    <FileVersion>1.0.0</FileVersion>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <FileVersion>1.1.0</FileVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <PackageReleaseNotes>Added support for new Channel Goals event</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <PackageIconUrl>http://swiftyspiffy.com/img/twitchlib.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/TwitchLib/TwitchLib.EventSub.Webhooks</PackageProjectUrl>
