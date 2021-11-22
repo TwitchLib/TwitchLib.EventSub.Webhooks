@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
                 return;
             }
 
-            var headers = context.Request.Headers.ToDictionary(k => k.Key, v => v.Value.ToString());
+            var headers = context.Request.Headers.ToDictionary(k => k.Key, v => v.Value.ToString(), StringComparer.OrdinalIgnoreCase);
 
             switch (messageType)
             {
