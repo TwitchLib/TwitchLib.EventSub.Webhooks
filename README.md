@@ -46,7 +46,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-If you follow these steps your callback url will https://{your_domain}/webhooks
+#If you follow these steps your callback url will https://{your_domain}/webhooks
 
 Step 4: Put the TwitchLib.EventSub.Webhooks middleware in the request pipeline
 
