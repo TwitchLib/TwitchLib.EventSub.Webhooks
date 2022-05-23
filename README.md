@@ -17,6 +17,12 @@ You only need a few lines of code to add and configure it.
 [1]: https://img.shields.io/nuget/v/TwitchLib.EventSub.Webhooks.svg?label=TwitchLib.EventSub.Webhooks
 [2]: https://www.nuget.org/packages/TwitchLib.EventSub.Webhooks
 
+## Disclaimer
+
+The usual requirements that Twitch has for EventSub webhooks do still apply!
+- Your callback url needs to be publicly accessible (localhost wont work!)
+- You need to have SSL on port 443 for the domain used as a callback.
+
 ## Setup
 
 Step 1: Create a new ASP.NET Core project (.NET 5.0 and up)
@@ -39,6 +45,8 @@ public void ConfigureServices(IServiceCollection services)
     services.AddHostedService<EventSubHostedService>();
 }
 ```
+
+If you follow these steps your callback url will https://{your_domain}/webhooks
 
 Step 4: Put the TwitchLib.EventSub.Webhooks middleware in the request pipeline
 
