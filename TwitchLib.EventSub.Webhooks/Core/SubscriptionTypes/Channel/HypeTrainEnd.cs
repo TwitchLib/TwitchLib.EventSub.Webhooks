@@ -18,5 +18,9 @@ namespace TwitchLib.EventSub.Webhooks.Core.SubscriptionTypes.Channel
         /// The time when the Hype Train cooldown ends so that the next Hype Train can start.
         /// </summary>
         public DateTime CooldownEndsAt { get; set; } = DateTime.MinValue;
+        /// <summary>
+        /// The time when the Hype Train ended.
+        /// </summary>
+        public DateTime EndedAt { get; set; } = DateTime.MinValue;
     }
 }

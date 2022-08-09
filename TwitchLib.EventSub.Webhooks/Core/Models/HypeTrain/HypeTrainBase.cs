@@ -32,8 +32,8 @@ namespace TwitchLib.EventSub.Webhooks.Core.Models.HypeTrain
         /// </summary>
         public DateTime StartedAt { get; set; } = DateTime.MinValue;
         /// <summary>
-        /// The time when the Hype Train ended.
+        /// The current level of the Hype Train.
         /// </summary>
-        public DateTime EndedAt { get; set; } = DateTime.MinValue;
+        public int Level { get; set; }
     }
 }

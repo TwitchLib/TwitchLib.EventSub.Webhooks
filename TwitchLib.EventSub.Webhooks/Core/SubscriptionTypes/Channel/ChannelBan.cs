@@ -50,7 +50,11 @@ namespace TwitchLib.EventSub.Webhooks.Core.SubscriptionTypes.Channel
         /// </summary>
         public string Reason { get; set; } = string.Empty;
         /// <summary>
-        /// Will be null if permanent ban. If it is a timeout, this field shows when the timeout will end.
+        /// The UTC date and time (in RFC3339 format) of when the user was banned or put in a timeout.
+        /// </summary>
+        public DateTime BannedAt { get; set; } = DateTime.MinValue;
+        /// <summary>
+        /// The UTC date and time (in RFC3339 format) of when the timeout ends. Is null if the user was banned instead of put in a timeout.
         /// </summary>
         public DateTime? EndsAt { get; set; }
         /// <summary>

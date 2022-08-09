@@ -26,5 +26,9 @@ namespace TwitchLib.EventSub.Webhooks.Core.SubscriptionTypes.Channel
         /// The most recent contribution.
         /// </summary>
         public HypeTrainContribution[] LastContribution { get; set; } = Array.Empty<HypeTrainContribution>();
+        /// <summary>
+        /// The time when the Hype Train expires. The expiration is extended when the Hype Train reaches a new level.
+        /// </summary>
+        public DateTime ExpiresAt { get; set; } = DateTime.MinValue;
     }
 }
