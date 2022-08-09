@@ -19,10 +19,6 @@ namespace TwitchLib.EventSub.Webhooks.Core.SubscriptionTypes.Channel
         /// </summary>
         public int Goal { get; set; }
         /// <summary>
-        /// The current level of the Hype Train.
-        /// </summary>
-        public int Level { get; set; }
-        /// <summary>
         /// The most recent contribution.
         /// </summary>
         public HypeTrainContribution[] LastContribution { get; set; } = Array.Empty<HypeTrainContribution>();

@@ -11,10 +11,6 @@ namespace TwitchLib.EventSub.Webhooks.Core.SubscriptionTypes.Channel
     public class HypeTrainEnd : HypeTrainBase
     {
         /// <summary>
-        /// The current level of the Hype Train.
-        /// </summary>
-        public int Level { get; set; }
-        /// <summary>
         /// The time when the Hype Train cooldown ends so that the next Hype Train can start.
         /// </summary>
         public DateTime CooldownEndsAt { get; set; } = DateTime.MinValue;
