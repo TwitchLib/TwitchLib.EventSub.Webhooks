@@ -27,4 +27,8 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Core\Models\Charity\" />
+  </ItemGroup>
+
 </Project>

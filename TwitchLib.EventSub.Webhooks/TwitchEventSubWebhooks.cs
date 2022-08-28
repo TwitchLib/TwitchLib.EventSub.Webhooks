@@ -38,6 +38,8 @@ namespace TwitchLib.EventSub.Webhooks
         /// <inheritdoc/>
         public event EventHandler<ChannelCheerArgs>? OnChannelCheer;
         /// <inheritdoc/>
+        public event EventHandler<ChannelCharityCampaignDonateArgs>? OnChannelCharityCampaignDonate;
+        /// <inheritdoc/>
         public event EventHandler<ChannelFollowArgs>? OnChannelFollow;
         /// <inheritdoc/>
         public event EventHandler<ChannelGoalBeginArgs>? OnChannelGoalBegin;
@@ -132,6 +134,10 @@ namespace TwitchLib.EventSub.Webhooks
                     case "channel.cheer":
                         var cheerNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelCheer>>(body, _jsonSerializerOptions);
                         OnChannelCheer?.Invoke(this, new ChannelCheerArgs { Headers = headers, Notification = cheerNotification! });
+                        break;
+                    case "channel.charity_campaign.donate":
+                        var charityDonationNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelCharityCampaignDonate>>(body, _jsonSerializerOptions);
+                        OnChannelCharityCampaignDonate?.Invoke(this, new ChannelCharityCampaignDonateArgs { Headers = headers, Notification = charityDonationNotification! });
                         break;
                     case "channel.follow":
                         var followNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelFollow>>(body, _jsonSerializerOptions);

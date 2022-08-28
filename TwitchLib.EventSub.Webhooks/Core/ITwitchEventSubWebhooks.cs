@@ -26,6 +26,10 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// </summary>
         event EventHandler<ChannelCheerArgs>? OnChannelCheer;
         /// <summary>
+        /// Event that triggers on "channel.charity_campaign.donate" notifications
+        /// </summary>
+        event EventHandler<ChannelCharityCampaignDonateArgs>? OnChannelCharityCampaignDonate;
+        /// <summary>
         /// Event that triggers on "channel.follow" notifications
         /// </summary>
         event EventHandler<ChannelFollowArgs>? OnChannelFollow;
