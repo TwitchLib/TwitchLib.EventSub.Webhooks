@@ -6,11 +6,11 @@
     <Authors>swiftyspiffy, Prom3theu5, Syzuna, LuckyNoS7evin</Authors>
     <PackageTags>twitchlib;twitch,eventsub;webhooks</PackageTags>
     <PackageIconUrl>http://swiftyspiffy.com/img/twitchlib.png</PackageIconUrl>
-    <VersionPrefix>1.2.0</VersionPrefix>
+    <VersionPrefix>1.3.0</VersionPrefix>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
-    <FileVersion>1.2.0</FileVersion>
-    <AssemblyVersion>1.2.0</AssemblyVersion>
-    <PackageReleaseNotes>Now also targets .NET 6, Added missing properties that were added to models in the last months</PackageReleaseNotes>
+    <FileVersion>1.3.0</FileVersion>
+    <AssemblyVersion>1.3.0</AssemblyVersion>
+    <PackageReleaseNotes>Fixed HypeTrainBegin subscription type serialization errors, Added channel.charity_campaign.donate subscription type support (BETA)</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <PackageIconUrl>https://cdn.syzuna-programs.de/images/twitchlib.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/TwitchLib/TwitchLib.EventSub.Webhooks</PackageProjectUrl>
