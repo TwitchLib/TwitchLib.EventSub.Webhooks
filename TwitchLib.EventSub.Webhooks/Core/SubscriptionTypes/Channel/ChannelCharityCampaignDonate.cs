@@ -12,7 +12,7 @@ namespace TwitchLib.EventSub.Webhooks.Core.SubscriptionTypes.Channel
         /// <summary>
         /// An ID that uniquely identifies the charity campaign.
         /// </summary>
-        public string Id { get; set; } = string.Empty;
+        public string CampaignId { get; set; } = string.Empty;
         /// <summary>
         /// An ID that uniquely identifies the broadcaster that’s running the campaign.
         /// </summary>
