@@ -23,9 +23,9 @@ namespace TwitchLib.EventSub.Webhooks
 {
     /// <inheritdoc/>
     /// <summary>
-    /// <para>Implements <see cref="ITwitchEventSubWebhooks"/></para>
+    /// <para>Implements <see cref="IEventSubWebhooks"/></para>
     /// </summary>
-    public class TwitchEventSubWebhooks : ITwitchEventSubWebhooks
+    public class EventSubWebhooks : IEventSubWebhooks
     {
         private readonly JsonSerializerOptions _jsonSerializerOptions = new()
         {

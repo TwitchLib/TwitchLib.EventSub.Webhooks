@@ -11,9 +11,9 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
     public class EventSubNotificationMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ITwitchEventSubWebhooks _eventSubWebhooks;
+        private readonly IEventSubWebhooks _eventSubWebhooks;
 
-        public EventSubNotificationMiddleware(RequestDelegate next, ITwitchEventSubWebhooks eventSubWebhooks)
+        public EventSubNotificationMiddleware(RequestDelegate next, IEventSubWebhooks eventSubWebhooks)
         {
             _next = next;
             _eventSubWebhooks = eventSubWebhooks;

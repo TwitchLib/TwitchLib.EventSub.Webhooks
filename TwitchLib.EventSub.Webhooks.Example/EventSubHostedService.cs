@@ -11,9 +11,9 @@ namespace TwitchLib.EventSub.Webhooks.Example
     public class EventSubHostedService : IHostedService
     {
         private readonly ILogger<EventSubHostedService> _logger;
-        private readonly ITwitchEventSubWebhooks _eventSubWebhooks;
+        private readonly IEventSubWebhooks _eventSubWebhooks;
 
-        public EventSubHostedService(ILogger<EventSubHostedService> logger, ITwitchEventSubWebhooks eventSubWebhooks)
+        public EventSubHostedService(ILogger<EventSubHostedService> logger, IEventSubWebhooks eventSubWebhooks)
         {
             _logger = logger;
             _eventSubWebhooks = eventSubWebhooks;

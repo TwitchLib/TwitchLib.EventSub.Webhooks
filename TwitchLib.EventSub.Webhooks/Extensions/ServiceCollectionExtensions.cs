@@ -19,7 +19,7 @@ namespace TwitchLib.EventSub.Webhooks.Extensions
         public static IServiceCollection AddTwitchLibEventSubWebhooks(this IServiceCollection services, Action<TwitchLibEventSubOptions> config)
         {
             services.Configure(config);
-            services.AddSingleton<ITwitchEventSubWebhooks, TwitchEventSubWebhooks>();
+            services.AddSingleton<IEventSubWebhooks, EventSubWebhooks>();
             return services;
         }
     }

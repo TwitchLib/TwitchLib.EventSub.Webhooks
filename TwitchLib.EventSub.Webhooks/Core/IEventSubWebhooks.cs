@@ -16,7 +16,7 @@ namespace TwitchLib.EventSub.Webhooks.Core
     /// Class where everything runs together
     /// <para>Listen to events from EventSub from this class</para>
     /// </summary>
-    public interface ITwitchEventSubWebhooks
+    public interface IEventSubWebhooks
     {
         /// <summary>
         /// Event that triggers on "channel.ban" notifications
