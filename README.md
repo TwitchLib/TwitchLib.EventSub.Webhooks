@@ -9,13 +9,21 @@ You only need a few lines of code to add and configure it.
 
 | NuGet            |       | [![TwitchLib.EventSub.Webhooks][1]][2]                                       |
 | :--------------- | ----: | :--------------------------------------------------------------------------- |
-| Package Manager  | `PM>` | `Install-Package TwitchLib.EventSub.Webhooks -Version 1.3.1`                 |
-| .NET CLI         | `>`   | `dotnet add package TwitchLib.EventSub.Webhooks --version 1.3.1`             |
-| PackageReference |       | `<PackageReference Include="TwitchLib.EventSub.Webhooks" Version="1.3.1" />` |
-| Paket CLI        | `>`   | `paket add TwitchLib.EventSub.Webhooks --version 1.3.1`                      |
+| Package Manager  | `PM>` | `Install-Package TwitchLib.EventSub.Webhooks -Version 2.0.0`                 |
+| .NET CLI         | `>`   | `dotnet add package TwitchLib.EventSub.Webhooks --version 2.0.0`             |
+| PackageReference |       | `<PackageReference Include="TwitchLib.EventSub.Webhooks" Version="2.0.0" />` |
+| Paket CLI        | `>`   | `paket add TwitchLib.EventSub.Webhooks --version 2.0.0`                      |
 
 [1]: https://img.shields.io/nuget/v/TwitchLib.EventSub.Webhooks.svg?label=TwitchLib.EventSub.Webhooks
 [2]: https://www.nuget.org/packages/TwitchLib.EventSub.Webhooks
+
+## Breaking Changes in Version 2.0
+
+Version 2.0 contains some breaking changes.
+- Subscription Types and their models were moved to their own shared Nuget Package `TwitchLib.EventSub.Core` for better management across future EventSub transport Client libraries
+  That means their namespace changed from `TwitchLib.EventSub.Webhooks.Core.SubscriptionTypes` / `TwitchLib.EventSub.Webhooks.Core.Models` to `TwitchLib.EventSub.Core.SubscriptionTypes` / `TwitchLib.EventSub.Core.Models`
+- Every use of `DateTime` internally and in models was changed to use `DateTimeOffset` instead
+- `ITwitchEventSubWebhooks` / `TwitchEventSubWebhooks` were renamed to `IEventSubWebhooks`/ `EventSubWebhooks`
 
 ## Disclaimer
 
@@ -87,9 +95,9 @@ namespace TwitchLib.EventSub.Webhooks.Example
     public class EventSubHostedService : IHostedService
     {
         private readonly ILogger<EventSubHostedService> _logger;
-        private readonly ITwitchEventSubWebhooks _eventSubWebhooks;
+        private readonly IEventSubWebhooks _eventSubWebhooks;
 
-        public EventSubHostedService(ILogger<EventSubHostedService> logger, ITwitchEventSubWebhooks eventSubWebhooks)
+        public EventSubHostedService(ILogger<EventSubHostedService> logger, IEventSubWebhooks eventSubWebhooks)
         {
             _logger = logger;
             _eventSubWebhooks = eventSubWebhooks;
