@@ -9,7 +9,7 @@
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <FileVersion>2.0.0</FileVersion>
     <AssemblyVersion>2.0.0</AssemblyVersion>
-    <PackageReleaseNotes>Add .NET 7 target, switch to shared TwitchLib.EventSub.Core nuget pacakge for better subscription type management across future transport impl</PackageReleaseNotes>
+    <PackageReleaseNotes>!!! Contains Breaking Changes. Please read the Readme for more info !!! - Add .NET 7 target, switch to shared TwitchLib.EventSub.Core nuget pacakge for better subscription type management across future transport impl</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <PackageIconUrl>https://cdn.syzuna-programs.de/images/twitchlib.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/TwitchLib/TwitchLib.EventSub.Webhooks</PackageProjectUrl>
