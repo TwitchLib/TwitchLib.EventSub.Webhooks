@@ -25,7 +25,7 @@ namespace TwitchLib.EventSub.Webhooks.Extensions
             var upperCaseLength = input.Where((c, i) => c is >= 'A' and <= 'Z' && i != 0).Count();
 
             var bufferSize = input.Length + upperCaseLength;
-            Span<char> buffer = new char[bufferSize];
+            Span<char> buffer = stackalloc char[bufferSize];
             var bufferPosition = 0;
             var namePosition = 0;
             while (bufferPosition < buffer.Length)

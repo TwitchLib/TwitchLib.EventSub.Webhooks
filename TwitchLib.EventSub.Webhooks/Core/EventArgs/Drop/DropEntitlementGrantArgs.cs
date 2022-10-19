@@ -1,5 +1,5 @@
 ﻿using TwitchLib.EventSub.Webhooks.Core.Models;
-using TwitchLib.EventSub.Webhooks.Core.SubscriptionTypes.Drop;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Drop;
 
 namespace TwitchLib.EventSub.Webhooks.Core.EventArgs.Drop
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
+using TwitchLib.EventSub.Core.EventArgs.Channel;
 using TwitchLib.EventSub.Webhooks.Core;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Channel;
@@ -12,11 +13,11 @@ using TwitchLib.EventSub.Webhooks.Core.EventArgs.Stream;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.User;
 using TwitchLib.EventSub.Webhooks.Core.Models;
 using TwitchLib.EventSub.Webhooks.Core.NamingPolicies;
-using TwitchLib.EventSub.Webhooks.Core.SubscriptionTypes.Channel;
-using TwitchLib.EventSub.Webhooks.Core.SubscriptionTypes.Drop;
-using TwitchLib.EventSub.Webhooks.Core.SubscriptionTypes.Extension;
-using TwitchLib.EventSub.Webhooks.Core.SubscriptionTypes.Stream;
-using TwitchLib.EventSub.Webhooks.Core.SubscriptionTypes.User;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Channel;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Drop;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Extension;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Stream;
+using TwitchLib.EventSub.Core.SubscriptionTypes.User;
 
 namespace TwitchLib.EventSub.Webhooks
 {
