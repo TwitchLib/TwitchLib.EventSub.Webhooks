@@ -9,10 +9,10 @@ You only need a few lines of code to add and configure it.
 
 | NuGet            |       | [![TwitchLib.EventSub.Webhooks][1]][2]                                       |
 | :--------------- | ----: | :--------------------------------------------------------------------------- |
-| Package Manager  | `PM>` | `Install-Package TwitchLib.EventSub.Webhooks -Version 2.0.0`                 |
-| .NET CLI         | `>`   | `dotnet add package TwitchLib.EventSub.Webhooks --version 2.0.0`             |
-| PackageReference |       | `<PackageReference Include="TwitchLib.EventSub.Webhooks" Version="2.0.0" />` |
-| Paket CLI        | `>`   | `paket add TwitchLib.EventSub.Webhooks --version 2.0.0`                      |
+| Package Manager  | `PM>` | `Install-Package TwitchLib.EventSub.Webhooks -Version 2.1.0`                 |
+| .NET CLI         | `>`   | `dotnet add package TwitchLib.EventSub.Webhooks --version 2.1.0`             |
+| PackageReference |       | `<PackageReference Include="TwitchLib.EventSub.Webhooks" Version="2.1.0" />` |
+| Paket CLI        | `>`   | `paket add TwitchLib.EventSub.Webhooks --version 2.1.0`                      |
 
 [1]: https://img.shields.io/nuget/v/TwitchLib.EventSub.Webhooks.svg?label=TwitchLib.EventSub.Webhooks
 [2]: https://www.nuget.org/packages/TwitchLib.EventSub.Webhooks

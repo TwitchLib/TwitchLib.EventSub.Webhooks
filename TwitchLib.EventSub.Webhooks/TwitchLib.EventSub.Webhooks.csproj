@@ -5,11 +5,11 @@
     <PackageId>TwitchLib.EventSub.Webhooks</PackageId>
     <Authors>swiftyspiffy, Prom3theu5, Syzuna, LuckyNoS7evin</Authors>
     <PackageTags>twitchlib;twitch,eventsub;webhooks</PackageTags>
-    <VersionPrefix>2.0.0</VersionPrefix>
+    <VersionPrefix>2.1.0</VersionPrefix>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
-    <FileVersion>2.0.0</FileVersion>
-    <AssemblyVersion>2.0.0</AssemblyVersion>
-    <PackageReleaseNotes>!!! Contains Breaking Changes. Please read the Readme for more info !!! - Add .NET 7 target, switch to shared TwitchLib.EventSub.Core nuget pacakge for better subscription type management across future transport impl</PackageReleaseNotes>
+    <FileVersion>2.1.0</FileVersion>
+    <AssemblyVersion>2.1.0</AssemblyVersion>
+    <PackageReleaseNotes>Updated TwitchLib.EventSub.Core to the latest version to include the latest subscription type changes, Switched to .NET 7.0 Full release build</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <PackageIconUrl>https://cdn.syzuna-programs.de/images/twitchlib.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/TwitchLib/TwitchLib.EventSub.Webhooks</PackageProjectUrl>
@@ -28,11 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="TwitchLib.EventSub.Core" Version="1.0.0" />
+    <PackageReference Include="TwitchLib.EventSub.Core" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-	<None Include="..\README.md" Pack="true" PackagePath="\"/>
+	<None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
