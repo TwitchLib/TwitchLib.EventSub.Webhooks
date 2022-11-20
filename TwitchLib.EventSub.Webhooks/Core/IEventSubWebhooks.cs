@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using TwitchLib.EventSub.Core.EventArgs.Channel;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Channel;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Drop;
@@ -27,9 +26,21 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// </summary>
         event EventHandler<ChannelCheerArgs>? OnChannelCheer;
         /// <summary>
+        /// Event that triggers on "channel.charity_campaign.start" notifications
+        /// </summary>
+        event EventHandler<ChannelCharityCampaignStartArgs>? OnChannelCharityCampaignStart;
+        /// <summary>
         /// Event that triggers on "channel.charity_campaign.donate" notifications
         /// </summary>
         event EventHandler<ChannelCharityCampaignDonateArgs>? OnChannelCharityCampaignDonate;
+        /// <summary>
+        /// Event that triggers on "channel.charity_campaign.progress" notifications
+        /// </summary>
+        event EventHandler<ChannelCharityCampaignProgressArgs>? OnChannelCharityCampaignProgress;
+        /// <summary>
+        /// Event that triggers on "channel.charity_campaign.stop" notifications
+        /// </summary>
+        event EventHandler<ChannelCharityCampaignStopArgs>? OnChannelCharityCampaignStop;
         /// <summary>
         /// Event that triggers on "channel.follow" notifications
         /// </summary>

@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
-using TwitchLib.EventSub.Core.EventArgs.Channel;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Channel;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Drop;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Extension;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Stream;
+using TwitchLib.EventSub.Core.SubscriptionTypes.User;
 using TwitchLib.EventSub.Webhooks.Core;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Channel;
@@ -13,11 +17,6 @@ using TwitchLib.EventSub.Webhooks.Core.EventArgs.Stream;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.User;
 using TwitchLib.EventSub.Webhooks.Core.Models;
 using TwitchLib.EventSub.Webhooks.Core.NamingPolicies;
-using TwitchLib.EventSub.Core.SubscriptionTypes.Channel;
-using TwitchLib.EventSub.Core.SubscriptionTypes.Drop;
-using TwitchLib.EventSub.Core.SubscriptionTypes.Extension;
-using TwitchLib.EventSub.Core.SubscriptionTypes.Stream;
-using TwitchLib.EventSub.Core.SubscriptionTypes.User;
 
 namespace TwitchLib.EventSub.Webhooks
 {
@@ -38,8 +37,16 @@ namespace TwitchLib.EventSub.Webhooks
         public event EventHandler<ChannelBanArgs>? OnChannelBan;
         /// <inheritdoc/>
         public event EventHandler<ChannelCheerArgs>? OnChannelCheer;
+
+        /// <inheritdoc/>
+        public event EventHandler<ChannelCharityCampaignStartArgs>? OnChannelCharityCampaignStart;
         /// <inheritdoc/>
         public event EventHandler<ChannelCharityCampaignDonateArgs>? OnChannelCharityCampaignDonate;
+        /// <inheritdoc/>
+        public event EventHandler<ChannelCharityCampaignProgressArgs>? OnChannelCharityCampaignProgress;
+        /// <inheritdoc/>
+        public event EventHandler<ChannelCharityCampaignStopArgs>? OnChannelCharityCampaignStop;
+
         /// <inheritdoc/>
         public event EventHandler<ChannelFollowArgs>? OnChannelFollow;
         /// <inheritdoc/>
@@ -136,9 +143,21 @@ namespace TwitchLib.EventSub.Webhooks
                         var cheerNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelCheer>>(body, _jsonSerializerOptions);
                         OnChannelCheer?.Invoke(this, new ChannelCheerArgs { Headers = headers, Notification = cheerNotification! });
                         break;
+                    case "channel.charity_campaign.start":
+                        var charityStartNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelCharityCampaignStart>>(body, _jsonSerializerOptions);
+                        OnChannelCharityCampaignStart?.Invoke(this, new ChannelCharityCampaignStartArgs { Headers = headers, Notification = charityStartNotification! });
+                        break;
                     case "channel.charity_campaign.donate":
                         var charityDonationNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelCharityCampaignDonate>>(body, _jsonSerializerOptions);
                         OnChannelCharityCampaignDonate?.Invoke(this, new ChannelCharityCampaignDonateArgs { Headers = headers, Notification = charityDonationNotification! });
+                        break;
+                    case "channel.charity_campaign.progress":
+                        var charityProgressNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelCharityCampaignProgress>>(body, _jsonSerializerOptions);
+                        OnChannelCharityCampaignProgress?.Invoke(this, new ChannelCharityCampaignProgressArgs { Headers = headers, Notification = charityProgressNotification! });
+                        break;
+                    case "channel.charity_campaign.stop":
+                        var charityStopNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelCharityCampaignStop>>(body, _jsonSerializerOptions);
+                        OnChannelCharityCampaignStop?.Invoke(this, new ChannelCharityCampaignStopArgs { Headers = headers, Notification = charityStopNotification! });
                         break;
                     case "channel.follow":
                         var followNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelFollow>>(body, _jsonSerializerOptions);
