@@ -92,6 +92,14 @@ namespace TwitchLib.EventSub.Webhooks
         /// <inheritdoc/>
         public event EventHandler<ChannelRaidArgs>? OnChannelRaid;
         /// <inheritdoc/>
+        public event EventHandler<ChannelShieldModeBeginArgs>? OnChannelShieldModeBegin;
+        /// <inheritdoc/>
+        public event EventHandler<ChannelShieldModeEndArgs>? OnChannelShieldModeEnd;
+        /// <inheritdoc/>
+        public event EventHandler<ChannelShoutoutCreateArgs>? OnChannelShoutoutCreate;
+        /// <inheritdoc/>
+        public event EventHandler<ChannelShoutoutReceiveArgs>? OnChannelShoutoutReceive;
+        /// <inheritdoc/>
         public event EventHandler<ChannelSubscribeArgs>? OnChannelSubscribe;
         /// <inheritdoc/>
         public event EventHandler<ChannelSubscriptionEndArgs>? OnChannelSubscriptionEnd;
@@ -246,6 +254,22 @@ namespace TwitchLib.EventSub.Webhooks
                     case "channel.raid":
                         var raidNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelRaid>>(body, _jsonSerializerOptions);
                         OnChannelRaid?.Invoke(this, new ChannelRaidArgs { Headers = headers, Notification = raidNotification! });
+                        break;
+                    case "channel.shield_mode.begin":
+                        var shieldBeginNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelShieldModeBegin>>(body, _jsonSerializerOptions);
+                        OnChannelShieldModeBegin?.Invoke(this, new ChannelShieldModeBeginArgs { Headers = headers, Notification = shieldBeginNotification! });
+                        break;
+                    case "channel.shield_mode.end":
+                        var shieldEndNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelShieldModeEnd>>(body, _jsonSerializerOptions);
+                        OnChannelShieldModeEnd?.Invoke(this, new ChannelShieldModeEndArgs { Headers = headers, Notification = shieldEndNotification! });
+                        break;
+                    case  "channel.shoutout.create":
+                        var shoutoutCreateNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelShoutoutCreate>>(body, _jsonSerializerOptions);
+                        OnChannelShoutoutCreate?.Invoke(this, new ChannelShoutoutCreateArgs { Headers = headers, Notification = shoutoutCreateNotification! });
+                        break;
+                    case "channel.shoutout.receive":
+                        var shoutoutReceiveNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelShoutoutReceive>>(body, _jsonSerializerOptions);
+                        OnChannelShoutoutReceive?.Invoke(this, new ChannelShoutoutReceiveArgs { Headers = headers, Notification = shoutoutReceiveNotification! });
                         break;
                     case "channel.subscribe":
                         var subscribeNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelSubscribe>>(body, _jsonSerializerOptions);

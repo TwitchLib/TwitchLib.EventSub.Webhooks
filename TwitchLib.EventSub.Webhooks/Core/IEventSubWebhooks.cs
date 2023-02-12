@@ -130,6 +130,22 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// </summary>
         event EventHandler<ChannelRaidArgs>? OnChannelRaid;
         /// <summary>
+        /// Event that triggers on "channel.shield_mode.begin" notifications
+        /// </summary>
+        event EventHandler<ChannelShieldModeBeginArgs>? OnChannelShieldModeBegin;
+        /// <summary>
+        /// Event that triggers on "channel.shield_mode.end" notifications
+        /// </summary>
+        event EventHandler<ChannelShieldModeEndArgs>? OnChannelShieldModeEnd;
+        /// <summary>
+        /// Event that triggers on "channel.shoutout.create" notifications
+        /// </summary>
+        event EventHandler<ChannelShoutoutCreateArgs>? OnChannelShoutoutCreate;
+        /// <summary>
+        /// Event that triggers on "channel.shoutout.receive" notifications
+        /// </summary>
+        event EventHandler<ChannelShoutoutReceiveArgs>? OnChannelShoutoutReceive;
+        /// <summary>
         /// Event that triggers on "channel.subscribe" notifications
         /// </summary>
         event EventHandler<ChannelSubscribeArgs>? OnChannelSubscribe;
