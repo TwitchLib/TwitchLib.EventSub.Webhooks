@@ -129,6 +129,8 @@ namespace TwitchLib.EventSub.Webhooks
         public event EventHandler<UserAuthorizationRevokeArgs>? OnUserAuthorizationRevoke;
         /// <inheritdoc/>
         public event EventHandler<UserUpdateArgs>? OnUserUpdate;
+        /// <inheritdoc/>
+        public event EventHandler<UserWhisperMessageArgs>? OnUserWhisperMessage;
 
         /// <inheritdoc/>
         public async Task ProcessNotificationAsync(Dictionary<string, string> headers, Stream body)
@@ -322,6 +324,10 @@ namespace TwitchLib.EventSub.Webhooks
                     case "user.update":
                         var userUpdateNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<UserUpdate>>(body, _jsonSerializerOptions);
                         OnUserUpdate?.Invoke(this, new UserUpdateArgs { Headers = headers, Notification = userUpdateNotification! });
+                        break;
+                    case "user.whisper.message":
+                        var userWhisperMessage = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<UserWhisperMessage>>(body, _jsonSerializerOptions);
+                        OnUserWhisperMessage?.Invoke(this, new UserWhisperMessageArgs { Headers = headers, Notification = userWhisperMessage! });
                         break;
                     default:
                         OnError?.Invoke(this, new OnErrorArgs { Reason = "Unknown_Subscription_Type", Message = $"Cannot parse unknown subscription type {subscriptionType}" });
