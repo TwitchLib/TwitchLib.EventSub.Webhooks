@@ -207,11 +207,11 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// </summary>
         event EventHandler<UserUpdateArgs>? OnUserUpdate;
         /// <summary>
-        /// Event that triggers on "channel.clear" notifications
+        /// Event that triggers on "channel.chat.clear" notifications
         /// </summary>
         event EventHandler<ChannelChatClearArgs>? OnChannelChatClear;
         /// <summary>
-        /// Event that triggers on "channel.clear_user_messages" notifications
+        /// Event that triggers on "channel.chat.clear_user_messages" notifications
         /// </summary>
         event EventHandler<ChannelChatClearUserMessageArgs>? OnChannelChatClearUserMessage;
         /// <summary>
