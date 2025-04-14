@@ -129,6 +129,16 @@ namespace TwitchLib.EventSub.Webhooks
         public event EventHandler<UserAuthorizationRevokeArgs>? OnUserAuthorizationRevoke;
         /// <inheritdoc/>
         public event EventHandler<UserUpdateArgs>? OnUserUpdate;
+        /// <inheritdoc/>
+        public event EventHandler<ChannelChatClearArgs>? OnChannelChatClear;
+        /// <inheritdoc/>
+        public event EventHandler<ChannelChatClearUserMessageArgs>? OnChannelChatClearUserMessage;
+        /// <inheritdoc/>
+        public event EventHandler<ChannelChatMessageArgs>? OnChannelChatMessage;
+        /// <inheritdoc/>
+        public event EventHandler<ChannelChatMessageDeleteArgs>? OnChannelChatMessageDelete;
+        /// <inheritdoc/>
+        public event EventHandler<ChannelChatNotificationArgs>? OnChannelChatNotification;
 
         /// <inheritdoc/>
         public async Task ProcessNotificationAsync(Dictionary<string, string> headers, Stream body)
@@ -322,6 +332,26 @@ namespace TwitchLib.EventSub.Webhooks
                     case "user.update":
                         var userUpdateNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<UserUpdate>>(body, _jsonSerializerOptions);
                         OnUserUpdate?.Invoke(this, new UserUpdateArgs { Headers = headers, Notification = userUpdateNotification! });
+                        break;
+                    case "channel.chat.clear":
+                        var channelChatClearNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelChatClear>>(body, _jsonSerializerOptions);
+                        OnChannelChatClear?.Invoke(this, new ChannelChatClearArgs { Headers = headers, Notification = channelChatClearNotification! });
+                        break;
+                    case "channel.chat.clear_user_messages":
+                        var channelChatClearUserMessageNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelChatClearUserMessage>>(body, _jsonSerializerOptions);
+                        OnChannelChatClearUserMessage?.Invoke(this, new ChannelChatClearUserMessageArgs() { Headers = headers, Notification = channelChatClearUserMessageNotification! });
+                        break;
+                    case "channel.chat.message":
+                        var channelChatMessageNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelChatMessage>>(body, _jsonSerializerOptions);
+                        OnChannelChatMessage?.Invoke(this, new ChannelChatMessageArgs { Headers = headers, Notification = channelChatMessageNotification! });
+                        break;
+                    case "channel.chat.message_delete":
+                        var channelChatMessageDeleteNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelChatMessageDelete>>(body, _jsonSerializerOptions);
+                        OnChannelChatMessageDelete?.Invoke(this, new ChannelChatMessageDeleteArgs { Headers = headers, Notification = channelChatMessageDeleteNotification! });
+                        break;
+                    case "channel.chat.notification":
+                        var channelChatNotificationNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelChatNotification>>(body, _jsonSerializerOptions);
+                        OnChannelChatNotification?.Invoke(this, new ChannelChatNotificationArgs { Headers = headers, Notification = channelChatNotificationNotification! });
                         break;
                     default:
                         OnError?.Invoke(this, new OnErrorArgs { Reason = "Unknown_Subscription_Type", Message = $"Cannot parse unknown subscription type {subscriptionType}" });
