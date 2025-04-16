@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Channel;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Channel;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Drop;
@@ -205,6 +206,27 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// Event that triggers on "user.update" notifications
         /// </summary>
         event EventHandler<UserUpdateArgs>? OnUserUpdate;
+        /// <summary>
+        /// Event that triggers on "channel.chat.clear" notifications
+        /// </summary>
+        event EventHandler<ChannelChatClearArgs>? OnChannelChatClear;
+        /// <summary>
+        /// Event that triggers on "channel.chat.clear_user_messages" notifications
+        /// </summary>
+        event EventHandler<ChannelChatClearUserMessageArgs>? OnChannelChatClearUserMessage;
+        /// <summary>
+        /// Event that triggers on "channel.chat.message" notifications
+        /// </summary>
+        event EventHandler<ChannelChatMessageArgs>? OnChannelChatMessage;
+        /// <summary>
+        /// Event that triggers on "channel.chat.message_delete" notifications
+        /// </summary>
+        event EventHandler<ChannelChatMessageDeleteArgs>? OnChannelChatMessageDelete;
+        /// <summary>
+        /// Event that triggers on "channel.chat.notification" notifications
+        /// </summary>
+        event EventHandler<ChannelChatNotificationArgs>? OnChannelChatNotification;
+        
 
         /// <summary>
         /// Processes "notification" type messages. You should not use this in your code, its for internal use only!
