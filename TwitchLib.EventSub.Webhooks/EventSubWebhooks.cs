@@ -16,7 +16,6 @@ using TwitchLib.EventSub.Webhooks.Core.EventArgs.Extension;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Stream;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.User;
 using TwitchLib.EventSub.Webhooks.Core.Models;
-using TwitchLib.EventSub.Webhooks.Core.NamingPolicies;
 
 namespace TwitchLib.EventSub.Webhooks
 {
@@ -29,8 +28,8 @@ namespace TwitchLib.EventSub.Webhooks
         private readonly JsonSerializerOptions _jsonSerializerOptions = new()
         {
             PropertyNameCaseInsensitive = true,
-            PropertyNamingPolicy = new SnakeCaseNamingPolicy(),
-            DictionaryKeyPolicy = new SnakeCaseNamingPolicy()
+            PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+            DictionaryKeyPolicy = JsonNamingPolicy.SnakeCaseLower
         };
 
         /// <inheritdoc/>

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TwitchLib.EventSub.Webhooks.Core.Models;
+using TwitchLib.EventSub.Webhooks.Extensions;
 
 #pragma warning disable 1591
 namespace TwitchLib.EventSub.Webhooks.Middlewares
@@ -19,13 +20,13 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
     public class EventSubSignatureVerificationMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger _logger;
+        private readonly ILogger<EventSubSignatureVerificationMiddleware> _logger;
         private readonly TwitchLibEventSubOptions _options;
 
-        public EventSubSignatureVerificationMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IOptions<TwitchLibEventSubOptions> options)
+        public EventSubSignatureVerificationMiddleware(RequestDelegate next, ILogger<EventSubSignatureVerificationMiddleware> logger, IOptions<TwitchLibEventSubOptions> options)
         {
             _next = next;
-            _logger = loggerFactory.CreateLogger("TwitchLib.EventSub.Webhooks");
+            _logger = logger;
             _options = options.Value;
         }
 
@@ -69,7 +70,7 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception occurred while calculating signature!");
+                _logger.LogSignatureVerificationException(ex.Message);
                 return false;
             }
         }
