@@ -78,26 +78,21 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
             Encoding.UTF8.GetBytes(messageCharSpan, messageByteSpan);
             ArrayPool<char>.Shared.Return(messageCharArray);
 
-            var computedSignatureSpan = GetSpanFromArrayPool<byte>(HMACSHA256.HashSizeInBytes, out var computedSignatureArray);
-            HMACSHA256.HashData(secret, messageByteSpan, computedSignatureSpan);
+            Span<byte> computedSignature = stackalloc byte[HMACSHA256.HashSizeInBytes];
+            HMACSHA256.HashData(secret, messageByteSpan, computedSignature);
             ArrayPool<byte>.Shared.Return(messageByteArray);
 
             ReadOnlySpan<char> sha256Prefix = "sha256=";
             if (messageSignature.StartsWith(sha256Prefix))
                 messageSignature = messageSignature.Slice(sha256Prefix.Length);
 #if NET9_0_OR_GREATER
-            var providedSignatureSpan = GetSpanFromArrayPool<byte>(messageSignature.Length / 2, out var providedSignatureArray);
-            Convert.FromHexString(messageSignature, providedSignatureSpan, out _, out _);
+            Span<byte> providedSignature = stackalloc byte[HMACSHA256.HashSizeInBytes];
+            Convert.FromHexString(messageSignature, providedSignature, out _, out _);
 #else
-            var providedSignatureSpan = Convert.FromHexString(messageSignature).AsSpan();
+            var providedSignature = Convert.FromHexString(messageSignature).AsSpan();
 #endif
 
-            var isSignatureValid = providedSignatureSpan.SequenceEqual(computedSignatureSpan);
-            ArrayPool<byte>.Shared.Return(computedSignatureArray);
-#if NET9_0_OR_GREATER
-            ArrayPool<byte>.Shared.Return(providedSignatureArray);
-#endif
-            return isSignatureValid;
+            return providedSignature.SequenceEqual(computedSignature);
         }
 
         static Span<T> GetSpanFromArrayPool<T>(int length, out T[] array)
