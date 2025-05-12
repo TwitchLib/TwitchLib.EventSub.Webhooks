@@ -31,7 +31,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.0" />
-    <PackageReference Include="TwitchLib.EventSub.Core" Version="2.5.1" />
+    <PackageReference Include="TwitchLib.EventSub.Core" Version="2.5.3-preview-558d8a5" />
   </ItemGroup>
 
   <ItemGroup>
