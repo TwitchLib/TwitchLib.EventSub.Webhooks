@@ -354,6 +354,7 @@ namespace TwitchLib.EventSub.Webhooks
                     case "channel.chat.notification":
                         var channelChatNotificationNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelChatNotification>>(body, _jsonSerializerOptions);
                         OnChannelChatNotification?.Invoke(this, new ChannelChatNotificationArgs { Headers = headers, Notification = channelChatNotificationNotification! });
+                        break;
                     case "user.whisper.message":
                         var userWhisperMessage = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<UserWhisperMessage>>(body, _jsonSerializerOptions);
                         OnUserWhisperMessage?.Invoke(this, new UserWhisperMessageArgs { Headers = headers, Notification = userWhisperMessage! });

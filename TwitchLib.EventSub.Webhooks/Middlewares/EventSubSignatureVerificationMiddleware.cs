@@ -47,13 +47,9 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
             {
                 if (!request.Headers.TryGetValue("Twitch-Eventsub-Message-Signature", out var providedSignatureHeader))
                     return false;
-
-                var providedSignatureString = providedSignatureHeader.First().Split('=').ElementAtOrDefault(1);
-                if (string.IsNullOrWhiteSpace(providedSignatureString))
-                    return false;
-
-                var providedSignature = BytesFromHex(providedSignatureString).ToArray();
-
+                
+                var providedSignature = providedSignatureHeader.First();
+                
                 if (!request.Headers.TryGetValue("Twitch-Eventsub-Message-Id", out var idHeader))
                     return false;
 
@@ -64,15 +60,21 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
 
                 var timestamp = timestampHeader.First();
 
-                var computedSignature = CalculateSignature(Encoding.UTF8.GetBytes(id + timestamp + await ReadRequestBodyContentAsync(request)));
-
-                return computedSignature.Zip(providedSignature, (a, b) => a == b).Aggregate(true, (a, r) => a && r);
+                return IsSignatureValid(providedSignature!, id!, timestamp!, await ReadRequestBodyContentAsync(request), _options.SecretBytes!);
             }
             catch (Exception ex)
             {
                 _logger.LogSignatureVerificationException(ex.Message);
                 return false;
             }
+        }
+
+        internal static bool IsSignatureValid(string messageSignature, string messageId, string messageTimestamp, string messageBody, byte[] secret)
+        {
+            var providedSignature = BytesFromHex(messageSignature.Split('=').ElementAtOrDefault(1)).ToArray();
+            var computedSignature = CalculateSignature(Encoding.UTF8.GetBytes(messageId + messageTimestamp + messageBody), secret);
+
+            return computedSignature.Zip(providedSignature, (a, b) => a == b).Aggregate(true, (a, r) => a && r);
         }
 
         private static Memory<byte> BytesFromHex(ReadOnlySpan<char> content)
@@ -99,9 +101,9 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
             }
         }
 
-        private byte[] CalculateSignature(byte[] payload)
+        private static byte[] CalculateSignature(byte[] payload, byte[] secret)
         {
-            using var hmac = new HMACSHA256(_options.SecretBytes!);
+            using var hmac = new HMACSHA256(secret);
             return hmac.ComputeHash(payload);
         }
 
