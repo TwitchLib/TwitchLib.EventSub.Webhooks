@@ -69,42 +69,41 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
             }
         }
 
-        internal static bool IsSignatureValid(string messageSignature, string messageId, string messageTimestamp, string messageBody, byte[] secret)
+        internal static bool IsSignatureValid(ReadOnlySpan<char> messageSignature, ReadOnlySpan<char> messageId, ReadOnlySpan<char> messageTimestamp, ReadOnlySpan<char> messageBody, ReadOnlySpan<byte> secret)
         {
-            var providedSignature = BytesFromHex(messageSignature.Split('=').ElementAtOrDefault(1)).ToArray();
-            var computedSignature = CalculateSignature(Encoding.UTF8.GetBytes(messageId + messageTimestamp + messageBody), secret);
+            var messageCharSpan = GetSpanFromArrayPool<char>(messageId.Length + messageTimestamp.Length + messageBody.Length, out var messageCharArray);
+            messageCharSpan.TryWrite($"{messageId}{messageTimestamp}{messageBody}", out _);
 
-            return computedSignature.Zip(providedSignature, (a, b) => a == b).Aggregate(true, (a, r) => a && r);
+            var messageByteSpan = GetSpanFromArrayPool<byte>(Encoding.UTF8.GetByteCount(messageCharSpan), out var messageByteArray);
+            Encoding.UTF8.GetBytes(messageCharSpan, messageByteSpan);
+            ArrayPool<char>.Shared.Return(messageCharArray);
+
+            var computedSignatureSpan = GetSpanFromArrayPool<byte>(HMACSHA256.HashSizeInBytes, out var computedSignatureArray);
+            HMACSHA256.HashData(secret, messageByteSpan, computedSignatureSpan);
+            ArrayPool<byte>.Shared.Return(messageByteArray);
+
+            ReadOnlySpan<char> sha256Prefix = "sha256=";
+            if (messageSignature.StartsWith(sha256Prefix))
+                messageSignature = messageSignature.Slice(sha256Prefix.Length);
+#if NET9_0_OR_GREATER
+            var providedSignatureSpan = GetSpanFromArrayPool<byte>(messageSignature.Length / 2, out var providedSignatureArray);
+            Convert.FromHexString(messageSignature, providedSignatureSpan, out _, out _);
+#else
+            var providedSignatureSpan = Convert.FromHexString(messageSignature).AsSpan();
+#endif
+
+            var isSignatureValid = providedSignatureSpan.SequenceEqual(computedSignatureSpan);
+            ArrayPool<byte>.Shared.Return(computedSignatureArray);
+#if NET9_0_OR_GREATER
+            ArrayPool<byte>.Shared.Return(providedSignatureArray);
+#endif
+            return isSignatureValid;
         }
 
-        private static Memory<byte> BytesFromHex(ReadOnlySpan<char> content)
+        static Span<T> GetSpanFromArrayPool<T>(int length, out T[] array)
         {
-            if (content.IsEmpty || content.IsWhiteSpace())
-            {
-                return Memory<byte>.Empty;
-            }
-
-            try
-            {
-                var data = MemoryPool<byte>.Shared.Rent(content.Length / 2).Memory;
-                var input = 0;
-                for (var output = 0; output < data.Length; output++)
-                {
-                    data.Span[output] = Convert.ToByte(new string(new[] { content[input++], content[input++] }), 16);
-                }
-
-                return input != content.Length ? Memory<byte>.Empty : data;
-            }
-            catch (Exception exception) when (exception is ArgumentException or FormatException)
-            {
-                return Memory<byte>.Empty;
-            }
-        }
-
-        private static byte[] CalculateSignature(byte[] payload, byte[] secret)
-        {
-            using var hmac = new HMACSHA256(secret);
-            return hmac.ComputeHash(payload);
+            array = ArrayPool<T>.Shared.Rent(length);
+            return array.AsSpan(0, length);
         }
 
         private static async Task PrepareRequestBodyAsync(HttpRequest request)
