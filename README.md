@@ -9,13 +9,16 @@ You only need a few lines of code to add and configure it.
 
 | NuGet            |       | [![TwitchLib.EventSub.Webhooks][1]][2]                                       |
 | :--------------- | ----: | :--------------------------------------------------------------------------- |
-| Package Manager  | `PM>` | `Install-Package TwitchLib.EventSub.Webhooks -Version 2.3.0`                 |
-| .NET CLI         | `>`   | `dotnet add package TwitchLib.EventSub.Webhooks --version 2.3.0`             |
-| PackageReference |       | `<PackageReference Include="TwitchLib.EventSub.Webhooks" Version="2.3.0" />` |
-| Paket CLI        | `>`   | `paket add TwitchLib.EventSub.Webhooks --version 2.3.0`                      |
+| Package Manager  | `PM>` | `Install-Package TwitchLib.EventSub.Webhooks -Version 3.0.0`                 |
+| .NET CLI         | `>`   | `dotnet add package TwitchLib.EventSub.Webhooks --version 3.0.0`             |
+| PackageReference |       | `<PackageReference Include="TwitchLib.EventSub.Webhooks" Version="3.0.0" />` |
+| Paket CLI        | `>`   | `paket add TwitchLib.EventSub.Webhooks --version 3.0.0`                      |
 
 [1]: https://img.shields.io/nuget/v/TwitchLib.EventSub.Webhooks.svg?label=TwitchLib.EventSub.Webhooks
 [2]: https://www.nuget.org/packages/TwitchLib.EventSub.Webhooks
+
+## Breaking Changes in Version 3.0
+Removed deprecated versions of .NET.
 
 ## Breaking Changes in Version 2.0
 
@@ -33,59 +36,38 @@ The usual requirements that Twitch has for EventSub webhooks do still apply!
 
 ## Setup
 
-Step 1: Create a new ASP.NET Core project (.NET 5.0 and up)
+Step 1: Create a new ASP.NET Core project (.NET 8.0 and up)
 
 Step 2: Install the TwitchLib.EventSub.Webhooks nuget package. (See above on how to do that)
 
 Step 3: Add necessary services and config to the DI Container
 
 ```csharp
-public void ConfigureServices(IServiceCollection services)
-{
-    services.AddControllers();
-    services.AddTwitchLibEventSubWebhooks(config =>
-    {
-        config.CallbackPath = "/webhooks";
-        config.Secret = "supersecuresecret";
-        config.EnableLogging = true;
-    });
+var builder = WebApplication.CreateBuilder(args);
 
-    services.AddHostedService<EventSubHostedService>();
-}
+builder.Services.AddTwitchLibEventSubWebhooks(config =>
+{
+    config.CallbackPath = "/eventsub/";
+    config.Secret = "supersecuresecret";
+});
+builder.Services.AddHostedService<EventSubHostedService>();
 ```
 
-!!! If you follow these steps your callback url will https://{your_domain}/webhooks !!!
+!!! If you follow these steps your callback url will `https://{your_domain}/eventsub/` !!!
 
 Step 4: Put the TwitchLib.EventSub.Webhooks middleware in the request pipeline
 
 ```csharp
-public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-{
-    if (env.IsDevelopment())
-    {
-        app.UseDeveloperExceptionPage();
-    }
+var app = builder.Build();
 
-    app.UseRouting();
+app.UseTwitchLibEventSubWebhooks();
 
-    app.UseAuthorization();
-
-    app.UseTwitchLibEventSubWebhooks();
-
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllers();
-    });
-}
+app.Run();
 ```
 
 Step 5: Create the HostedService and listen for events
 
 ```csharp
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System.Threading;
-using System.Threading.Tasks;
 using TwitchLib.EventSub.Webhooks.Core;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Channel;
@@ -117,12 +99,12 @@ namespace TwitchLib.EventSub.Webhooks.Example
             return Task.CompletedTask;
         }
 
-        private void OnChannelFollow(object sender, ChannelFollowArgs e)
+        private void OnChannelFollow(object? sender, ChannelFollowArgs e)
         {
             _logger.LogInformation($"{e.Notification.Event.UserName} followed {e.Notification.Event.BroadcasterUserName} at {e.Notification.Event.FollowedAt.ToUniversalTime()}");
         }
 
-        private void OnError(object sender, OnErrorArgs e)
+        private void OnError(object? sender, OnErrorArgs e)
         {
             _logger.LogError($"Reason: {e.Reason} - Message: {e.Message}");
         }
