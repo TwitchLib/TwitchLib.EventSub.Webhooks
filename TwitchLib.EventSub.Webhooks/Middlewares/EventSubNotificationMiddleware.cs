@@ -33,7 +33,7 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
             {
                 case "webhook_callback_verification":
                     var json = await JsonDocument.ParseAsync(context.Request.Body);
-                    await WriteResponseAsync(context, 200, "text/plain", json.RootElement.GetProperty("challenge").GetString()!);
+                    await WriteResponseAsync(context, 200, "text/plain", json.RootElement.GetProperty("challenge"u8).GetString()!);
                     return;
                 case "notification":
                     await _eventSubWebhooks.ProcessNotificationAsync(headers, context.Request.Body);
