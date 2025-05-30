@@ -60,7 +60,9 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
 
                 var timestamp = timestampHeader.First();
 
-                return IsSignatureValid(providedSignature!, id!, timestamp!, await ReadRequestBodyContentAsync(request), _options.SecretBytes!);
+                var body = await ReadRequestBodyContentAsync(request);
+
+                return IsSignatureValid(providedSignature!, id!, timestamp!, body.Span, _options.SecretBytes!);
             }
             catch (Exception ex)
             {
@@ -69,13 +71,14 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
             }
         }
 
-        internal static bool IsSignatureValid(ReadOnlySpan<char> messageSignature, ReadOnlySpan<char> messageId, ReadOnlySpan<char> messageTimestamp, ReadOnlySpan<char> messageBody, ReadOnlySpan<byte> secret)
+        internal static bool IsSignatureValid(ReadOnlySpan<char> messageSignature, ReadOnlySpan<char> messageId, ReadOnlySpan<char> messageTimestamp, ReadOnlySpan<byte> messageBody, ReadOnlySpan<byte> secret)
         {
-            var messageCharSpan = GetSpanFromArrayPool<char>(messageId.Length + messageTimestamp.Length + messageBody.Length, out var messageCharArray);
-            messageCharSpan.TryWrite($"{messageId}{messageTimestamp}{messageBody}", out _);
+            var messageCharSpan = GetSpanFromArrayPool<char>(messageId.Length + messageTimestamp.Length, out var messageCharArray);
+            messageCharSpan.TryWrite($"{messageId}{messageTimestamp}", out _);
 
-            var messageByteSpan = GetSpanFromArrayPool<byte>(Encoding.UTF8.GetByteCount(messageCharSpan), out var messageByteArray);
-            Encoding.UTF8.GetBytes(messageCharSpan, messageByteSpan);
+            var messageByteSpan = GetSpanFromArrayPool<byte>(Encoding.UTF8.GetByteCount(messageCharSpan) + messageBody.Length, out var messageByteArray);
+            var written = Encoding.UTF8.GetBytes(messageCharSpan, messageByteSpan);
+            messageBody.CopyTo(messageByteSpan.Slice(written));
             ArrayPool<char>.Shared.Return(messageCharArray);
 
             Span<byte> computedSignature = stackalloc byte[HMACSHA256.HashSizeInBytes];
@@ -117,14 +120,14 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
             request.Body.Seek(0L, SeekOrigin.Begin);
         }
 
-        private static async Task<string> ReadRequestBodyContentAsync(HttpRequest request)
+        private static async Task<ReadOnlyMemory<byte>> ReadRequestBodyContentAsync(HttpRequest request)
         {
             await PrepareRequestBodyAsync(request);
-            using var reader = new StreamReader(request.Body, Encoding.UTF8, false, leaveOpen: true);
-            var requestBody = await reader.ReadToEndAsync();
+            using var memoryStream = new MemoryStream();
+            await request.Body.CopyToAsync(memoryStream);
             request.Body.Seek(0L, SeekOrigin.Begin);
 
-            return requestBody;
+            return memoryStream.GetBuffer().AsMemory(0, (int)memoryStream.Position);
         }
 
         private static async Task WriteResponseAsync(HttpContext context, int statusCode, string contentType, string responseBody)
