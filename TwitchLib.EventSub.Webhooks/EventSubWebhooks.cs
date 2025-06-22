@@ -57,9 +57,15 @@ namespace TwitchLib.EventSub.Webhooks
         /// <inheritdoc/>
         public event EventHandler<ChannelHypeTrainBeginArgs>? OnChannelHypeTrainBegin;
         /// <inheritdoc/>
+        public event EventHandler<ChannelHypeTrainBeginV2Args>? OnChannelHypeTrainBeginV2;
+        /// <inheritdoc/>
         public event EventHandler<ChannelHypeTrainEndArgs>? OnChannelHypeTrainEnd;
         /// <inheritdoc/>
+        public event EventHandler<ChannelHypeTrainEndV2Args>? OnChannelHypeTrainEndV2;
+        /// <inheritdoc/>
         public event EventHandler<ChannelHypeTrainProgressArgs>? OnChannelHypeTrainProgress;
+        /// <inheritdoc/>
+        public event EventHandler<ChannelHypeTrainProgressV2Args>? OnChannelHypeTrainProgressV2;
         /// <inheritdoc/>
         public event EventHandler<ChannelModeratorArgs>? OnChannelModeratorAdd;
         /// <inheritdoc/>
@@ -204,13 +210,25 @@ namespace TwitchLib.EventSub.Webhooks
                         var hypeTrainBeginNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<HypeTrainBegin>>(body, _jsonSerializerOptions);
                         OnChannelHypeTrainBegin?.Invoke(this, new ChannelHypeTrainBeginArgs { Headers = headers, Notification = hypeTrainBeginNotification! });
                         break;
+                    case ("channel.hype_train.begin", "2"):
+                        var hypeTrainBeginNotificationV2 = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<HypeTrainBeginV2>>(body, _jsonSerializerOptions);
+                        OnChannelHypeTrainBeginV2?.Invoke(this, new ChannelHypeTrainBeginV2Args { Headers = headers, Notification = hypeTrainBeginNotificationV2! });
+                        break;
                     case ("channel.hype_train.end", "1"):
                         var hypeTrainEndNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<HypeTrainEnd>>(body, _jsonSerializerOptions);
                         OnChannelHypeTrainEnd?.Invoke(this, new ChannelHypeTrainEndArgs { Headers = headers, Notification = hypeTrainEndNotification! });
                         break;
+                    case ("channel.hype_train.end", "2"):
+                        var hypeTrainEndNotificationV2 = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<HypeTrainEndV2>>(body, _jsonSerializerOptions);
+                        OnChannelHypeTrainEndV2?.Invoke(this, new ChannelHypeTrainEndV2Args { Headers = headers, Notification = hypeTrainEndNotificationV2! });
+                        break;
                     case ("channel.hype_train.progress", "1"):
                         var hypeTrainProgressNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<HypeTrainProgress>>(body, _jsonSerializerOptions);
                         OnChannelHypeTrainProgress?.Invoke(this, new ChannelHypeTrainProgressArgs { Headers = headers, Notification = hypeTrainProgressNotification! });
+                        break;
+                    case ("channel.hype_train.progress", "2"):
+                        var hypeTrainProgressNotificationV2 = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<HypeTrainProgressV2>>(body, _jsonSerializerOptions);
+                        OnChannelHypeTrainProgressV2?.Invoke(this, new ChannelHypeTrainProgressV2Args { Headers = headers, Notification = hypeTrainProgressNotificationV2! });
                         break;
                     case ("channel.moderator.add", "1"):
                         var moderatorAddNotification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<ChannelModerator>>(body, _jsonSerializerOptions);
