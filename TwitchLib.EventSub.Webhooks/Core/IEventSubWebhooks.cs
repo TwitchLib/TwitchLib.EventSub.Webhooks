@@ -57,21 +57,36 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// <summary>
         /// Event that triggers on "channel.goal.progress" notifications
         /// </summary>
-        event EventHandler<ChannelGoalProgressArgs>? OnChannelGoalProgress; 
+        event EventHandler<ChannelGoalProgressArgs>? OnChannelGoalProgress;
         /// <summary>
         /// Event that triggers on "channel.hype_train.begin" notifications
         /// </summary>
+        [Obsolete("This event is deprecated, please use: OnChannelHypeTrainBeginV2")]
         event EventHandler<ChannelHypeTrainBeginArgs>? OnChannelHypeTrainBegin;
+        /// <summary>
+        /// Event that triggers on "channel.hype_train.begin" notifications
+        /// </summary>
+        event EventHandler<ChannelHypeTrainBeginV2Args>? OnChannelHypeTrainBeginV2;
         /// <summary>
         /// Event that triggers on "channel.hype_train.end" notifications
         /// </summary>
+        [Obsolete("This event is deprecated, please use: OnChannelHypeTrainEndV2")]
         event EventHandler<ChannelHypeTrainEndArgs>? OnChannelHypeTrainEnd;
+        /// <summary>
+        /// Event that triggers on "channel.hype_train.end" notifications
+        /// </summary>
+        event EventHandler<ChannelHypeTrainEndArgs>? OnChannelHypeTrainEndV2;
         /// <summary>
         /// Event that triggers on "channel.hype_train.progress" notifications
         /// </summary>
+        [Obsolete("This event is deprecated, please use: OnChannelHypeTrainProgressV2")]
         event EventHandler<ChannelHypeTrainProgressArgs>? OnChannelHypeTrainProgress;
         /// <summary>
+        /// Event that triggers on "channel.hype_train.progress" notifications
+        event EventHandler<ChannelHypeTrainProgressV2Args>? OnChannelHypeTrainProgressV2;
+        /// <summary>
         /// Event that triggers on "channel.moderator.add" notifications
+        /// </summary>
         /// </summary>
         event EventHandler<ChannelModeratorArgs>? OnChannelModeratorAdd;
         /// <summary>
