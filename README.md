@@ -18,7 +18,8 @@ You only need a few lines of code to add and configure it.
 [2]: https://www.nuget.org/packages/TwitchLib.EventSub.Webhooks
 
 ## Breaking Changes in Version 3.0
-Removed deprecated versions of .NET.
+- Removed deprecated versions of .NET.
+- Events are now asynchronous (return value changed from `void` to `Task`)
 
 ## Breaking Changes in Version 2.0
 
