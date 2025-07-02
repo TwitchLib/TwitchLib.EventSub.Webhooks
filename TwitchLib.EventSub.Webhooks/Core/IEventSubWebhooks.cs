@@ -75,7 +75,7 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// <summary>
         /// Event that triggers on "channel.hype_train.end" notifications
         /// </summary>
-        event EventHandler<ChannelHypeTrainEndArgs>? OnChannelHypeTrainEndV2;
+        event EventHandler<ChannelHypeTrainEndV2Args>? OnChannelHypeTrainEndV2;
         /// <summary>
         /// Event that triggers on "channel.hype_train.progress" notifications
         /// </summary>
@@ -83,10 +83,10 @@ namespace TwitchLib.EventSub.Webhooks.Core
         event EventHandler<ChannelHypeTrainProgressArgs>? OnChannelHypeTrainProgress;
         /// <summary>
         /// Event that triggers on "channel.hype_train.progress" notifications
+        /// </summary>
         event EventHandler<ChannelHypeTrainProgressV2Args>? OnChannelHypeTrainProgressV2;
         /// <summary>
         /// Event that triggers on "channel.moderator.add" notifications
-        /// </summary>
         /// </summary>
         event EventHandler<ChannelModeratorArgs>? OnChannelModeratorAdd;
         /// <summary>
