@@ -29,12 +29,12 @@ namespace TwitchLib.EventSub.Webhooks.Example
             return Task.CompletedTask;
         }
 
-        private void OnChannelFollow(object? sender, ChannelFollowArgs e)
+        private async Task OnChannelFollow(object? sender, ChannelFollowArgs e)
         {
             _logger.LogInformation($"{e.Notification.Event.UserName} followed {e.Notification.Event.BroadcasterUserName} at {e.Notification.Event.FollowedAt.ToUniversalTime()}");
         }
 
-        private void OnError(object? sender, OnErrorArgs e)
+        private async Task OnError(object? sender, OnErrorArgs e)
         {
             _logger.LogError($"Reason: {e.Reason} - Message: {e.Message}");
         }
