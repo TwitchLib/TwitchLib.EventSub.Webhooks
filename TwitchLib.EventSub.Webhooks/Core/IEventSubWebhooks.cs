@@ -4,7 +4,9 @@ using System.IO;
 using System.Threading.Tasks;
 using TwitchLib.EventSub.Core;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs;
+using TwitchLib.EventSub.Webhooks.Core.EventArgs.Automod;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Channel;
+using TwitchLib.EventSub.Webhooks.Core.EventArgs.Conduit;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Drop;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Extension;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Stream;
@@ -18,6 +20,30 @@ namespace TwitchLib.EventSub.Webhooks.Core
     /// </summary>
     public interface IEventSubWebhooks
     {
+        /// <summary>
+        /// Event that triggers on "automod.message.hold" notifications
+        /// </summary>
+        public event AsyncEventHandler<AutomodMessageHoldArgs>? AutomodMessageHold;
+        /// <summary>
+        /// Event that triggers on "automod.message.hold" notifications
+        /// </summary>
+        public event AsyncEventHandler<AutomodMessageHoldV2Args>? AutomodMessageHoldV2;
+        /// <summary>
+        /// Event that triggers on "automod.message.update" notifications
+        /// </summary>
+        public event AsyncEventHandler<AutomodMessageUpdateArgs>? AutomodMessageUpdate;
+        /// <summary>
+        /// Event that triggers on "automod.message.update" notifications
+        /// </summary>
+        public event AsyncEventHandler<AutomodMessageUpdateV2Args>? AutomodMessageUpdateV2;
+        /// <summary>
+        /// Event that triggers on "automod.settings.update" notifications
+        /// </summary>
+        public event AsyncEventHandler<AutomodSettingsUpdateArgs>? AutomodSettingsUpdate;
+        /// <summary>
+        /// Event that triggers on "automod.terms.update" notifications
+        /// </summary>
+        public event AsyncEventHandler<AutomodTermsUpdateArgs>? AutomodTermsUpdate;
         /// <summary>
         /// Event that triggers on "channel.ban" notifications
         /// </summary>
@@ -189,6 +215,10 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// Event that triggers if an error parsing a notification or revocation was encountered
         /// </summary>
         event AsyncEventHandler<OnErrorArgs>? OnError;
+        /// <summary>
+        /// Event that triggers on "conduit.shard.disabled" notifications
+        /// </summary>
+        public event AsyncEventHandler<ConduitShardDisabledArgs>? ConduitShardDisabled;
         /// <summary>
         /// Event that triggers on "drop.entitlement.grant" notifications
         /// </summary>
