@@ -47,7 +47,7 @@ namespace TwitchLib.EventSub.Webhooks
         /// <inheritdoc/>
         public event AsyncEventHandler<AutomodMessageUpdateV2Args>? AutomodMessageUpdateV2;
         /// <inheritdoc/>
-        public event AsyncEventHandler<AutomodSettingsUpdate>? AutomodSettingsUpdate;
+        public event AsyncEventHandler<AutomodSettingsUpdateArgs>? AutomodSettingsUpdate;
         /// <inheritdoc/>
         public event AsyncEventHandler<AutomodTermsUpdateArgs>? AutomodTermsUpdate;
         /// <inheritdoc/>

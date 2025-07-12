@@ -23,27 +23,27 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// <summary>
         /// Event that triggers on "automod.message.hold" notifications
         /// </summary>
-        public event AsyncEventHandler<AutomodMessageHoldArgs>? AutomodMessageHold;
+        event AsyncEventHandler<AutomodMessageHoldArgs>? AutomodMessageHold;
         /// <summary>
         /// Event that triggers on "automod.message.hold" notifications
         /// </summary>
-        public event AsyncEventHandler<AutomodMessageHoldV2Args>? AutomodMessageHoldV2;
+        event AsyncEventHandler<AutomodMessageHoldV2Args>? AutomodMessageHoldV2;
         /// <summary>
         /// Event that triggers on "automod.message.update" notifications
         /// </summary>
-        public event AsyncEventHandler<AutomodMessageUpdateArgs>? AutomodMessageUpdate;
+        event AsyncEventHandler<AutomodMessageUpdateArgs>? AutomodMessageUpdate;
         /// <summary>
         /// Event that triggers on "automod.message.update" notifications
         /// </summary>
-        public event AsyncEventHandler<AutomodMessageUpdateV2Args>? AutomodMessageUpdateV2;
+        event AsyncEventHandler<AutomodMessageUpdateV2Args>? AutomodMessageUpdateV2;
         /// <summary>
         /// Event that triggers on "automod.settings.update" notifications
         /// </summary>
-        public event AsyncEventHandler<AutomodSettingsUpdateArgs>? AutomodSettingsUpdate;
+        event AsyncEventHandler<AutomodSettingsUpdateArgs>? AutomodSettingsUpdate;
         /// <summary>
         /// Event that triggers on "automod.terms.update" notifications
         /// </summary>
-        public event AsyncEventHandler<AutomodTermsUpdateArgs>? AutomodTermsUpdate;
+        event AsyncEventHandler<AutomodTermsUpdateArgs>? AutomodTermsUpdate;
         /// <summary>
         /// Event that triggers on "channel.ban" notifications
         /// </summary>
@@ -218,7 +218,7 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// <summary>
         /// Event that triggers on "conduit.shard.disabled" notifications
         /// </summary>
-        public event AsyncEventHandler<ConduitShardDisabledArgs>? ConduitShardDisabled;
+        event AsyncEventHandler<ConduitShardDisabledArgs>? ConduitShardDisabled;
         /// <summary>
         /// Event that triggers on "drop.entitlement.grant" notifications
         /// </summary>
