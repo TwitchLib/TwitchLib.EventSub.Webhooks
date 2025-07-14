@@ -5,14 +5,18 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using TwitchLib.EventSub.Core;
 using TwitchLib.EventSub.Core.Extensions;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Automod;
 using TwitchLib.EventSub.Core.SubscriptionTypes.Channel;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Conduit;
 using TwitchLib.EventSub.Core.SubscriptionTypes.Drop;
 using TwitchLib.EventSub.Core.SubscriptionTypes.Extension;
 using TwitchLib.EventSub.Core.SubscriptionTypes.Stream;
 using TwitchLib.EventSub.Core.SubscriptionTypes.User;
 using TwitchLib.EventSub.Webhooks.Core;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs;
+using TwitchLib.EventSub.Webhooks.Core.EventArgs.Automod;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Channel;
+using TwitchLib.EventSub.Webhooks.Core.EventArgs.Conduit;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Drop;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Extension;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Stream;
@@ -34,6 +38,18 @@ namespace TwitchLib.EventSub.Webhooks
             DictionaryKeyPolicy = JsonNamingPolicy.SnakeCaseLower
         };
 
+        /// <inheritdoc/>
+        public event AsyncEventHandler<AutomodMessageHoldArgs>? AutomodMessageHold;
+        /// <inheritdoc/>
+        public event AsyncEventHandler<AutomodMessageHoldV2Args>? AutomodMessageHoldV2;
+        /// <inheritdoc/>
+        public event AsyncEventHandler<AutomodMessageUpdateArgs>? AutomodMessageUpdate;
+        /// <inheritdoc/>
+        public event AsyncEventHandler<AutomodMessageUpdateV2Args>? AutomodMessageUpdateV2;
+        /// <inheritdoc/>
+        public event AsyncEventHandler<AutomodSettingsUpdateArgs>? AutomodSettingsUpdate;
+        /// <inheritdoc/>
+        public event AsyncEventHandler<AutomodTermsUpdateArgs>? AutomodTermsUpdate;
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelBanArgs>? OnChannelBan;
         /// <inheritdoc/>
@@ -121,6 +137,8 @@ namespace TwitchLib.EventSub.Webhooks
         /// <inheritdoc/>
         public event AsyncEventHandler<OnErrorArgs>? OnError;
         /// <inheritdoc/>
+        public event AsyncEventHandler<ConduitShardDisabledArgs>? ConduitShardDisabled;
+        /// <inheritdoc/>
         public event AsyncEventHandler<DropEntitlementGrantArgs>? OnDropEntitlementGrant;
         /// <inheritdoc/>
         public event AsyncEventHandler<ExtensionBitsTransactionCreateArgs>? OnExtensionBitsTransactionCreate;
@@ -167,6 +185,24 @@ namespace TwitchLib.EventSub.Webhooks
 
                 switch ((subscriptionType, subscriptionVersion))
                 {
+                    case ("automod.message.hold", "1"):
+                        await InvokeEventSubEvent<AutomodMessageHoldArgs, EventSubNotificationPayload<AutomodMessageHold>>(AutomodMessageHold);
+                        break;
+                    case ("automod.message.hold", "2"):
+                        await InvokeEventSubEvent<AutomodMessageHoldV2Args, EventSubNotificationPayload<AutomodMessageHoldV2>>(AutomodMessageHoldV2);
+                        break;
+                    case ("automod.message.update", "1"):
+                        await InvokeEventSubEvent<AutomodMessageUpdateArgs, EventSubNotificationPayload<AutomodMessageUpdate>>(AutomodMessageUpdate);
+                        break;
+                    case ("automod.message.update", "2"):
+                        await InvokeEventSubEvent<AutomodMessageUpdateV2Args, EventSubNotificationPayload<AutomodMessageUpdateV2>>(AutomodMessageUpdateV2);
+                        break;
+                    case ("automod.settings.update", "1"):
+                        await InvokeEventSubEvent<AutomodSettingsUpdateArgs, EventSubNotificationPayload<AutomodSettingsUpdate>>(AutomodSettingsUpdate);
+                        break;
+                    case ("automod.terms.update", "1"):
+                        await InvokeEventSubEvent<AutomodTermsUpdateArgs, EventSubNotificationPayload<AutomodTermsUpdate>>(AutomodTermsUpdate);
+                        break;
                     case ("channel.ban", "1"):
                         await InvokeEventSubEvent<ChannelBanArgs, EventSubNotificationPayload<ChannelBan>>(OnChannelBan);
                         break;
@@ -292,6 +328,9 @@ namespace TwitchLib.EventSub.Webhooks
                         break;
                     case ("drop.entitlement.grant", "1"):
                         await InvokeEventSubEvent<DropEntitlementGrantArgs, BatchedNotificationPayload<DropEntitlementGrant>>(OnDropEntitlementGrant);
+                        break;
+                    case ("conduit.shard.disabled", "1"):
+                        await InvokeEventSubEvent<ConduitShardDisabledArgs, EventSubNotificationPayload<ConduitShardDisabled>>(ConduitShardDisabled);
                         break;
                     case ("extension.bits_transaction.create", "1"):
                         await InvokeEventSubEvent<ExtensionBitsTransactionCreateArgs, EventSubNotificationPayload<ExtensionBitsTransactionCreate>>(OnExtensionBitsTransactionCreate);
