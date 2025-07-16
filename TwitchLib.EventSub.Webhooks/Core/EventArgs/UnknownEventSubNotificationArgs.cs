@@ -3,5 +3,5 @@ using TwitchLib.EventSub.Webhooks.Core.Models;
 
 namespace TwitchLib.EventSub.Webhooks.Core.EventArgs;
 
-public class UnknownEventSubEventArgs : TwitchLibEventSubEventArgs<EventSubNotificationPayload<JsonElement>>
+public class UnknownEventSubNotificationArgs : TwitchLibEventSubEventArgs<EventSubNotificationPayload<JsonElement>>
 { }

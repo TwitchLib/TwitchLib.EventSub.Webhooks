@@ -39,7 +39,7 @@ namespace TwitchLib.EventSub.Webhooks
         };
 
         /// <inheritdoc/>
-        public event AsyncEventHandler<UnknownEventSubEventArgs>? UnknownEventSubEvent;
+        public event AsyncEventHandler<UnknownEventSubNotificationArgs>? UnknownEventSubNotification;
         /// <inheritdoc/>
         public event AsyncEventHandler<AutomodMessageHoldArgs>? AutomodMessageHold;
         /// <inheritdoc/>
@@ -371,7 +371,7 @@ namespace TwitchLib.EventSub.Webhooks
                         await InvokeEventSubEvent<UserWhisperMessageArgs, EventSubNotificationPayload<UserWhisperMessage>>(OnUserWhisperMessage);
                         break;
                     default:
-                        await InvokeEventSubEvent<UnknownEventSubEventArgs, EventSubNotificationPayload<JsonElement>>(UnknownEventSubEvent);
+                        await InvokeEventSubEvent<UnknownEventSubNotificationArgs, EventSubNotificationPayload<JsonElement>>(UnknownEventSubNotification);
                         break;
                 }
             }

@@ -21,9 +21,9 @@ namespace TwitchLib.EventSub.Webhooks.Core
     public interface IEventSubWebhooks
     {
         /// <summary>
-        /// Event that triggers when EventSub send event, that's unknown. (ie.: not implementet ... yet!)
+        /// Event that triggers when EventSub send notification, that's unknown. (ie.: not implementet ... yet!)
         /// </summary>
-        event AsyncEventHandler<UnknownEventSubEventArgs>? UnknownEventSubEvent;
+        event AsyncEventHandler<UnknownEventSubNotificationArgs>? UnknownEventSubNotification;
         /// <summary>
         /// Event that triggers on "automod.message.hold" notifications
         /// </summary>
