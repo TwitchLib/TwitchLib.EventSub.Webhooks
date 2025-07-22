@@ -51,6 +51,8 @@ namespace TwitchLib.EventSub.Webhooks
         /// <inheritdoc/>
         public event AsyncEventHandler<AutomodTermsUpdateArgs>? AutomodTermsUpdate;
         /// <inheritdoc/>
+        public event AsyncEventHandler<ChannelBitsUseArgs>? ChannelBitsUse;
+        /// <inheritdoc/>
         public event AsyncEventHandler<ChannelBanArgs>? OnChannelBan;
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelCheerArgs>? OnChannelCheer;
@@ -73,21 +75,23 @@ namespace TwitchLib.EventSub.Webhooks
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelGoalProgressArgs>? OnChannelGoalProgress;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelHypeTrainBeginArgs>? OnChannelHypeTrainBegin;
-        /// <inheritdoc/>
         public event AsyncEventHandler<ChannelHypeTrainBeginV2Args>? OnChannelHypeTrainBeginV2;
-        /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelHypeTrainEndArgs>? OnChannelHypeTrainEnd;
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelHypeTrainEndV2Args>? OnChannelHypeTrainEndV2;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelHypeTrainProgressArgs>? OnChannelHypeTrainProgress;
-        /// <inheritdoc/>
         public event AsyncEventHandler<ChannelHypeTrainProgressV2Args>? OnChannelHypeTrainProgressV2;
+        /// <inheritdoc/>
+        public event AsyncEventHandler<ChannelModerateArgs>? ChannelModerate;
+        /// <inheritdoc/>
+        public event AsyncEventHandler<ChannelModerateV2Args>? ChannelModerateV2;
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelModeratorArgs>? OnChannelModeratorAdd;
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelModeratorArgs>? OnChannelModeratorRemove;
+        /// <inheritdoc/>
+        public event AsyncEventHandler<ChannelPointsAutomaticRewardRedemptionAddArgs>? ChannelPointsAutomaticRewardRedemptionAdd;
+        /// <inheritdoc/>
+        public event AsyncEventHandler<ChannelPointsAutomaticRewardRedemptionAddV2Args>? ChannelPointsAutomaticRewardRedemptionAddV2;
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelPointsCustomRewardArgs>? OnChannelPointsCustomRewardAdd;
         /// <inheritdoc/>
@@ -165,6 +169,12 @@ namespace TwitchLib.EventSub.Webhooks
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelChatNotificationArgs>? OnChannelChatNotification;
         /// <inheritdoc/>
+        public event AsyncEventHandler<ChannelChatSettingsUpdateArgs>? ChannelChatSettingsUpdate;
+        /// <inheritdoc/>
+        public event AsyncEventHandler<ChannelChatUserMessageHoldArgs>? ChannelChatUserMessageHold;
+        /// <inheritdoc/>
+        public event AsyncEventHandler<ChannelChatUserMessageUpdateArgs>? ChannelChatUserMessageUpdate;
+        /// <inheritdoc/>
         public event AsyncEventHandler<UserWhisperMessageArgs>? OnUserWhisperMessage;
 
         /// <inheritdoc/>
@@ -203,6 +213,9 @@ namespace TwitchLib.EventSub.Webhooks
                     case ("automod.terms.update", "1"):
                         await InvokeEventSubEvent<AutomodTermsUpdateArgs, EventSubNotificationPayload<AutomodTermsUpdate>>(AutomodTermsUpdate);
                         break;
+                    case ("channel.bits.use", "1"):
+                        await InvokeEventSubEvent<ChannelBitsUseArgs, EventSubNotificationPayload<ChannelBitUse>>(ChannelBitsUse);
+                        break;
                     case ("channel.ban", "1"):
                         await InvokeEventSubEvent<ChannelBanArgs, EventSubNotificationPayload<ChannelBan>>(OnChannelBan);
                         break;
@@ -233,29 +246,32 @@ namespace TwitchLib.EventSub.Webhooks
                     case ("channel.goal.progress", "1"):
                         await InvokeEventSubEvent<ChannelGoalProgressArgs, EventSubNotificationPayload<ChannelGoalProgress>>(OnChannelGoalProgress);
                         break;
-                    case ("channel.hype_train.begin", "1"):
-                        await InvokeEventSubEvent<ChannelHypeTrainBeginArgs, EventSubNotificationPayload<HypeTrainBegin>>(OnChannelHypeTrainBegin);
-                        break;
                     case ("channel.hype_train.begin", "2"):
                         await InvokeEventSubEvent<ChannelHypeTrainBeginV2Args, EventSubNotificationPayload<HypeTrainBeginV2>>(OnChannelHypeTrainBeginV2);
-                        break;
-                    case ("channel.hype_train.end", "1"):
-                        await InvokeEventSubEvent<ChannelHypeTrainEndArgs, EventSubNotificationPayload<HypeTrainEnd>>(OnChannelHypeTrainEnd);
                         break;
                     case ("channel.hype_train.end", "2"):
                         await InvokeEventSubEvent<ChannelHypeTrainEndV2Args, EventSubNotificationPayload<HypeTrainEndV2>>(OnChannelHypeTrainEndV2);
                         break;
-                    case ("channel.hype_train.progress", "1"):
-                        await InvokeEventSubEvent<ChannelHypeTrainProgressArgs, EventSubNotificationPayload<HypeTrainProgress>>(OnChannelHypeTrainProgress);
-                        break;
                     case ("channel.hype_train.progress", "2"):
                         await InvokeEventSubEvent<ChannelHypeTrainProgressV2Args, EventSubNotificationPayload<HypeTrainProgressV2>>(OnChannelHypeTrainProgressV2);
+                        break;
+                    case ("channel.moderate", "1"):
+                        await InvokeEventSubEvent<ChannelModerateArgs, EventSubNotificationPayload<ChannelModerate>>(ChannelModerate);
+                        break;
+                    case ("channel.moderate", "2"):
+                        await InvokeEventSubEvent<ChannelModerateV2Args, EventSubNotificationPayload<ChannelModerateV2>>(ChannelModerateV2);
                         break;
                     case ("channel.moderator.add", "1"):
                         await InvokeEventSubEvent<ChannelModeratorArgs, EventSubNotificationPayload<ChannelModerator>>(OnChannelModeratorAdd);
                         break;
                     case ("channel.moderator.remove", "1"):
                         await InvokeEventSubEvent<ChannelModeratorArgs, EventSubNotificationPayload<ChannelModerator>>(OnChannelModeratorRemove);
+                        break;
+                    case ("channel.channel_points_automatic_reward_redemption.add", "1"):
+                        await InvokeEventSubEvent<ChannelPointsAutomaticRewardRedemptionAddArgs, EventSubNotificationPayload<ChannelPointsAutomaticRewardRedemption>>(ChannelPointsAutomaticRewardRedemptionAdd);
+                        break;
+                    case ("channel.channel_points_automatic_reward_redemption.add", "2"):
+                        await InvokeEventSubEvent<ChannelPointsAutomaticRewardRedemptionAddV2Args, EventSubNotificationPayload<ChannelPointsAutomaticRewardRedemptionV2>>(ChannelPointsAutomaticRewardRedemptionAddV2);
                         break;
                     case ("channel.channel_points_custom_reward.add", "1"):
                         await InvokeEventSubEvent<ChannelPointsCustomRewardArgs, EventSubNotificationPayload<ChannelPointsCustomReward>>(OnChannelPointsCustomRewardAdd);
@@ -364,6 +380,15 @@ namespace TwitchLib.EventSub.Webhooks
                         break;
                     case ("channel.chat.notification", "1"):
                         await InvokeEventSubEvent<ChannelChatNotificationArgs, EventSubNotificationPayload<ChannelChatNotification>>(OnChannelChatNotification);
+                        break;
+                    case ("channel.chat_settings.update", "1"):
+                        await InvokeEventSubEvent<ChannelChatSettingsUpdateArgs, EventSubNotificationPayload<ChannelChatSettingsUpdate>>(ChannelChatSettingsUpdate);
+                        break;
+                    case ("channel.chat.user_message_hold", "1"):
+                        await InvokeEventSubEvent<ChannelChatUserMessageHoldArgs, EventSubNotificationPayload<ChannelChatUserMessageHold>>(ChannelChatUserMessageHold);
+                        break;
+                    case ("channel.chat.user_message_update", "1"):
+                        await InvokeEventSubEvent<ChannelChatUserMessageUpdateArgs, EventSubNotificationPayload<ChannelChatUserMessageUpdate>>(ChannelChatUserMessageUpdate);
                         break;
                     case ("user.whisper.message", "1"):
                         await InvokeEventSubEvent<UserWhisperMessageArgs, EventSubNotificationPayload<UserWhisperMessage>>(OnUserWhisperMessage);
