@@ -20,6 +20,7 @@ You only need a few lines of code to add and configure it.
 ## Breaking Changes in Version 3.0
 - Removed deprecated versions of .NET.
 - Events are now asynchronous (return value changed from `void` to `Task`)
+- Events dropped the `On` prefix (`OnChannelChatMessage` => `ChannelChatMessage`)
 
 ## Breaking Changes in Version 2.0
 

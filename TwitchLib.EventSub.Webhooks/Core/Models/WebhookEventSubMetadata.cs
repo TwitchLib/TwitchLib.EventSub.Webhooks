@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -59,7 +60,7 @@ public class WebhookEventSubMetadata
             MessageTimestamp = headers["Twitch-Eventsub-Message-Timestamp"]!,
             SubscriptionType = headers["Twitch-Eventsub-Subscription-Type"]!,
             SubscriptionVersion = headers["Twitch-Eventsub-Subscription-Version"]!,
-            TwitchEventsubHeaders = headers.Where(h => !h.Key.StartsWith("Twitch-Eventsub-")).ToDictionary(h => h.Key, h => h.Value.ToString())
+            TwitchEventsubHeaders = headers.Where(h => h.Key.StartsWith("Twitch-Eventsub-", StringComparison.InvariantCultureIgnoreCase)).ToDictionary(h => h.Key, h => h.Value.ToString())
         };
     }
 }
