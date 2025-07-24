@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using TwitchLib.EventSub.Core;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs;
@@ -10,6 +9,7 @@ using TwitchLib.EventSub.Webhooks.Core.EventArgs.Drop;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Extension;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.Stream;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs.User;
+using TwitchLib.EventSub.Webhooks.Core.Models;
 
 namespace TwitchLib.EventSub.Webhooks.Core
 {
@@ -296,14 +296,14 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// <summary>
         /// Processes "notification" type messages. You should not use this in your code, its for internal use only!
         /// </summary>
-        /// <param name="headers">Dictionary of the request headers</param>
+        /// <param name="metadata">Metadata reveived from the request headers</param>
         /// <param name="body">Stream of the request body</param>
-        Task ProcessNotificationAsync(Dictionary<string, string> headers, Stream body);
+        Task ProcessNotificationAsync(WebhookEventSubMetadata metadata, Stream body);
         /// <summary>
         /// Processes "revocation" type messages. You should not use this in your code, its for internal use only!
         /// </summary>
-        /// <param name="headers">Dictionary of the request headers</param>
+        /// <param name="metadata">Metadata reveived from the request headers</param>
         /// <param name="body">Stream of the request body</param>
-        Task ProcessRevocationAsync(Dictionary<string, string> headers, Stream body);
+        Task ProcessRevocationAsync(WebhookEventSubMetadata metadata, Stream body);
     }
 }

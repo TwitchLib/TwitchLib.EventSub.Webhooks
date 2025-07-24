@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TwitchLib.EventSub.Webhooks.Core;
+using TwitchLib.EventSub.Webhooks.Core.Models;
 
 #pragma warning disable 1591
 namespace TwitchLib.EventSub.Webhooks.Middlewares
@@ -21,30 +20,25 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (!context.Request.Headers.TryGetValue("Twitch-Eventsub-Message-Type", out var messageType))
-            {
-                await _next(context);
-                return;
-            }
+            var metadata = WebhookEventSubMetadata.CreateMetadata(context.Request.Headers);
 
-            var headers = context.Request.Headers.ToDictionary(k => k.Key, v => v.Value.ToString(), StringComparer.OrdinalIgnoreCase);
-
-            switch (messageType)
+            switch (metadata.MessageType)
             {
                 case "webhook_callback_verification":
                     var json = await JsonDocument.ParseAsync(context.Request.Body);
-                    await WriteResponseAsync(context, 200, "text/plain", json.RootElement.GetProperty("challenge"u8).GetString()!);
+                    string challenge = json.RootElement.GetProperty("challenge"u8).GetString()!;
+                    await WriteResponseAsync(context, 200, "text/plain", challenge!);
                     return;
                 case "notification":
-                    await _eventSubWebhooks.ProcessNotificationAsync(headers, context.Request.Body);
+                    await _eventSubWebhooks.ProcessNotificationAsync(metadata, context.Request.Body);
                     await WriteResponseAsync(context, 200, "text/plain", "Thanks for the heads up Jordan");
                     return;
                 case "revocation":
-                    await _eventSubWebhooks.ProcessRevocationAsync(headers, context.Request.Body);
+                    await _eventSubWebhooks.ProcessRevocationAsync(metadata, context.Request.Body);
                     await WriteResponseAsync(context, 200, "text/plain", "Thanks for the heads up Jordan");
                     return;
                 default:
-                    await WriteResponseAsync(context, 400, "text/plain", $"Unknown EventSub message type: {messageType}");
+                    await WriteResponseAsync(context, 400, "text/plain", $"Unknown EventSub message type: {metadata.MessageType}");
                     return;
             }
         }

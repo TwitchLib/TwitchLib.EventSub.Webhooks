@@ -180,22 +180,17 @@ namespace TwitchLib.EventSub.Webhooks
         public event AsyncEventHandler<UserWhisperMessageArgs>? OnUserWhisperMessage;
 
         /// <inheritdoc/>
-        public async Task ProcessNotificationAsync(Dictionary<string, string> headers, Stream body)
+        public async Task ProcessNotificationAsync(WebhookEventSubMetadata metadata, Stream body)
         {
+            if (string.IsNullOrEmpty(metadata.SubscriptionType) || string.IsNullOrEmpty(metadata.SubscriptionVersion))
+            {
+                await OnError.InvokeAsync(this, new OnErrorArgs { Reason = "Missing_Header", Message = "The Twitch-Eventsub-Subscription-Type or Twitch-Eventsub-Subscription-Version header was not found" });
+                return;
+            }
+
             try
             {
-                if (!headers.TryGetValue("Twitch-Eventsub-Subscription-Type", out var subscriptionType))
-                {
-                    await OnError.InvokeAsync(this, new OnErrorArgs { Reason = "Missing_Header", Message = "The Twitch-Eventsub-Subscription-Type header was not found" });
-                    return;
-                }
-                if (!headers.TryGetValue("Twitch-Eventsub-Subscription-Version", out var subscriptionVersion))
-                {
-                    await OnError.InvokeAsync(this, new OnErrorArgs { Reason = "Missing_Header", Message = "The Twitch-Eventsub-Subscription-Version header was not found" });
-                    return;
-                }
-
-                switch ((subscriptionType, subscriptionVersion))
+                switch ((metadata.SubscriptionType, metadata.SubscriptionVersion))
                 {
                     case ("automod.message.hold", "1"):
                         await InvokeEventSubEvent<AutomodMessageHoldArgs, EventSubNotificationPayload<AutomodMessageHold>>(AutomodMessageHold);
@@ -410,17 +405,17 @@ namespace TwitchLib.EventSub.Webhooks
                 where TModel : new()
             {
                 var notification = await JsonSerializer.DeserializeAsync<TModel>(body, _jsonSerializerOptions);
-                await asyncEventHandler.InvokeAsync(this, new TEvent { Headers = headers, Notification = notification! });
+                await asyncEventHandler.InvokeAsync(this, new TEvent { Metadata = metadata, Notification = notification! });
             }
         }
 
         /// <inheritdoc/>
-        public async Task ProcessRevocationAsync(Dictionary<string, string> headers, Stream body)
+        public async Task ProcessRevocationAsync(WebhookEventSubMetadata metadata, Stream body)
         {
             try
             {
                 var notification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<object>>(body, _jsonSerializerOptions);
-                await OnRevocation.InvokeAsync(this, new RevocationArgs { Headers = headers, Notification = notification! });
+                await OnRevocation.InvokeAsync(this, new RevocationArgs { Metadata = metadata, Notification = notification! });
             }
             catch (Exception ex)
             {
