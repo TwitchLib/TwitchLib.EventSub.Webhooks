@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using TwitchLib.EventSub.Core;
@@ -49,6 +48,10 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// </summary>
         event AsyncEventHandler<AutomodTermsUpdateArgs>? AutomodTermsUpdate;
         /// <summary>
+        /// Event that triggers on "channel.bits.use" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelBitsUseArgs>? ChannelBitsUse;
+        /// <summary>
         /// Event that triggers on "channel.ban" notifications
         /// </summary>
         event AsyncEventHandler<ChannelBanArgs>? OnChannelBan;
@@ -91,17 +94,7 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// <summary>
         /// Event that triggers on "channel.hype_train.begin" notifications
         /// </summary>
-        [Obsolete("This event is deprecated, please use: OnChannelHypeTrainBeginV2")]
-        event AsyncEventHandler<ChannelHypeTrainBeginArgs>? OnChannelHypeTrainBegin;
-        /// <summary>
-        /// Event that triggers on "channel.hype_train.begin" notifications
-        /// </summary>
         event AsyncEventHandler<ChannelHypeTrainBeginV2Args>? OnChannelHypeTrainBeginV2;
-        /// <summary>
-        /// Event that triggers on "channel.hype_train.end" notifications
-        /// </summary>
-        [Obsolete("This event is deprecated, please use: OnChannelHypeTrainEndV2")]
-        event AsyncEventHandler<ChannelHypeTrainEndArgs>? OnChannelHypeTrainEnd;
         /// <summary>
         /// Event that triggers on "channel.hype_train.end" notifications
         /// </summary>
@@ -109,12 +102,15 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// <summary>
         /// Event that triggers on "channel.hype_train.progress" notifications
         /// </summary>
-        [Obsolete("This event is deprecated, please use: OnChannelHypeTrainProgressV2")]
-        event AsyncEventHandler<ChannelHypeTrainProgressArgs>? OnChannelHypeTrainProgress;
-        /// <summary>
-        /// Event that triggers on "channel.hype_train.progress" notifications
-        /// </summary>
         event AsyncEventHandler<ChannelHypeTrainProgressV2Args>? OnChannelHypeTrainProgressV2;
+        /// <summary>
+        /// Event that triggers on "channel.moderate" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelModerateArgs>? ChannelModerate;
+        /// <summary>
+        /// Event that triggers on "channel.moderate" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelModerateV2Args>? ChannelModerateV2;
         /// <summary>
         /// Event that triggers on "channel.moderator.add" notifications
         /// </summary>
@@ -123,6 +119,14 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// Event that triggers on "channel.moderator.remove" notifications
         /// </summary>
         event AsyncEventHandler<ChannelModeratorArgs>? OnChannelModeratorRemove;
+        /// <summary>
+        /// Event that triggers on "channel.channel_points_automatic_reward_redemption.add" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelPointsAutomaticRewardRedemptionAddArgs>? ChannelPointsAutomaticRewardRedemptionAdd;
+        /// <summary>
+        /// Event that triggers on "channel.channel_points_automatic_reward_redemption.add" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelPointsAutomaticRewardRedemptionAddV2Args>? ChannelPointsAutomaticRewardRedemptionAddV2;
         /// <summary>
         /// Event that triggers on "channel.channel_points_custom_reward.add" notifications
         /// </summary>
@@ -275,7 +279,19 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// Event that triggers on "channel.chat.notification" notifications
         /// </summary>
         event AsyncEventHandler<ChannelChatNotificationArgs>? OnChannelChatNotification;
-        
+        /// <summary>
+        /// Event that triggers on "channel.chat_settings.update" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelChatSettingsUpdateArgs>? ChannelChatSettingsUpdate;
+        /// <summary>
+        /// Event that triggers on "channel.chat.user_message_hold" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelChatUserMessageHoldArgs>? ChannelChatUserMessageHold;
+        /// <summary>
+        /// Event that triggers on "channel.chat.user_message_update" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelChatUserMessageUpdateArgs>? ChannelChatUserMessageUpdate;
+
 
         /// <summary>
         /// Processes "notification" type messages. You should not use this in your code, its for internal use only!

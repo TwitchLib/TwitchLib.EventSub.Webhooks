@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="TwitchLib.EventSub.Core" Version="3.0.0-preview.61.2ebdc93" />
+    <PackageReference Include="TwitchLib.EventSub.Core" Version="3.0.0-preview.63.b1866db" />
   </ItemGroup>
 
   <ItemGroup>
