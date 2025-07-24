@@ -18,6 +18,7 @@ namespace TwitchLib.EventSub.Webhooks.Example
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _eventSubWebhooks.OnError += OnError;
+            _eventSubWebhooks.UnknownEventSubNotification += OnUnknownEventSubNotification;
             _eventSubWebhooks.OnChannelFollow += OnChannelFollow;
             return Task.CompletedTask;
         }
@@ -25,6 +26,7 @@ namespace TwitchLib.EventSub.Webhooks.Example
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _eventSubWebhooks.OnError -= OnError;
+            _eventSubWebhooks.UnknownEventSubNotification += OnUnknownEventSubNotification;
             _eventSubWebhooks.OnChannelFollow -= OnChannelFollow;
             return Task.CompletedTask;
         }
@@ -37,6 +39,19 @@ namespace TwitchLib.EventSub.Webhooks.Example
         private async Task OnError(object? sender, OnErrorArgs e)
         {
             _logger.LogError($"Reason: {e.Reason} - Message: {e.Message}");
+        }
+
+        // Handling notifications that are not (yet) implemented
+        private async Task OnUnknownEventSubNotification(object sender, UnknownEventSubNotificationArgs e)
+        {
+            var subscription = e.Notification.Subscription;
+            _logger.LogInformation("Received event that has not yet been implemented: type:{type}, version:{version}", subscription.Type, subscription.Version);
+
+            switch ((subscription.Type, subscription.Version))
+            {
+                case ("channel.chat.message", "1"): /*code to handle the event*/ break;
+                default: break;
+            }
         }
     }
 }

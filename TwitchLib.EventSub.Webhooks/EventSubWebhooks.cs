@@ -39,6 +39,8 @@ namespace TwitchLib.EventSub.Webhooks
         };
 
         /// <inheritdoc/>
+        public event AsyncEventHandler<UnknownEventSubNotificationArgs>? UnknownEventSubNotification;
+        /// <inheritdoc/>
         public event AsyncEventHandler<AutomodMessageHoldArgs>? AutomodMessageHold;
         /// <inheritdoc/>
         public event AsyncEventHandler<AutomodMessageHoldV2Args>? AutomodMessageHoldV2;
@@ -369,7 +371,7 @@ namespace TwitchLib.EventSub.Webhooks
                         await InvokeEventSubEvent<UserWhisperMessageArgs, EventSubNotificationPayload<UserWhisperMessage>>(OnUserWhisperMessage);
                         break;
                     default:
-                        await OnError.InvokeAsync(this, new OnErrorArgs { Reason = "Unknown_Subscription_Type", Message = $"Cannot parse unknown subscription type {subscriptionType}/{subscriptionVersion}" });
+                        await InvokeEventSubEvent<UnknownEventSubNotificationArgs, EventSubNotificationPayload<JsonElement>>(UnknownEventSubNotification);
                         break;
                 }
             }
