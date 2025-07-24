@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -39,6 +38,10 @@ namespace TwitchLib.EventSub.Webhooks
         };
 
         /// <inheritdoc/>
+        public event AsyncEventHandler<OnErrorArgs>? Error;
+        /// <inheritdoc/>
+        public event AsyncEventHandler<RevocationArgs>? Revocation;
+        /// <inheritdoc/>
         public event AsyncEventHandler<UnknownEventSubNotificationArgs>? UnknownEventSubNotification;
         /// <inheritdoc/>
         public event AsyncEventHandler<AutomodMessageHoldArgs>? AutomodMessageHold;
@@ -55,121 +58,117 @@ namespace TwitchLib.EventSub.Webhooks
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelBitsUseArgs>? ChannelBitsUse;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelBanArgs>? OnChannelBan;
+        public event AsyncEventHandler<ChannelBanArgs>? ChannelBan;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelCheerArgs>? OnChannelCheer;
+        public event AsyncEventHandler<ChannelCheerArgs>? ChannelCheer;
 
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelCharityCampaignStartArgs>? OnChannelCharityCampaignStart;
+        public event AsyncEventHandler<ChannelCharityCampaignStartArgs>? ChannelCharityCampaignStart;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelCharityCampaignDonateArgs>? OnChannelCharityCampaignDonate;
+        public event AsyncEventHandler<ChannelCharityCampaignDonateArgs>? ChannelCharityCampaignDonate;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelCharityCampaignProgressArgs>? OnChannelCharityCampaignProgress;
+        public event AsyncEventHandler<ChannelCharityCampaignProgressArgs>? ChannelCharityCampaignProgress;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelCharityCampaignStopArgs>? OnChannelCharityCampaignStop;
+        public event AsyncEventHandler<ChannelCharityCampaignStopArgs>? ChannelCharityCampaignStop;
 
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelFollowArgs>? OnChannelFollow;
+        public event AsyncEventHandler<ChannelFollowArgs>? ChannelFollow;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelGoalBeginArgs>? OnChannelGoalBegin;
+        public event AsyncEventHandler<ChannelGoalBeginArgs>? ChannelGoalBegin;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelGoalEndArgs>? OnChannelGoalEnd;
+        public event AsyncEventHandler<ChannelGoalEndArgs>? ChannelGoalEnd;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelGoalProgressArgs>? OnChannelGoalProgress;
+        public event AsyncEventHandler<ChannelGoalProgressArgs>? ChannelGoalProgress;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelHypeTrainBeginV2Args>? OnChannelHypeTrainBeginV2;
+        public event AsyncEventHandler<ChannelHypeTrainBeginV2Args>? ChannelHypeTrainBeginV2;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelHypeTrainEndV2Args>? OnChannelHypeTrainEndV2;
+        public event AsyncEventHandler<ChannelHypeTrainEndV2Args>? ChannelHypeTrainEndV2;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelHypeTrainProgressV2Args>? OnChannelHypeTrainProgressV2;
+        public event AsyncEventHandler<ChannelHypeTrainProgressV2Args>? ChannelHypeTrainProgressV2;
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelModerateArgs>? ChannelModerate;
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelModerateV2Args>? ChannelModerateV2;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelModeratorArgs>? OnChannelModeratorAdd;
+        public event AsyncEventHandler<ChannelModeratorArgs>? ChannelModeratorAdd;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelModeratorArgs>? OnChannelModeratorRemove;
+        public event AsyncEventHandler<ChannelModeratorArgs>? ChannelModeratorRemove;
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelPointsAutomaticRewardRedemptionAddArgs>? ChannelPointsAutomaticRewardRedemptionAdd;
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelPointsAutomaticRewardRedemptionAddV2Args>? ChannelPointsAutomaticRewardRedemptionAddV2;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelPointsCustomRewardArgs>? OnChannelPointsCustomRewardAdd;
+        public event AsyncEventHandler<ChannelPointsCustomRewardArgs>? ChannelPointsCustomRewardAdd;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelPointsCustomRewardArgs>? OnChannelPointsCustomRewardUpdate;
+        public event AsyncEventHandler<ChannelPointsCustomRewardArgs>? ChannelPointsCustomRewardUpdate;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelPointsCustomRewardArgs>? OnChannelPointsCustomRewardRemove;
+        public event AsyncEventHandler<ChannelPointsCustomRewardArgs>? ChannelPointsCustomRewardRemove;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelPointsCustomRewardRedemptionArgs>? OnChannelPointsCustomRewardRedemptionAdd;
+        public event AsyncEventHandler<ChannelPointsCustomRewardRedemptionArgs>? ChannelPointsCustomRewardRedemptionAdd;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelPointsCustomRewardRedemptionArgs>? OnChannelPointsCustomRewardRedemptionUpdate;
+        public event AsyncEventHandler<ChannelPointsCustomRewardRedemptionArgs>? ChannelPointsCustomRewardRedemptionUpdate;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelPollBeginArgs>? OnChannelPollBegin;
+        public event AsyncEventHandler<ChannelPollBeginArgs>? ChannelPollBegin;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelPollEndArgs>? OnChannelPollEnd;
+        public event AsyncEventHandler<ChannelPollEndArgs>? ChannelPollEnd;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelPollProgressArgs>? OnChannelPollProgress;
+        public event AsyncEventHandler<ChannelPollProgressArgs>? ChannelPollProgress;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelPredictionBeginArgs>? OnChannelPredictionBegin;
+        public event AsyncEventHandler<ChannelPredictionBeginArgs>? ChannelPredictionBegin;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelPredictionEndArgs>? OnChannelPredictionEnd;
+        public event AsyncEventHandler<ChannelPredictionEndArgs>? ChannelPredictionEnd;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelPredictionLockArgs>? OnChannelPredictionLock;
+        public event AsyncEventHandler<ChannelPredictionLockArgs>? ChannelPredictionLock;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelPredictionProgressArgs>? OnChannelPredictionProgress;
+        public event AsyncEventHandler<ChannelPredictionProgressArgs>? ChannelPredictionProgress;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelRaidArgs>? OnChannelRaid;
+        public event AsyncEventHandler<ChannelRaidArgs>? ChannelRaid;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelShieldModeBeginArgs>? OnChannelShieldModeBegin;
+        public event AsyncEventHandler<ChannelShieldModeBeginArgs>? ChannelShieldModeBegin;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelShieldModeEndArgs>? OnChannelShieldModeEnd;
+        public event AsyncEventHandler<ChannelShieldModeEndArgs>? ChannelShieldModeEnd;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelShoutoutCreateArgs>? OnChannelShoutoutCreate;
+        public event AsyncEventHandler<ChannelShoutoutCreateArgs>? ChannelShoutoutCreate;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelShoutoutReceiveArgs>? OnChannelShoutoutReceive;
+        public event AsyncEventHandler<ChannelShoutoutReceiveArgs>? ChannelShoutoutReceive;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelSubscribeArgs>? OnChannelSubscribe;
+        public event AsyncEventHandler<ChannelSubscribeArgs>? ChannelSubscribe;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelSubscriptionEndArgs>? OnChannelSubscriptionEnd;
+        public event AsyncEventHandler<ChannelSubscriptionEndArgs>? ChannelSubscriptionEnd;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelSubscriptionGiftArgs>? OnChannelSubscriptionGift;
+        public event AsyncEventHandler<ChannelSubscriptionGiftArgs>? ChannelSubscriptionGift;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelSubscriptionMessageArgs>? OnChannelSubscriptionMessage;
+        public event AsyncEventHandler<ChannelSubscriptionMessageArgs>? ChannelSubscriptionMessage;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelUnbanArgs>? OnChannelUnban;
+        public event AsyncEventHandler<ChannelUnbanArgs>? ChannelUnban;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelUpdateArgs>? OnChannelUpdate;
-        /// <inheritdoc/>
-        public event AsyncEventHandler<OnErrorArgs>? OnError;
+        public event AsyncEventHandler<ChannelUpdateArgs>? ChannelUpdate;
         /// <inheritdoc/>
         public event AsyncEventHandler<ConduitShardDisabledArgs>? ConduitShardDisabled;
         /// <inheritdoc/>
-        public event AsyncEventHandler<DropEntitlementGrantArgs>? OnDropEntitlementGrant;
+        public event AsyncEventHandler<DropEntitlementGrantArgs>? DropEntitlementGrant;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ExtensionBitsTransactionCreateArgs>? OnExtensionBitsTransactionCreate;
+        public event AsyncEventHandler<ExtensionBitsTransactionCreateArgs>? ExtensionBitsTransactionCreate;
         /// <inheritdoc/>
-        public event AsyncEventHandler<RevocationArgs>? OnRevocation;
+        public event AsyncEventHandler<StreamOfflineArgs>? StreamOffline;
         /// <inheritdoc/>
-        public event AsyncEventHandler<StreamOfflineArgs>? OnStreamOffline;
+        public event AsyncEventHandler<StreamOnlineArgs>? StreamOnline;
         /// <inheritdoc/>
-        public event AsyncEventHandler<StreamOnlineArgs>? OnStreamOnline;
+        public event AsyncEventHandler<UserAuthorizationGrantArgs>? UserAuthorizationGrant;
         /// <inheritdoc/>
-        public event AsyncEventHandler<UserAuthorizationGrantArgs>? OnUserAuthorizationGrant;
+        public event AsyncEventHandler<UserAuthorizationRevokeArgs>? UserAuthorizationRevoke;
         /// <inheritdoc/>
-        public event AsyncEventHandler<UserAuthorizationRevokeArgs>? OnUserAuthorizationRevoke;
+        public event AsyncEventHandler<UserUpdateArgs>? UserUpdate;
         /// <inheritdoc/>
-        public event AsyncEventHandler<UserUpdateArgs>? OnUserUpdate;
+        public event AsyncEventHandler<ChannelChatClearArgs>? ChannelChatClear;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelChatClearArgs>? OnChannelChatClear;
+        public event AsyncEventHandler<ChannelChatClearUserMessageArgs>? ChannelChatClearUserMessage;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelChatClearUserMessageArgs>? OnChannelChatClearUserMessage;
+        public event AsyncEventHandler<ChannelChatMessageArgs>? ChannelChatMessage;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelChatMessageArgs>? OnChannelChatMessage;
+        public event AsyncEventHandler<ChannelChatMessageDeleteArgs>? ChannelChatMessageDelete;
         /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelChatMessageDeleteArgs>? OnChannelChatMessageDelete;
-        /// <inheritdoc/>
-        public event AsyncEventHandler<ChannelChatNotificationArgs>? OnChannelChatNotification;
+        public event AsyncEventHandler<ChannelChatNotificationArgs>? ChannelChatNotification;
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelChatSettingsUpdateArgs>? ChannelChatSettingsUpdate;
         /// <inheritdoc/>
@@ -177,14 +176,14 @@ namespace TwitchLib.EventSub.Webhooks
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelChatUserMessageUpdateArgs>? ChannelChatUserMessageUpdate;
         /// <inheritdoc/>
-        public event AsyncEventHandler<UserWhisperMessageArgs>? OnUserWhisperMessage;
+        public event AsyncEventHandler<UserWhisperMessageArgs>? UserWhisperMessage;
 
         /// <inheritdoc/>
         public async Task ProcessNotificationAsync(WebhookEventSubMetadata metadata, Stream body)
         {
             if (string.IsNullOrEmpty(metadata.SubscriptionType) || string.IsNullOrEmpty(metadata.SubscriptionVersion))
             {
-                await OnError.InvokeAsync(this, new OnErrorArgs { Reason = "Missing_Header", Message = "The Twitch-Eventsub-Subscription-Type or Twitch-Eventsub-Subscription-Version header was not found" });
+                await Error.InvokeAsync(this, new OnErrorArgs { Reason = "Missing_Header", Message = "The Twitch-Eventsub-Subscription-Type or Twitch-Eventsub-Subscription-Version header was not found" });
                 return;
             }
 
@@ -214,43 +213,43 @@ namespace TwitchLib.EventSub.Webhooks
                         await InvokeEventSubEvent<ChannelBitsUseArgs, EventSubNotificationPayload<ChannelBitUse>>(ChannelBitsUse);
                         break;
                     case ("channel.ban", "1"):
-                        await InvokeEventSubEvent<ChannelBanArgs, EventSubNotificationPayload<ChannelBan>>(OnChannelBan);
+                        await InvokeEventSubEvent<ChannelBanArgs, EventSubNotificationPayload<ChannelBan>>(ChannelBan);
                         break;
                     case ("channel.cheer", "1"):
-                        await InvokeEventSubEvent<ChannelCheerArgs, EventSubNotificationPayload<ChannelCheer>>(OnChannelCheer);
+                        await InvokeEventSubEvent<ChannelCheerArgs, EventSubNotificationPayload<ChannelCheer>>(ChannelCheer);
                         break;
                     case ("channel.charity_campaign.start", "1"):
-                        await InvokeEventSubEvent<ChannelCharityCampaignStartArgs, EventSubNotificationPayload<ChannelCharityCampaignStart>>(OnChannelCharityCampaignStart);
+                        await InvokeEventSubEvent<ChannelCharityCampaignStartArgs, EventSubNotificationPayload<ChannelCharityCampaignStart>>(ChannelCharityCampaignStart);
                         break;
                     case ("channel.charity_campaign.donate", "1"):
-                        await InvokeEventSubEvent<ChannelCharityCampaignDonateArgs, EventSubNotificationPayload<ChannelCharityCampaignDonate>>(OnChannelCharityCampaignDonate);
+                        await InvokeEventSubEvent<ChannelCharityCampaignDonateArgs, EventSubNotificationPayload<ChannelCharityCampaignDonate>>(ChannelCharityCampaignDonate);
                         break;
                     case ("channel.charity_campaign.progress", "1"):
-                        await InvokeEventSubEvent<ChannelCharityCampaignProgressArgs, EventSubNotificationPayload<ChannelCharityCampaignProgress>>(OnChannelCharityCampaignProgress);
+                        await InvokeEventSubEvent<ChannelCharityCampaignProgressArgs, EventSubNotificationPayload<ChannelCharityCampaignProgress>>(ChannelCharityCampaignProgress);
                         break;
                     case ("channel.charity_campaign.stop", "1"):
-                        await InvokeEventSubEvent<ChannelCharityCampaignStopArgs, EventSubNotificationPayload<ChannelCharityCampaignStop>>(OnChannelCharityCampaignStop);
+                        await InvokeEventSubEvent<ChannelCharityCampaignStopArgs, EventSubNotificationPayload<ChannelCharityCampaignStop>>(ChannelCharityCampaignStop);
                         break;
                     case ("channel.follow", "2"):
-                        await InvokeEventSubEvent<ChannelFollowArgs, EventSubNotificationPayload<ChannelFollow>>(OnChannelFollow);
+                        await InvokeEventSubEvent<ChannelFollowArgs, EventSubNotificationPayload<ChannelFollow>>(ChannelFollow);
                         break;
                     case ("channel.goal.begin", "1"):
-                        await InvokeEventSubEvent<ChannelGoalBeginArgs, EventSubNotificationPayload<ChannelGoalBegin>>(OnChannelGoalBegin);
+                        await InvokeEventSubEvent<ChannelGoalBeginArgs, EventSubNotificationPayload<ChannelGoalBegin>>(ChannelGoalBegin);
                         break;
                     case ("channel.goal.end", "1"):
-                        await InvokeEventSubEvent<ChannelGoalEndArgs, EventSubNotificationPayload<ChannelGoalEnd>>(OnChannelGoalEnd);
+                        await InvokeEventSubEvent<ChannelGoalEndArgs, EventSubNotificationPayload<ChannelGoalEnd>>(ChannelGoalEnd);
                         break;
                     case ("channel.goal.progress", "1"):
-                        await InvokeEventSubEvent<ChannelGoalProgressArgs, EventSubNotificationPayload<ChannelGoalProgress>>(OnChannelGoalProgress);
+                        await InvokeEventSubEvent<ChannelGoalProgressArgs, EventSubNotificationPayload<ChannelGoalProgress>>(ChannelGoalProgress);
                         break;
                     case ("channel.hype_train.begin", "2"):
-                        await InvokeEventSubEvent<ChannelHypeTrainBeginV2Args, EventSubNotificationPayload<HypeTrainBeginV2>>(OnChannelHypeTrainBeginV2);
+                        await InvokeEventSubEvent<ChannelHypeTrainBeginV2Args, EventSubNotificationPayload<HypeTrainBeginV2>>(ChannelHypeTrainBeginV2);
                         break;
                     case ("channel.hype_train.end", "2"):
-                        await InvokeEventSubEvent<ChannelHypeTrainEndV2Args, EventSubNotificationPayload<HypeTrainEndV2>>(OnChannelHypeTrainEndV2);
+                        await InvokeEventSubEvent<ChannelHypeTrainEndV2Args, EventSubNotificationPayload<HypeTrainEndV2>>(ChannelHypeTrainEndV2);
                         break;
                     case ("channel.hype_train.progress", "2"):
-                        await InvokeEventSubEvent<ChannelHypeTrainProgressV2Args, EventSubNotificationPayload<HypeTrainProgressV2>>(OnChannelHypeTrainProgressV2);
+                        await InvokeEventSubEvent<ChannelHypeTrainProgressV2Args, EventSubNotificationPayload<HypeTrainProgressV2>>(ChannelHypeTrainProgressV2);
                         break;
                     case ("channel.moderate", "1"):
                         await InvokeEventSubEvent<ChannelModerateArgs, EventSubNotificationPayload<ChannelModerate>>(ChannelModerate);
@@ -259,10 +258,10 @@ namespace TwitchLib.EventSub.Webhooks
                         await InvokeEventSubEvent<ChannelModerateV2Args, EventSubNotificationPayload<ChannelModerateV2>>(ChannelModerateV2);
                         break;
                     case ("channel.moderator.add", "1"):
-                        await InvokeEventSubEvent<ChannelModeratorArgs, EventSubNotificationPayload<ChannelModerator>>(OnChannelModeratorAdd);
+                        await InvokeEventSubEvent<ChannelModeratorArgs, EventSubNotificationPayload<ChannelModerator>>(ChannelModeratorAdd);
                         break;
                     case ("channel.moderator.remove", "1"):
-                        await InvokeEventSubEvent<ChannelModeratorArgs, EventSubNotificationPayload<ChannelModerator>>(OnChannelModeratorRemove);
+                        await InvokeEventSubEvent<ChannelModeratorArgs, EventSubNotificationPayload<ChannelModerator>>(ChannelModeratorRemove);
                         break;
                     case ("channel.channel_points_automatic_reward_redemption.add", "1"):
                         await InvokeEventSubEvent<ChannelPointsAutomaticRewardRedemptionAddArgs, EventSubNotificationPayload<ChannelPointsAutomaticRewardRedemption>>(ChannelPointsAutomaticRewardRedemptionAdd);
@@ -271,112 +270,112 @@ namespace TwitchLib.EventSub.Webhooks
                         await InvokeEventSubEvent<ChannelPointsAutomaticRewardRedemptionAddV2Args, EventSubNotificationPayload<ChannelPointsAutomaticRewardRedemptionV2>>(ChannelPointsAutomaticRewardRedemptionAddV2);
                         break;
                     case ("channel.channel_points_custom_reward.add", "1"):
-                        await InvokeEventSubEvent<ChannelPointsCustomRewardArgs, EventSubNotificationPayload<ChannelPointsCustomReward>>(OnChannelPointsCustomRewardAdd);
+                        await InvokeEventSubEvent<ChannelPointsCustomRewardArgs, EventSubNotificationPayload<ChannelPointsCustomReward>>(ChannelPointsCustomRewardAdd);
                         break;
                     case ("channel.channel_points_custom_reward.remove", "1"):
-                        await InvokeEventSubEvent<ChannelPointsCustomRewardArgs, EventSubNotificationPayload<ChannelPointsCustomReward>>(OnChannelPointsCustomRewardRemove);
+                        await InvokeEventSubEvent<ChannelPointsCustomRewardArgs, EventSubNotificationPayload<ChannelPointsCustomReward>>(ChannelPointsCustomRewardRemove);
                         break;
                     case ("channel.channel_points_custom_reward.update", "1"):
-                        await InvokeEventSubEvent<ChannelPointsCustomRewardArgs, EventSubNotificationPayload<ChannelPointsCustomReward>>(OnChannelPointsCustomRewardUpdate);
+                        await InvokeEventSubEvent<ChannelPointsCustomRewardArgs, EventSubNotificationPayload<ChannelPointsCustomReward>>(ChannelPointsCustomRewardUpdate);
                         break;
                     case ("channel.channel_points_custom_reward_redemption.add", "1"):
-                        await InvokeEventSubEvent<ChannelPointsCustomRewardRedemptionArgs, EventSubNotificationPayload<ChannelPointsCustomRewardRedemption>>(OnChannelPointsCustomRewardRedemptionAdd);
+                        await InvokeEventSubEvent<ChannelPointsCustomRewardRedemptionArgs, EventSubNotificationPayload<ChannelPointsCustomRewardRedemption>>(ChannelPointsCustomRewardRedemptionAdd);
                         break;
                     case ("channel.channel_points_custom_reward_redemption.update", "1"):
-                        await InvokeEventSubEvent<ChannelPointsCustomRewardRedemptionArgs, EventSubNotificationPayload<ChannelPointsCustomRewardRedemption>>(OnChannelPointsCustomRewardRedemptionUpdate);
+                        await InvokeEventSubEvent<ChannelPointsCustomRewardRedemptionArgs, EventSubNotificationPayload<ChannelPointsCustomRewardRedemption>>(ChannelPointsCustomRewardRedemptionUpdate);
                         break;
                     case ("channel.poll.begin", "1"):
-                        await InvokeEventSubEvent<ChannelPollBeginArgs, EventSubNotificationPayload<ChannelPollBegin>>(OnChannelPollBegin);
+                        await InvokeEventSubEvent<ChannelPollBeginArgs, EventSubNotificationPayload<ChannelPollBegin>>(ChannelPollBegin);
                         break;
                     case ("channel.poll.end", "1"):
-                        await InvokeEventSubEvent<ChannelPollEndArgs, EventSubNotificationPayload<ChannelPollEnd>>(OnChannelPollEnd);
+                        await InvokeEventSubEvent<ChannelPollEndArgs, EventSubNotificationPayload<ChannelPollEnd>>(ChannelPollEnd);
                         break;
                     case ("channel.poll.progress", "1"):
-                        await InvokeEventSubEvent<ChannelPollProgressArgs, EventSubNotificationPayload<ChannelPollProgress>>(OnChannelPollProgress);
+                        await InvokeEventSubEvent<ChannelPollProgressArgs, EventSubNotificationPayload<ChannelPollProgress>>(ChannelPollProgress);
                         break;
                     case ("channel.prediction.begin", "1"):
-                        await InvokeEventSubEvent<ChannelPredictionBeginArgs, EventSubNotificationPayload<ChannelPredictionBegin>>(OnChannelPredictionBegin);
+                        await InvokeEventSubEvent<ChannelPredictionBeginArgs, EventSubNotificationPayload<ChannelPredictionBegin>>(ChannelPredictionBegin);
                         break;
                     case ("channel.prediction.end", "1"):
-                        await InvokeEventSubEvent<ChannelPredictionEndArgs, EventSubNotificationPayload<ChannelPredictionEnd>>(OnChannelPredictionEnd);
+                        await InvokeEventSubEvent<ChannelPredictionEndArgs, EventSubNotificationPayload<ChannelPredictionEnd>>(ChannelPredictionEnd);
                         break;
                     case ("channel.prediction.lock", "1"):
-                        await InvokeEventSubEvent<ChannelPredictionLockArgs, EventSubNotificationPayload<ChannelPredictionLock>>(OnChannelPredictionLock);
+                        await InvokeEventSubEvent<ChannelPredictionLockArgs, EventSubNotificationPayload<ChannelPredictionLock>>(ChannelPredictionLock);
                         break;
                     case ("channel.prediction.progress", "1"):
-                        await InvokeEventSubEvent<ChannelPredictionProgressArgs, EventSubNotificationPayload<ChannelPredictionProgress>>(OnChannelPredictionProgress);
+                        await InvokeEventSubEvent<ChannelPredictionProgressArgs, EventSubNotificationPayload<ChannelPredictionProgress>>(ChannelPredictionProgress);
                         break;
                     case ("channel.raid", "1"):
-                        await InvokeEventSubEvent<ChannelRaidArgs, EventSubNotificationPayload<ChannelRaid>>(OnChannelRaid);
+                        await InvokeEventSubEvent<ChannelRaidArgs, EventSubNotificationPayload<ChannelRaid>>(ChannelRaid);
                         break;
                     case ("channel.shield_mode.begin", "1"):
-                        await InvokeEventSubEvent<ChannelShieldModeBeginArgs, EventSubNotificationPayload<ChannelShieldModeBegin>>(OnChannelShieldModeBegin);
+                        await InvokeEventSubEvent<ChannelShieldModeBeginArgs, EventSubNotificationPayload<ChannelShieldModeBegin>>(ChannelShieldModeBegin);
                         break;
                     case ("channel.shield_mode.end", "1"):
-                        await InvokeEventSubEvent<ChannelShieldModeEndArgs, EventSubNotificationPayload<ChannelShieldModeEnd>>(OnChannelShieldModeEnd);
+                        await InvokeEventSubEvent<ChannelShieldModeEndArgs, EventSubNotificationPayload<ChannelShieldModeEnd>>(ChannelShieldModeEnd);
                         break;
                     case ("channel.shoutout.create", "1"):
-                        await InvokeEventSubEvent<ChannelShoutoutCreateArgs, EventSubNotificationPayload<ChannelShoutoutCreate>>(OnChannelShoutoutCreate);
+                        await InvokeEventSubEvent<ChannelShoutoutCreateArgs, EventSubNotificationPayload<ChannelShoutoutCreate>>(ChannelShoutoutCreate);
                         break;
                     case ("channel.shoutout.receive", "1"):
-                        await InvokeEventSubEvent<ChannelShoutoutReceiveArgs, EventSubNotificationPayload<ChannelShoutoutReceive>>(OnChannelShoutoutReceive);
+                        await InvokeEventSubEvent<ChannelShoutoutReceiveArgs, EventSubNotificationPayload<ChannelShoutoutReceive>>(ChannelShoutoutReceive);
                         break;
                     case ("channel.subscribe", "1"):
-                        await InvokeEventSubEvent<ChannelSubscribeArgs, EventSubNotificationPayload<ChannelSubscribe>>(OnChannelSubscribe);
+                        await InvokeEventSubEvent<ChannelSubscribeArgs, EventSubNotificationPayload<ChannelSubscribe>>(ChannelSubscribe);
                         break;
                     case ("channel.subscription.end", "1"):
-                        await InvokeEventSubEvent<ChannelSubscriptionEndArgs, EventSubNotificationPayload<ChannelSubscriptionEnd>>(OnChannelSubscriptionEnd);
+                        await InvokeEventSubEvent<ChannelSubscriptionEndArgs, EventSubNotificationPayload<ChannelSubscriptionEnd>>(ChannelSubscriptionEnd);
                         break;
                     case ("channel.subscription.gift", "1"):
-                        await InvokeEventSubEvent<ChannelSubscriptionGiftArgs, EventSubNotificationPayload<ChannelSubscriptionGift>>(OnChannelSubscriptionGift);
+                        await InvokeEventSubEvent<ChannelSubscriptionGiftArgs, EventSubNotificationPayload<ChannelSubscriptionGift>>(ChannelSubscriptionGift);
                         break;
                     case ("channel.subscription.message", "1"):
-                        await InvokeEventSubEvent<ChannelSubscriptionMessageArgs, EventSubNotificationPayload<ChannelSubscriptionMessage>>(OnChannelSubscriptionMessage);
+                        await InvokeEventSubEvent<ChannelSubscriptionMessageArgs, EventSubNotificationPayload<ChannelSubscriptionMessage>>(ChannelSubscriptionMessage);
                         break;
                     case ("channel.unban", "1"):
-                        await InvokeEventSubEvent<ChannelUnbanArgs, EventSubNotificationPayload<ChannelUnban>>(OnChannelUnban);
+                        await InvokeEventSubEvent<ChannelUnbanArgs, EventSubNotificationPayload<ChannelUnban>>(ChannelUnban);
                         break;
                     case ("channel.update", "2"):
-                        await InvokeEventSubEvent<ChannelUpdateArgs, EventSubNotificationPayload<ChannelUpdate>>(OnChannelUpdate);
+                        await InvokeEventSubEvent<ChannelUpdateArgs, EventSubNotificationPayload<ChannelUpdate>>(ChannelUpdate);
                         break;
                     case ("drop.entitlement.grant", "1"):
-                        await InvokeEventSubEvent<DropEntitlementGrantArgs, BatchedNotificationPayload<DropEntitlementGrant>>(OnDropEntitlementGrant);
+                        await InvokeEventSubEvent<DropEntitlementGrantArgs, BatchedNotificationPayload<DropEntitlementGrant>>(DropEntitlementGrant);
                         break;
                     case ("conduit.shard.disabled", "1"):
                         await InvokeEventSubEvent<ConduitShardDisabledArgs, EventSubNotificationPayload<ConduitShardDisabled>>(ConduitShardDisabled);
                         break;
                     case ("extension.bits_transaction.create", "1"):
-                        await InvokeEventSubEvent<ExtensionBitsTransactionCreateArgs, EventSubNotificationPayload<ExtensionBitsTransactionCreate>>(OnExtensionBitsTransactionCreate);
+                        await InvokeEventSubEvent<ExtensionBitsTransactionCreateArgs, EventSubNotificationPayload<ExtensionBitsTransactionCreate>>(ExtensionBitsTransactionCreate);
                         break;
                     case ("stream.offline", "1"):
-                        await InvokeEventSubEvent<StreamOfflineArgs, EventSubNotificationPayload<StreamOffline>>(OnStreamOffline);
+                        await InvokeEventSubEvent<StreamOfflineArgs, EventSubNotificationPayload<StreamOffline>>(StreamOffline);
                         break;
                     case ("stream.online", "1"):
-                        await InvokeEventSubEvent<StreamOnlineArgs, EventSubNotificationPayload<StreamOnline>>(OnStreamOnline);
+                        await InvokeEventSubEvent<StreamOnlineArgs, EventSubNotificationPayload<StreamOnline>>(StreamOnline);
                         break;
                     case ("user.authorization.grant", "1"):
-                        await InvokeEventSubEvent<UserAuthorizationGrantArgs, EventSubNotificationPayload<UserAuthorizationGrant>>(OnUserAuthorizationGrant);
+                        await InvokeEventSubEvent<UserAuthorizationGrantArgs, EventSubNotificationPayload<UserAuthorizationGrant>>(UserAuthorizationGrant);
                         break;
                     case ("user.authorization.revoke", "1"):
-                        await InvokeEventSubEvent<UserAuthorizationRevokeArgs, EventSubNotificationPayload<UserAuthorizationRevoke>>(OnUserAuthorizationRevoke);
+                        await InvokeEventSubEvent<UserAuthorizationRevokeArgs, EventSubNotificationPayload<UserAuthorizationRevoke>>(UserAuthorizationRevoke);
                         break;
                     case ("user.update", "1"):
-                        await InvokeEventSubEvent<UserUpdateArgs, EventSubNotificationPayload<UserUpdate>>(OnUserUpdate);
+                        await InvokeEventSubEvent<UserUpdateArgs, EventSubNotificationPayload<UserUpdate>>(UserUpdate);
                         break;
                     case ("channel.chat.clear", "1"):
-                        await InvokeEventSubEvent<ChannelChatClearArgs, EventSubNotificationPayload<ChannelChatClear>>(OnChannelChatClear);
+                        await InvokeEventSubEvent<ChannelChatClearArgs, EventSubNotificationPayload<ChannelChatClear>>(ChannelChatClear);
                         break;
                     case ("channel.chat.clear_user_messages", "1"):
-                        await InvokeEventSubEvent<ChannelChatClearUserMessageArgs, EventSubNotificationPayload<ChannelChatClearUserMessage>>(OnChannelChatClearUserMessage);
+                        await InvokeEventSubEvent<ChannelChatClearUserMessageArgs, EventSubNotificationPayload<ChannelChatClearUserMessage>>(ChannelChatClearUserMessage);
                         break;
                     case ("channel.chat.message", "1"):
-                        await InvokeEventSubEvent<ChannelChatMessageArgs, EventSubNotificationPayload<ChannelChatMessage>>(OnChannelChatMessage);
+                        await InvokeEventSubEvent<ChannelChatMessageArgs, EventSubNotificationPayload<ChannelChatMessage>>(ChannelChatMessage);
                         break;
                     case ("channel.chat.message_delete", "1"):
-                        await InvokeEventSubEvent<ChannelChatMessageDeleteArgs, EventSubNotificationPayload<ChannelChatMessageDelete>>(OnChannelChatMessageDelete);
+                        await InvokeEventSubEvent<ChannelChatMessageDeleteArgs, EventSubNotificationPayload<ChannelChatMessageDelete>>(ChannelChatMessageDelete);
                         break;
                     case ("channel.chat.notification", "1"):
-                        await InvokeEventSubEvent<ChannelChatNotificationArgs, EventSubNotificationPayload<ChannelChatNotification>>(OnChannelChatNotification);
+                        await InvokeEventSubEvent<ChannelChatNotificationArgs, EventSubNotificationPayload<ChannelChatNotification>>(ChannelChatNotification);
                         break;
                     case ("channel.chat_settings.update", "1"):
                         await InvokeEventSubEvent<ChannelChatSettingsUpdateArgs, EventSubNotificationPayload<ChannelChatSettingsUpdate>>(ChannelChatSettingsUpdate);
@@ -388,7 +387,7 @@ namespace TwitchLib.EventSub.Webhooks
                         await InvokeEventSubEvent<ChannelChatUserMessageUpdateArgs, EventSubNotificationPayload<ChannelChatUserMessageUpdate>>(ChannelChatUserMessageUpdate);
                         break;
                     case ("user.whisper.message", "1"):
-                        await InvokeEventSubEvent<UserWhisperMessageArgs, EventSubNotificationPayload<UserWhisperMessage>>(OnUserWhisperMessage);
+                        await InvokeEventSubEvent<UserWhisperMessageArgs, EventSubNotificationPayload<UserWhisperMessage>>(UserWhisperMessage);
                         break;
                     default:
                         await InvokeEventSubEvent<UnknownEventSubNotificationArgs, EventSubNotificationPayload<JsonElement>>(UnknownEventSubNotification);
@@ -397,7 +396,7 @@ namespace TwitchLib.EventSub.Webhooks
             }
             catch (Exception ex)
             {
-                await OnError.InvokeAsync(this, new OnErrorArgs { Reason = "Application_Error", Message = ex.Message });
+                await Error.InvokeAsync(this, new OnErrorArgs { Reason = "Application_Error", Message = ex.Message });
             }
 
             async Task InvokeEventSubEvent<TEvent, TModel>(AsyncEventHandler<TEvent>? asyncEventHandler)
@@ -415,11 +414,11 @@ namespace TwitchLib.EventSub.Webhooks
             try
             {
                 var notification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<object>>(body, _jsonSerializerOptions);
-                await OnRevocation.InvokeAsync(this, new RevocationArgs { Metadata = metadata, Notification = notification! });
+                await Revocation.InvokeAsync(this, new RevocationArgs { Metadata = metadata, Notification = notification! });
             }
             catch (Exception ex)
             {
-                await OnError.InvokeAsync(this, new OnErrorArgs { Reason = "Application_Error", Message = ex.Message });
+                await Error.InvokeAsync(this, new OnErrorArgs { Reason = "Application_Error", Message = ex.Message });
             }
         }
     }

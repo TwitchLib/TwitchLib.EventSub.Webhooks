@@ -20,6 +20,14 @@ namespace TwitchLib.EventSub.Webhooks.Core
     public interface IEventSubWebhooks
     {
         /// <summary>
+        /// Event that triggers if an error parsing a notification or revocation was encountered
+        /// </summary>
+        event AsyncEventHandler<OnErrorArgs>? Error;
+        /// <summary>
+        /// Event that triggers on if a revocation notification was received
+        /// </summary>
+        event AsyncEventHandler<RevocationArgs>? Revocation;
+        /// <summary>
         /// Event that triggers when EventSub send notification, that's unknown. (ie.: not implementet ... yet!)
         /// </summary>
         event AsyncEventHandler<UnknownEventSubNotificationArgs>? UnknownEventSubNotification;
@@ -54,55 +62,55 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// <summary>
         /// Event that triggers on "channel.ban" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelBanArgs>? OnChannelBan;
+        event AsyncEventHandler<ChannelBanArgs>? ChannelBan;
         /// <summary>
         /// Event that triggers on "channel.cheer" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelCheerArgs>? OnChannelCheer;
+        event AsyncEventHandler<ChannelCheerArgs>? ChannelCheer;
         /// <summary>
         /// Event that triggers on "channel.charity_campaign.start" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelCharityCampaignStartArgs>? OnChannelCharityCampaignStart;
+        event AsyncEventHandler<ChannelCharityCampaignStartArgs>? ChannelCharityCampaignStart;
         /// <summary>
         /// Event that triggers on "channel.charity_campaign.donate" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelCharityCampaignDonateArgs>? OnChannelCharityCampaignDonate;
+        event AsyncEventHandler<ChannelCharityCampaignDonateArgs>? ChannelCharityCampaignDonate;
         /// <summary>
         /// Event that triggers on "channel.charity_campaign.progress" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelCharityCampaignProgressArgs>? OnChannelCharityCampaignProgress;
+        event AsyncEventHandler<ChannelCharityCampaignProgressArgs>? ChannelCharityCampaignProgress;
         /// <summary>
         /// Event that triggers on "channel.charity_campaign.stop" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelCharityCampaignStopArgs>? OnChannelCharityCampaignStop;
+        event AsyncEventHandler<ChannelCharityCampaignStopArgs>? ChannelCharityCampaignStop;
         /// <summary>
         /// Event that triggers on "channel.follow" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelFollowArgs>? OnChannelFollow;
+        event AsyncEventHandler<ChannelFollowArgs>? ChannelFollow;
         /// <summary>
         /// Event that triggers on "channel.goal.begin" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelGoalBeginArgs>? OnChannelGoalBegin;
+        event AsyncEventHandler<ChannelGoalBeginArgs>? ChannelGoalBegin;
         /// <summary>
         /// Event that triggers on "channel.goal.end" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelGoalEndArgs>? OnChannelGoalEnd;
+        event AsyncEventHandler<ChannelGoalEndArgs>? ChannelGoalEnd;
         /// <summary>
         /// Event that triggers on "channel.goal.progress" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelGoalProgressArgs>? OnChannelGoalProgress;
+        event AsyncEventHandler<ChannelGoalProgressArgs>? ChannelGoalProgress;
         /// <summary>
         /// Event that triggers on "channel.hype_train.begin" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelHypeTrainBeginV2Args>? OnChannelHypeTrainBeginV2;
+        event AsyncEventHandler<ChannelHypeTrainBeginV2Args>? ChannelHypeTrainBeginV2;
         /// <summary>
         /// Event that triggers on "channel.hype_train.end" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelHypeTrainEndV2Args>? OnChannelHypeTrainEndV2;
+        event AsyncEventHandler<ChannelHypeTrainEndV2Args>? ChannelHypeTrainEndV2;
         /// <summary>
         /// Event that triggers on "channel.hype_train.progress" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelHypeTrainProgressV2Args>? OnChannelHypeTrainProgressV2;
+        event AsyncEventHandler<ChannelHypeTrainProgressV2Args>? ChannelHypeTrainProgressV2;
         /// <summary>
         /// Event that triggers on "channel.moderate" notifications
         /// </summary>
@@ -114,11 +122,11 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// <summary>
         /// Event that triggers on "channel.moderator.add" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelModeratorArgs>? OnChannelModeratorAdd;
+        event AsyncEventHandler<ChannelModeratorArgs>? ChannelModeratorAdd;
         /// <summary>
         /// Event that triggers on "channel.moderator.remove" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelModeratorArgs>? OnChannelModeratorRemove;
+        event AsyncEventHandler<ChannelModeratorArgs>? ChannelModeratorRemove;
         /// <summary>
         /// Event that triggers on "channel.channel_points_automatic_reward_redemption.add" notifications
         /// </summary>
@@ -130,99 +138,95 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// <summary>
         /// Event that triggers on "channel.channel_points_custom_reward.add" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelPointsCustomRewardArgs>? OnChannelPointsCustomRewardAdd;
+        event AsyncEventHandler<ChannelPointsCustomRewardArgs>? ChannelPointsCustomRewardAdd;
         /// <summary>
         /// Event that triggers on "channel.channel_points_custom_reward.update" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelPointsCustomRewardArgs>? OnChannelPointsCustomRewardUpdate;
+        event AsyncEventHandler<ChannelPointsCustomRewardArgs>? ChannelPointsCustomRewardUpdate;
         /// <summary>
         /// Event that triggers on "channel.channel_points_custom_reward.remove" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelPointsCustomRewardArgs>? OnChannelPointsCustomRewardRemove;
+        event AsyncEventHandler<ChannelPointsCustomRewardArgs>? ChannelPointsCustomRewardRemove;
         /// <summary>
         /// Event that triggers on "channel.channel_points_custom_reward_redemption.add" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelPointsCustomRewardRedemptionArgs>? OnChannelPointsCustomRewardRedemptionAdd;
+        event AsyncEventHandler<ChannelPointsCustomRewardRedemptionArgs>? ChannelPointsCustomRewardRedemptionAdd;
         /// <summary>
         /// Event that triggers on "channel.channel_points_custom_reward_redemption.update" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelPointsCustomRewardRedemptionArgs>? OnChannelPointsCustomRewardRedemptionUpdate;
+        event AsyncEventHandler<ChannelPointsCustomRewardRedemptionArgs>? ChannelPointsCustomRewardRedemptionUpdate;
         /// <summary>
         /// Event that triggers on "channel.poll.begin" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelPollBeginArgs>? OnChannelPollBegin;
+        event AsyncEventHandler<ChannelPollBeginArgs>? ChannelPollBegin;
         /// <summary>
         /// Event that triggers on "channel.poll.end" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelPollEndArgs>? OnChannelPollEnd;
+        event AsyncEventHandler<ChannelPollEndArgs>? ChannelPollEnd;
         /// <summary>
         /// Event that triggers on "channel.poll.progress" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelPollProgressArgs>? OnChannelPollProgress;
+        event AsyncEventHandler<ChannelPollProgressArgs>? ChannelPollProgress;
         /// <summary>
         /// Event that triggers on "channel.prediction.begin" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelPredictionBeginArgs>? OnChannelPredictionBegin;
+        event AsyncEventHandler<ChannelPredictionBeginArgs>? ChannelPredictionBegin;
         /// <summary>
         /// Event that triggers on "channel.prediction.end" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelPredictionEndArgs>? OnChannelPredictionEnd;
+        event AsyncEventHandler<ChannelPredictionEndArgs>? ChannelPredictionEnd;
         /// <summary>
         /// Event that triggers on "channel.prediction.lock" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelPredictionLockArgs>? OnChannelPredictionLock;
+        event AsyncEventHandler<ChannelPredictionLockArgs>? ChannelPredictionLock;
         /// <summary>
         /// Event that triggers on "channel.prediction.progress" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelPredictionProgressArgs>? OnChannelPredictionProgress;
+        event AsyncEventHandler<ChannelPredictionProgressArgs>? ChannelPredictionProgress;
         /// <summary>
         /// Event that triggers on "channel.raid" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelRaidArgs>? OnChannelRaid;
+        event AsyncEventHandler<ChannelRaidArgs>? ChannelRaid;
         /// <summary>
         /// Event that triggers on "channel.shield_mode.begin" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelShieldModeBeginArgs>? OnChannelShieldModeBegin;
+        event AsyncEventHandler<ChannelShieldModeBeginArgs>? ChannelShieldModeBegin;
         /// <summary>
         /// Event that triggers on "channel.shield_mode.end" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelShieldModeEndArgs>? OnChannelShieldModeEnd;
+        event AsyncEventHandler<ChannelShieldModeEndArgs>? ChannelShieldModeEnd;
         /// <summary>
         /// Event that triggers on "channel.shoutout.create" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelShoutoutCreateArgs>? OnChannelShoutoutCreate;
+        event AsyncEventHandler<ChannelShoutoutCreateArgs>? ChannelShoutoutCreate;
         /// <summary>
         /// Event that triggers on "channel.shoutout.receive" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelShoutoutReceiveArgs>? OnChannelShoutoutReceive;
+        event AsyncEventHandler<ChannelShoutoutReceiveArgs>? ChannelShoutoutReceive;
         /// <summary>
         /// Event that triggers on "channel.subscribe" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelSubscribeArgs>? OnChannelSubscribe;
+        event AsyncEventHandler<ChannelSubscribeArgs>? ChannelSubscribe;
         /// <summary>
         /// Event that triggers on "channel.subscription.end" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelSubscriptionEndArgs>? OnChannelSubscriptionEnd;
+        event AsyncEventHandler<ChannelSubscriptionEndArgs>? ChannelSubscriptionEnd;
         /// <summary>
         /// Event that triggers on "channel.subscription.gift" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelSubscriptionGiftArgs>? OnChannelSubscriptionGift;
+        event AsyncEventHandler<ChannelSubscriptionGiftArgs>? ChannelSubscriptionGift;
         /// <summary>
         /// Event that triggers on "channel.subscription.end" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelSubscriptionMessageArgs>? OnChannelSubscriptionMessage;
+        event AsyncEventHandler<ChannelSubscriptionMessageArgs>? ChannelSubscriptionMessage;
         /// <summary>
         /// Event that triggers on "channel.unban" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelUnbanArgs>? OnChannelUnban;
+        event AsyncEventHandler<ChannelUnbanArgs>? ChannelUnban;
         /// <summary>
         /// Event that triggers on "channel.update" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelUpdateArgs>? OnChannelUpdate;
-        /// <summary>
-        /// Event that triggers if an error parsing a notification or revocation was encountered
-        /// </summary>
-        event AsyncEventHandler<OnErrorArgs>? OnError;
+        event AsyncEventHandler<ChannelUpdateArgs>? ChannelUpdate;
         /// <summary>
         /// Event that triggers on "conduit.shard.disabled" notifications
         /// </summary>
@@ -230,55 +234,51 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// <summary>
         /// Event that triggers on "drop.entitlement.grant" notifications
         /// </summary>
-        event AsyncEventHandler<DropEntitlementGrantArgs>? OnDropEntitlementGrant;
+        event AsyncEventHandler<DropEntitlementGrantArgs>? DropEntitlementGrant;
         /// <summary>
         /// Event that triggers on "extension.bits_transaction.create" notifications
         /// </summary>
-        event AsyncEventHandler<ExtensionBitsTransactionCreateArgs>? OnExtensionBitsTransactionCreate;
-        /// <summary>
-        /// Event that triggers on if a revocation notification was received
-        /// </summary>
-        event AsyncEventHandler<RevocationArgs>? OnRevocation;
+        event AsyncEventHandler<ExtensionBitsTransactionCreateArgs>? ExtensionBitsTransactionCreate;
         /// <summary>
         /// Event that triggers on "stream.offline" notifications
         /// </summary>
-        event AsyncEventHandler<StreamOfflineArgs>? OnStreamOffline;
+        event AsyncEventHandler<StreamOfflineArgs>? StreamOffline;
         /// <summary>
         /// Event that triggers on "stream.online" notifications
         /// </summary>
-        event AsyncEventHandler<StreamOnlineArgs>? OnStreamOnline;
+        event AsyncEventHandler<StreamOnlineArgs>? StreamOnline;
         /// <summary>
         /// Event that triggers on "user.authorization.grant" notifications
         /// </summary>
-        event AsyncEventHandler<UserAuthorizationGrantArgs>? OnUserAuthorizationGrant;
+        event AsyncEventHandler<UserAuthorizationGrantArgs>? UserAuthorizationGrant;
         /// <summary>
         /// Event that triggers on "user.authorization.revoke" notifications
         /// </summary>
-        event AsyncEventHandler<UserAuthorizationRevokeArgs>? OnUserAuthorizationRevoke;
+        event AsyncEventHandler<UserAuthorizationRevokeArgs>? UserAuthorizationRevoke;
         /// <summary>
         /// Event that triggers on "user.update" notifications
         /// </summary>
-        event AsyncEventHandler<UserUpdateArgs>? OnUserUpdate;
+        event AsyncEventHandler<UserUpdateArgs>? UserUpdate;
         /// <summary>
         /// Event that triggers on "channel.chat.clear" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelChatClearArgs>? OnChannelChatClear;
+        event AsyncEventHandler<ChannelChatClearArgs>? ChannelChatClear;
         /// <summary>
         /// Event that triggers on "channel.chat.clear_user_messages" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelChatClearUserMessageArgs>? OnChannelChatClearUserMessage;
+        event AsyncEventHandler<ChannelChatClearUserMessageArgs>? ChannelChatClearUserMessage;
         /// <summary>
         /// Event that triggers on "channel.chat.message" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelChatMessageArgs>? OnChannelChatMessage;
+        event AsyncEventHandler<ChannelChatMessageArgs>? ChannelChatMessage;
         /// <summary>
         /// Event that triggers on "channel.chat.message_delete" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelChatMessageDeleteArgs>? OnChannelChatMessageDelete;
+        event AsyncEventHandler<ChannelChatMessageDeleteArgs>? ChannelChatMessageDelete;
         /// <summary>
         /// Event that triggers on "channel.chat.notification" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelChatNotificationArgs>? OnChannelChatNotification;
+        event AsyncEventHandler<ChannelChatNotificationArgs>? ChannelChatNotification;
         /// <summary>
         /// Event that triggers on "channel.chat_settings.update" notifications
         /// </summary>

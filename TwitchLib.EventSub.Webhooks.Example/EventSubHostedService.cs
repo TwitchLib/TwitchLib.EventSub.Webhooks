@@ -17,17 +17,17 @@ namespace TwitchLib.EventSub.Webhooks.Example
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _eventSubWebhooks.OnError += OnError;
+            _eventSubWebhooks.Error += OnError;
             _eventSubWebhooks.UnknownEventSubNotification += OnUnknownEventSubNotification;
-            _eventSubWebhooks.OnChannelFollow += OnChannelFollow;
+            _eventSubWebhooks.ChannelFollow += OnChannelFollow;
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _eventSubWebhooks.OnError -= OnError;
+            _eventSubWebhooks.Error -= OnError;
             _eventSubWebhooks.UnknownEventSubNotification += OnUnknownEventSubNotification;
-            _eventSubWebhooks.OnChannelFollow -= OnChannelFollow;
+            _eventSubWebhooks.ChannelFollow -= OnChannelFollow;
             return Task.CompletedTask;
         }
 
