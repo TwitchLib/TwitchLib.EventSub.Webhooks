@@ -48,7 +48,7 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
         {
             context.Response.StatusCode = statusCode;
             context.Response.ContentType = contentType;
-            await  context.Response.WriteAsync(responseBody);
+            await context.Response.WriteAsync(responseBody);
         }
     }
 }
