@@ -1,14 +1,14 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using TwitchLib.EventSub.Core;
+using TwitchLib.EventSub.Core.EventArgs.Automod;
+using TwitchLib.EventSub.Core.EventArgs.Channel;
+using TwitchLib.EventSub.Core.EventArgs.Conduit;
+using TwitchLib.EventSub.Core.EventArgs.Drop;
+using TwitchLib.EventSub.Core.EventArgs.Extension;
+using TwitchLib.EventSub.Core.EventArgs.Stream;
+using TwitchLib.EventSub.Core.EventArgs.User;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs;
-using TwitchLib.EventSub.Webhooks.Core.EventArgs.Automod;
-using TwitchLib.EventSub.Webhooks.Core.EventArgs.Channel;
-using TwitchLib.EventSub.Webhooks.Core.EventArgs.Conduit;
-using TwitchLib.EventSub.Webhooks.Core.EventArgs.Drop;
-using TwitchLib.EventSub.Webhooks.Core.EventArgs.Extension;
-using TwitchLib.EventSub.Webhooks.Core.EventArgs.Stream;
-using TwitchLib.EventSub.Webhooks.Core.EventArgs.User;
 using TwitchLib.EventSub.Webhooks.Core.Models;
 
 namespace TwitchLib.EventSub.Webhooks.Core
@@ -59,6 +59,10 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// Event that triggers on "channel.bits.use" notifications
         /// </summary>
         event AsyncEventHandler<ChannelBitsUseArgs>? ChannelBitsUse;
+        /// <summary>
+        /// Event that triggers on "channel.ad_break.begin" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelAdBreakBeginArgs>? ChannelAdBreakBegin;
         /// <summary>
         /// Event that triggers on "channel.ban" notifications
         /// </summary>
@@ -112,6 +116,14 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// </summary>
         event AsyncEventHandler<ChannelHypeTrainProgressV2Args>? ChannelHypeTrainProgressV2;
         /// <summary>
+        /// Event that triggers on "channel.unban_request.create" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelUnbanRequestCreateArgs>? ChannelUnbanRequestCreate;
+        /// <summary>
+        /// Event that triggers on "channel.unban_request.resolve" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelUnbanRequestResolveArgs>? ChannelUnbanRequestResolve;
+        /// <summary>
         /// Event that triggers on "channel.moderate" notifications
         /// </summary>
         event AsyncEventHandler<ChannelModerateArgs>? ChannelModerate;
@@ -128,9 +140,21 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// </summary>
         event AsyncEventHandler<ChannelModeratorArgs>? ChannelModeratorRemove;
         /// <summary>
-        /// Event that triggers on "channel.channel_points_automatic_reward_redemption.add" notifications
+        /// Event that triggers on "channel.guest_star_session.begin" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelPointsAutomaticRewardRedemptionAddArgs>? ChannelPointsAutomaticRewardRedemptionAdd;
+        event AsyncEventHandler<ChannelGuestStarSessionBeginArgs>? ChannelGuestStarSessionBegin;
+        /// <summary>
+        /// Event that triggers on "channel.guest_star_guest.end" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelGuestStarSessionEndArgs>? ChannelGuestStarSessionEnd;
+        /// <summary>
+        /// Event that triggers on "channel.guest_star_guest.update" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelGuestStarGuestUpdateArgs>? ChannelGuestStarGuestUpdate;
+        /// <summary>
+        /// Event that triggers on "channel.guest_star_settings.update" notifications
+        /// </summary>
+        public event AsyncEventHandler<ChannelGuestStarSettingsUpdateArgs>? ChannelGuestStarSettingsUpdate;
         /// <summary>
         /// Event that triggers on "channel.channel_points_automatic_reward_redemption.add" notifications
         /// </summary>
@@ -184,6 +208,30 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// </summary>
         event AsyncEventHandler<ChannelPredictionProgressArgs>? ChannelPredictionProgress;
         /// <summary>
+        /// Event that triggers on "channel.suspicious_user.message" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelSuspiciousUserMessageArgs>? ChannelSuspiciousUserMessage;
+        /// <summary>
+        /// Event that triggers on "channel.suspicious_user.update" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelSuspiciousUserUpdateArgs>? ChannelSuspiciousUserUpdate;
+        /// <summary>
+        /// Event that triggers on "channel.vip.add" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelVipArgs>? ChannelVipAdd;
+        /// <summary>
+        /// Event that triggers on "channel.vip.remove" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelVipArgs>? ChannelVipRemove;
+        /// <summary>
+        /// Event that triggers on "channel.warning.acknowledge" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelWarningAcknowledgeArgs>? ChannelWarningAcknowledge;
+        /// <summary>
+        /// Event that triggers on "channel.warning.send" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelWarningSendArgs>? ChannelWarningSend;
+        /// <summary>
         /// Event that triggers on "channel.raid" notifications
         /// </summary>
         event AsyncEventHandler<ChannelRaidArgs>? ChannelRaid;
@@ -203,6 +251,18 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// Event that triggers on "channel.shoutout.receive" notifications
         /// </summary>
         event AsyncEventHandler<ChannelShoutoutReceiveArgs>? ChannelShoutoutReceive;
+        /// <summary>
+        /// Event that triggers on "channel.shared_chat.begin" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelSharedChatSessionBeginArgs>? ChannelSharedChatSessionBegin;
+        /// <summary>
+        /// Event that triggers on "channel.shared_chat.update" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelSharedChatSessionUpdateArgs>? ChannelSharedChatSessionUpdate;
+        /// <summary>
+        /// Event that triggers on "channel.shared_chat.end" notifications
+        /// </summary>
+        event AsyncEventHandler<ChannelSharedChatSessionEndArgs>? ChannelSharedChatSessionEnd;
         /// <summary>
         /// Event that triggers on "channel.subscribe" notifications
         /// </summary>
@@ -266,7 +326,7 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// <summary>
         /// Event that triggers on "channel.chat.clear_user_messages" notifications
         /// </summary>
-        event AsyncEventHandler<ChannelChatClearUserMessageArgs>? ChannelChatClearUserMessage;
+        event AsyncEventHandler<ChannelChatClearUserMessagesArgs>? ChannelChatClearUserMessages;
         /// <summary>
         /// Event that triggers on "channel.chat.message" notifications
         /// </summary>

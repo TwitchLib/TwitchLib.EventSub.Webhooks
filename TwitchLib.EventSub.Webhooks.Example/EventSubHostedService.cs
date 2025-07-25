@@ -1,6 +1,7 @@
 ﻿using TwitchLib.EventSub.Webhooks.Core;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs;
-using TwitchLib.EventSub.Webhooks.Core.EventArgs.Channel;
+using TwitchLib.EventSub.Core.EventArgs.Channel;
+using TwitchLib.EventSub.Webhooks.Core.Models;
 
 namespace TwitchLib.EventSub.Webhooks.Example
 {
@@ -33,7 +34,7 @@ namespace TwitchLib.EventSub.Webhooks.Example
 
         private async Task OnChannelFollow(object? sender, ChannelFollowArgs e)
         {
-            _logger.LogInformation($"{e.Notification.Event.UserName} followed {e.Notification.Event.BroadcasterUserName} at {e.Notification.Event.FollowedAt.ToUniversalTime()}");
+            _logger.LogInformation($"{e.Payload.Event.UserName} followed {e.Payload.Event.BroadcasterUserName} at {e.Payload.Event.FollowedAt.ToUniversalTime()}");
         }
 
         private async Task OnError(object? sender, OnErrorArgs e)
@@ -44,10 +45,10 @@ namespace TwitchLib.EventSub.Webhooks.Example
         // Handling notifications that are not (yet) implemented
         private async Task OnUnknownEventSubNotification(object sender, UnknownEventSubNotificationArgs e)
         {
-            var subscription = e.Notification.Subscription;
-            _logger.LogInformation("Received event that has not yet been implemented: type:{type}, version:{version}", subscription.Type, subscription.Version);
+            var metadata = (WebhookEventSubMetadata)e.Metadata;
+            _logger.LogInformation("Received event that has not yet been implemented: type:{type}, version:{version}", metadata.SubscriptionType, metadata.SubscriptionVersion);
 
-            switch ((subscription.Type, subscription.Version))
+            switch ((metadata.SubscriptionType, metadata.SubscriptionVersion))
             {
                 case ("channel.chat.message", "1"): /*code to handle the event*/ break;
                 default: break;
