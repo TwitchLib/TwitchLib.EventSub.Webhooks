@@ -51,16 +51,19 @@ public class WebhookEventSubMetadata
 
     internal static WebhookEventSubMetadata CreateMetadata(IHeaderDictionary headers)
     {
+        var twitchHeaders = headers.Where(h => h.Key.StartsWith("Twitch-Eventsub-", StringComparison.InvariantCultureIgnoreCase))
+            .ToDictionary(h => h.Key, h => h.Value.ToString());
+
         return new WebhookEventSubMetadata()
         {
-            MessageId = headers["Twitch-Eventsub-Message-Id"]!,
-            MessageRetry = headers["Twitch-Eventsub-Message-Retry"]!,
-            MessageType = headers["Twitch-Eventsub-Message-Type"]!,
-            MessageSignature = headers["Twitch-Eventsub-Message-Signature"]!,
-            MessageTimestamp = headers["Twitch-Eventsub-Message-Timestamp"]!,
-            SubscriptionType = headers["Twitch-Eventsub-Subscription-Type"]!,
-            SubscriptionVersion = headers["Twitch-Eventsub-Subscription-Version"]!,
-            TwitchEventsubHeaders = headers.Where(h => h.Key.StartsWith("Twitch-Eventsub-", StringComparison.InvariantCultureIgnoreCase)).ToDictionary(h => h.Key, h => h.Value.ToString())
+            MessageId = twitchHeaders["Twitch-Eventsub-Message-Id"],
+            MessageRetry = twitchHeaders["Twitch-Eventsub-Message-Retry"],
+            MessageType = twitchHeaders["Twitch-Eventsub-Message-Type"],
+            MessageSignature = twitchHeaders["Twitch-Eventsub-Message-Signature"],
+            MessageTimestamp = twitchHeaders["Twitch-Eventsub-Message-Timestamp"],
+            SubscriptionType = twitchHeaders["Twitch-Eventsub-Subscription-Type"],
+            SubscriptionVersion = twitchHeaders["Twitch-Eventsub-Subscription-Version"],
+            TwitchEventsubHeaders = twitchHeaders
         };
     }
 }
