@@ -313,12 +313,12 @@ namespace TwitchLib.EventSub.Webhooks
                 await Error.InvokeAsync(this, new OnErrorArgs { Reason = "Application_Error", Message = ex.Message });
             }
 
-            async Task InvokeEventSubEvent<TEvent, TModel>(AsyncEventHandler<TEvent>? asyncEventHandler)
-                where TEvent : TwitchLibEventSubNotificationArgs<TModel>, new()
+            async Task InvokeEventSubEvent<TEventArgs , TModel>(AsyncEventHandler<TEventArgs>? asyncEventHandler)
+                where TEventArgs : TwitchLibEventSubNotificationArgs<TModel>, new()
             {
 
                 var notification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<TModel>>(body, _jsonSerializerOptions);
-                await asyncEventHandler.InvokeAsync(this, new TEvent { Metadata = metadata, Payload = notification! });
+                await asyncEventHandler.InvokeAsync(this, new TEventArgs { Metadata = metadata, Payload = notification! });
             }
         }
 

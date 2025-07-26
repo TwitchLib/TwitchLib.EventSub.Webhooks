@@ -21,6 +21,13 @@ You only need a few lines of code to add and configure it.
 - Removed deprecated versions of .NET.
 - Events are now asynchronous (return value changed from `void` to `Task`)
 - Events dropped the `On` prefix (`OnChannelChatMessage` => `ChannelChatMessage`)
+- All EventSub events were moved to `TwitchLib.EventSub.Core` Nuget Package, for better management across future EventSub transport Client libraries.
+  That means their namespace changed from `TwitchLib.EventSub.Webhooks.Core.EventArgs.*` to `TwitchLib.EventSub.Core.EventArgs.*`.
+- Like Events, all EventSub Models were moved to the `TwitchLib.EventSub.Core` package, (namespace changed from `TwitchLib.EventSub.Webhooks.Core.Models` to `TwitchLib.EventSub.Core.Models`)
+  but to ensure that the models can be used across projects some changes had to be made:
+    - `Notification` in `TwitchLibEventSubEventArgs<T>` were renamed to `Payload`
+    - `Headers`(`Dictionary<string,string>`) in `TwitchLibEventSubEventArgs<T>` were replaced with `Metadata`(`EventSubMetadata`) and before you can access the values you have to cast it to `WebhookEventSubMetadata`
+    - `EventSubSubscriptionTransport` was renamed to `EventSubTransport`
 
 ## Breaking Changes in Version 2.0
 
