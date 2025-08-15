@@ -27,7 +27,7 @@
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-	
+
   <ItemGroup>
     <PackageReference Include="TwitchLib.EventSub.Core" Version="3.0.0-preview.66.38522ef" />
   </ItemGroup>
