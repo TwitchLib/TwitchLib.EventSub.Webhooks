@@ -27,13 +27,13 @@
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-
+	
   <ItemGroup>
-	<None Include="..\README.md" Pack="true" PackagePath="\" />
+    <PackageReference Include="TwitchLib.EventSub.Core" Version="3.0.0-preview.66.38522ef" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TwitchLib.EventSub.Core\TwitchLib.EventSub.Core\TwitchLib.EventSub.Core.csproj" />
+	<None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

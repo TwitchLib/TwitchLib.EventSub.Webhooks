@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchLib.EventSub.Webhooks
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchLib.EventSub.Webhooks.Test", "TwitchLib.EventSub.Webhooks.Test\TwitchLib.EventSub.Webhooks.Test.csproj", "{6951CCDA-242A-8652-D81D-F20D8EF8FD9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchLib.EventSub.Core", "..\TwitchLib.EventSub.Core\TwitchLib.EventSub.Core\TwitchLib.EventSub.Core.csproj", "{07D2DF47-2563-4DAA-093B-8F22C660D960}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{6951CCDA-242A-8652-D81D-F20D8EF8FD9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6951CCDA-242A-8652-D81D-F20D8EF8FD9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6951CCDA-242A-8652-D81D-F20D8EF8FD9F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07D2DF47-2563-4DAA-093B-8F22C660D960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07D2DF47-2563-4DAA-093B-8F22C660D960}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07D2DF47-2563-4DAA-093B-8F22C660D960}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07D2DF47-2563-4DAA-093B-8F22C660D960}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
