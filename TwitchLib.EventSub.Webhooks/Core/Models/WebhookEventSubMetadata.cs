@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TwitchLib.EventSub.Core.Models;
 
 namespace TwitchLib.EventSub.Webhooks.Core.Models;
 
-public class WebhookEventSubMetadata
+public class WebhookEventSubMetadata : EventSubMetadata
 {
     /// <summary>
     /// An ID that uniquely identifies this message.
@@ -45,25 +46,34 @@ public class WebhookEventSubMetadata
     public string SubscriptionVersion { get; set; }
 
     /// <summary>
-    /// Contains all headers that start with "Twitch-Eventsub-"
+    /// Contains all headers that start with "twitch-eventsub-"
     /// </summary>
     public Dictionary<string, string> TwitchEventsubHeaders { get; set; }
 
-    internal static WebhookEventSubMetadata CreateMetadata(IHeaderDictionary headers)
+    internal static bool TryCreateMetadata(IHeaderDictionary headers, out WebhookEventSubMetadata metadata)
     {
         var twitchHeaders = headers.Where(h => h.Key.StartsWith("Twitch-Eventsub-", StringComparison.InvariantCultureIgnoreCase))
             .ToDictionary(h => h.Key, h => h.Value.ToString());
+        var containsRequiredHeaders = true;
 
-        return new WebhookEventSubMetadata()
+        metadata = new WebhookEventSubMetadata()
         {
-            MessageId = twitchHeaders["Twitch-Eventsub-Message-Id"],
-            MessageRetry = twitchHeaders["Twitch-Eventsub-Message-Retry"],
-            MessageType = twitchHeaders["Twitch-Eventsub-Message-Type"],
-            MessageSignature = twitchHeaders["Twitch-Eventsub-Message-Signature"],
-            MessageTimestamp = twitchHeaders["Twitch-Eventsub-Message-Timestamp"],
-            SubscriptionType = twitchHeaders["Twitch-Eventsub-Subscription-Type"],
-            SubscriptionVersion = twitchHeaders["Twitch-Eventsub-Subscription-Version"],
+            MessageId = GetHeaderValue("twitch-eventsub-message-id"),
+            MessageRetry = GetHeaderValue("twitch-eventsub-message-retry"),
+            MessageType = GetHeaderValue("twitch-eventsub-message-type"),
+            MessageSignature = GetHeaderValue("twitch-eventsub-message-signature"),
+            MessageTimestamp = GetHeaderValue("twitch-eventsub-message-timestamp"),
+            SubscriptionType = GetHeaderValue("twitch-eventsub-subscription-type"),
+            SubscriptionVersion = GetHeaderValue("twitch-eventsub-subscription-version"),
             TwitchEventsubHeaders = twitchHeaders
         };
+
+        return containsRequiredHeaders;
+
+        string GetHeaderValue(string key)
+        {
+            containsRequiredHeaders &= twitchHeaders.TryGetValue(key, out var value);
+            return value!;
+        }
     }
 }

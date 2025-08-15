@@ -20,7 +20,8 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            var metadata = WebhookEventSubMetadata.CreateMetadata(context.Request.Headers);
+            // For now, we ignore the return value.
+            WebhookEventSubMetadata.TryCreateMetadata(context.Request.Headers, out var metadata);
 
             switch (metadata.MessageType)
             {
