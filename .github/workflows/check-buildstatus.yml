@@ -1,0 +1,23 @@
+name: Check TwitchLib.EventSub.Webhooks PR Build Status
+
+on:
+  pull_request:
+    branches: [ dev, main ]
+
+jobs:
+  check-buildstatus:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build TwitchLib.EventSub.Webhooks
+      run: dotnet build --no-restore
+    - name: Test TwitchLib.EventSub.Webhooks
+      run: dotnet test --no-build --verbosity normal
