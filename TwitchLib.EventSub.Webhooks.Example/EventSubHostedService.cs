@@ -1,6 +1,6 @@
-﻿using TwitchLib.EventSub.Webhooks.Core;
+﻿using TwitchLib.EventSub.Core.EventArgs.Channel;
+using TwitchLib.EventSub.Webhooks.Core;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs;
-using TwitchLib.EventSub.Core.EventArgs.Channel;
 using TwitchLib.EventSub.Webhooks.Core.Models;
 
 namespace TwitchLib.EventSub.Webhooks.Example
@@ -20,21 +20,21 @@ namespace TwitchLib.EventSub.Webhooks.Example
         {
             _eventSubWebhooks.Error += OnError;
             _eventSubWebhooks.UnknownEventSubNotification += OnUnknownEventSubNotification;
-            _eventSubWebhooks.ChannelFollow += OnChannelFollow;
+            _eventSubWebhooks.ChannelChatMessage += OnChannelChatMessage;
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _eventSubWebhooks.Error -= OnError;
-            _eventSubWebhooks.UnknownEventSubNotification += OnUnknownEventSubNotification;
-            _eventSubWebhooks.ChannelFollow -= OnChannelFollow;
+            _eventSubWebhooks.UnknownEventSubNotification -= OnUnknownEventSubNotification;
+            _eventSubWebhooks.ChannelChatMessage -= OnChannelChatMessage;
             return Task.CompletedTask;
         }
 
-        private async Task OnChannelFollow(object? sender, ChannelFollowArgs e)
+        private async Task OnChannelChatMessage(object? sender, ChannelChatMessageArgs e)
         {
-            _logger.LogInformation($"{e.Payload.Event.UserName} followed {e.Payload.Event.BroadcasterUserName} at {e.Payload.Event.FollowedAt.ToUniversalTime()}");
+            _logger.LogInformation($"@{e.Payload.Event.ChatterUserName} #{e.Payload.Event.BroadcasterUserName}: {e.Payload.Event.Message.Text}");
         }
 
         private async Task OnError(object? sender, OnErrorArgs e)
@@ -43,7 +43,7 @@ namespace TwitchLib.EventSub.Webhooks.Example
         }
 
         // Handling notifications that are not (yet) implemented
-        private async Task OnUnknownEventSubNotification(object sender, UnknownEventSubNotificationArgs e)
+        private async Task OnUnknownEventSubNotification(object? sender, UnknownEventSubNotificationArgs e)
         {
             var metadata = (WebhookEventSubMetadata)e.Metadata;
             _logger.LogInformation("Received event that has not yet been implemented: type:{type}, version:{version}", metadata.SubscriptionType, metadata.SubscriptionVersion);
