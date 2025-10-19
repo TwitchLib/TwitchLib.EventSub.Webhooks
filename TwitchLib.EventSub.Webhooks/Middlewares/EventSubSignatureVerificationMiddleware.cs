@@ -130,11 +130,11 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
             return memoryStream.GetBuffer().AsMemory(0, (int)memoryStream.Position);
         }
 
-        private static async Task WriteResponseAsync(HttpContext context, int statusCode, string contentType, string responseBody)
+        private static Task WriteResponseAsync(HttpContext context, int statusCode, string contentType, string responseBody)
         {
             context.Response.StatusCode = statusCode;
             context.Response.ContentType = contentType;
-            await context.Response.WriteAsync(responseBody);
+            return context.Response.WriteAsync(responseBody);
         }
     }
 }

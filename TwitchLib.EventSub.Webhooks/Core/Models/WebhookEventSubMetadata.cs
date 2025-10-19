@@ -11,9 +11,9 @@ public class WebhookEventSubMetadata : EventSubMetadata
     /// <summary>
     /// An ID that uniquely identifies this message.
     /// </summary>
-    public string MessageId { get; set; }
+    public string MessageId { get; set; } = null!;
 
-    public string MessageRetry { get; set; }
+    public string MessageRetry { get; set; } = null!;
 
     /// <summary>
     /// The type of notification.
@@ -23,32 +23,32 @@ public class WebhookEventSubMetadata : EventSubMetadata
     /// <para>webhook_callback_verification — Contains the challenge used to verify that you own the event handler.</para>
     /// <para>revocation — Contains the reason why Twitch revoked your subscription.</para>
     /// </remarks>
-    public string MessageType { get; set; }
+    public string MessageType { get; set; } = null!;
 
     /// <summary>
     /// The HMAC signature that you use to verify that Twitch sent the message.
     /// </summary>
-    public string MessageSignature { get; set; }
+    public string MessageSignature { get; set; } = null!;
 
     /// <summary>
     /// The UTC date and time (in RFC3339 format) that Twitch sent the notification.
     /// </summary>
-    public string MessageTimestamp { get; set; }
+    public string MessageTimestamp { get; set; } = null!;
 
     /// <summary>
     /// The subscription type.
     /// </summary>
-    public string SubscriptionType { get; set; }
+    public string SubscriptionType { get; set; } = null!;
 
     /// <summary>
     /// The subscription version.
     /// </summary>
-    public string SubscriptionVersion { get; set; }
+    public string SubscriptionVersion { get; set; } = null!;
 
     /// <summary>
     /// Contains all headers that start with "twitch-eventsub-"
     /// </summary>
-    public Dictionary<string, string> TwitchEventsubHeaders { get; set; }
+    public Dictionary<string, string> TwitchEventsubHeaders { get; set; } = null!;
 
     internal static bool TryCreateMetadata(IHeaderDictionary headers, out WebhookEventSubMetadata metadata)
     {
