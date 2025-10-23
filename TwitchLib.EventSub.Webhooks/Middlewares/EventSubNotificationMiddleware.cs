@@ -26,20 +26,20 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
             switch (metadata.MessageType)
             {
                 case "webhook_callback_verification":
-                    var json = await JsonDocument.ParseAsync(context.Request.Body);
+                    var json = await JsonDocument.ParseAsync(context.Request.Body).ConfigureAwait(false);
                     string challenge = json.RootElement.GetProperty("challenge"u8).GetString()!;
-                    await WriteResponseAsync(context, 200, "text/plain", challenge!);
+                    await WriteResponseAsync(context, 200, "text/plain", challenge!).ConfigureAwait(false);
                     return;
                 case "notification":
-                    await _eventSubWebhooks.ProcessNotificationAsync(metadata, context.Request.Body);
+                    await _eventSubWebhooks.ProcessNotificationAsync(metadata, context.Request.Body).ConfigureAwait(false);
                     await WriteResponseAsync(context, 200, "text/plain", "Thanks for the heads up Jordan");
                     return;
                 case "revocation":
-                    await _eventSubWebhooks.ProcessRevocationAsync(metadata, context.Request.Body);
-                    await WriteResponseAsync(context, 200, "text/plain", "Thanks for the heads up Jordan");
+                    await _eventSubWebhooks.ProcessRevocationAsync(metadata, context.Request.Body).ConfigureAwait(false);
+                    await WriteResponseAsync(context, 200, "text/plain", "Thanks for the heads up Jordan").ConfigureAwait(false);
                     return;
                 default:
-                    await WriteResponseAsync(context, 400, "text/plain", $"Unknown EventSub message type: {metadata.MessageType}");
+                    await WriteResponseAsync(context, 400, "text/plain", $"Unknown EventSub message type: {metadata.MessageType}").ConfigureAwait(false);
                     return;
             }
         }

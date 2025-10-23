@@ -32,7 +32,7 @@ public sealed class EventSubDeduplicationService : IEventSubDeduplicationService
 
     private async Task RemoveOldMessagesAsyncLoop()
     {
-        while (await _timer.WaitForNextTickAsync())
+        while (await _timer.WaitForNextTickAsync().ConfigureAwait(false))
         {
             var time = _timeProvider.GetUtcNow() - MessageTtl;
             foreach (var item in Messages)

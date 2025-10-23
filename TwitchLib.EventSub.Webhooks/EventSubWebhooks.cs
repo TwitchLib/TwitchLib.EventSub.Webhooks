@@ -215,7 +215,7 @@ namespace TwitchLib.EventSub.Webhooks
         {
             if (string.IsNullOrEmpty(metadata.SubscriptionType) || string.IsNullOrEmpty(metadata.SubscriptionVersion))
             {
-                await Error.InvokeAsync(this, new OnErrorArgs { Reason = "Missing_Header", Message = "The Twitch-Eventsub-Subscription-Type or Twitch-Eventsub-Subscription-Version header was not found" });
+                await Error.InvokeAsync(this, new OnErrorArgs { Reason = "Missing_Header", Message = "The Twitch-Eventsub-Subscription-Type or Twitch-Eventsub-Subscription-Version header was not found" }).ConfigureAwait(false);
                 return;
             }
 
@@ -306,19 +306,19 @@ namespace TwitchLib.EventSub.Webhooks
                     ("user.whisper.message", "1") => InvokeEventSubEvent<UserWhisperMessageArgs, UserWhisperMessage>(UserWhisperMessage),
                     _ => InvokeEventSubEvent<UnknownEventSubNotificationArgs, JsonElement>(UnknownEventSubNotification),
                 };
-                await task;
+                await task.ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                await Error.InvokeAsync(this, new OnErrorArgs { Reason = "Application_Error", Message = ex.Message });
+                await Error.InvokeAsync(this, new OnErrorArgs { Reason = "Application_Error", Message = ex.Message }).ConfigureAwait(false);
             }
 
             async Task InvokeEventSubEvent<TEventArgs , TModel>(AsyncEventHandler<TEventArgs>? asyncEventHandler)
                 where TEventArgs : TwitchLibEventSubNotificationArgs<TModel>, new()
             {
 
-                var notification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<TModel>>(body, _jsonSerializerOptions);
-                await asyncEventHandler.InvokeAsync(this, new TEventArgs { Metadata = metadata, Payload = notification! });
+                var notification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<TModel>>(body, _jsonSerializerOptions).ConfigureAwait(false);
+                await asyncEventHandler.InvokeAsync(this, new TEventArgs { Metadata = metadata, Payload = notification! }).ConfigureAwait(false);
             }
         }
 
@@ -327,12 +327,12 @@ namespace TwitchLib.EventSub.Webhooks
         {
             try
             {
-                var notification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<object>>(body, _jsonSerializerOptions);
-                await Revocation.InvokeAsync(this, new RevocationArgs { Metadata = metadata, Payload = notification! });
+                var notification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<object>>(body, _jsonSerializerOptions).ConfigureAwait(false);
+                await Revocation.InvokeAsync(this, new RevocationArgs { Metadata = metadata, Payload = notification! }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                await Error.InvokeAsync(this, new OnErrorArgs { Reason = "Application_Error", Message = ex.Message });
+                await Error.InvokeAsync(this, new OnErrorArgs { Reason = "Application_Error", Message = ex.Message }).ConfigureAwait(false);
             }
         }
     }

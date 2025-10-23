@@ -20,8 +20,8 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            var startTimestamp= Stopwatch.GetTimestamp();
-            await _next(context);
+            var startTimestamp = Stopwatch.GetTimestamp();
+            await _next(context).ConfigureAwait(false);
             var elapsed = Stopwatch.GetElapsedTime(startTimestamp);
             _logger.LogEventSubHttpNotification(context.Request.Path, context.Response.StatusCode, elapsed.TotalMilliseconds);
         }

@@ -35,7 +35,7 @@ public class EventSubNotificationDeduplicationMiddleware
         if (_deduplicationService.IsDuplicateMessage(messageId))
         {
             _logger.LogDuplicateMessage(messageId);
-            await WriteResponseAsync(context, 200, MediaTypeNames.Text.Plain, "Thanks for the heads up Jordan");
+            await WriteResponseAsync(context, 200, MediaTypeNames.Text.Plain, "Thanks for the heads up Jordan").ConfigureAwait(false);
             return;
         }
         await _next(context);

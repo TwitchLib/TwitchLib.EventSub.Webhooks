@@ -32,13 +32,13 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (await IsValidEventSubRequest(context.Request))
+            if (await IsValidEventSubRequest(context.Request).ConfigureAwait(false))
             {
                 await _next(context);
                 return;
             }
 
-            await WriteResponseAsync(context, 403, "text/plain", "Invalid Signature");
+            await WriteResponseAsync(context, 403, "text/plain", "Invalid Signature").ConfigureAwait(false);
         }
 
         private async Task<bool> IsValidEventSubRequest(HttpRequest request)
@@ -60,7 +60,7 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
 
                 var timestamp = timestampHeader.First();
 
-                var body = await ReadRequestBodyContentAsync(request);
+                var body = await ReadRequestBodyContentAsync(request).ConfigureAwait(false);
 
                 return IsSignatureValid(providedSignature!, id!, timestamp!, body.Span, _options.SecretBytes!);
             }
@@ -114,7 +114,7 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
             if (!request.Body.CanSeek)
             {
                 request.EnableBuffering();
-                await request.Body.DrainAsync(CancellationToken.None);
+                await request.Body.DrainAsync(CancellationToken.None).ConfigureAwait(false);
             }
 
             request.Body.Seek(0L, SeekOrigin.Begin);
