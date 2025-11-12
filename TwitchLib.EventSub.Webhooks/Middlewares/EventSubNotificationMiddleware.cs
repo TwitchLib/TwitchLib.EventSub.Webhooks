@@ -44,11 +44,11 @@ namespace TwitchLib.EventSub.Webhooks.Middlewares
             }
         }
 
-        private static async Task WriteResponseAsync(HttpContext context, int statusCode, string contentType, string responseBody)
+        private static Task WriteResponseAsync(HttpContext context, int statusCode, string contentType, string responseBody)
         {
             context.Response.StatusCode = statusCode;
             context.Response.ContentType = contentType;
-            await context.Response.WriteAsync(responseBody);
+            return context.Response.WriteAsync(responseBody);
         }
     }
 }

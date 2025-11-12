@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <PackageId>TwitchLib.EventSub.Webhooks</PackageId>
     <Authors>swiftyspiffy, Prom3theu5, Syzuna, LuckyNoS7evin</Authors>
     <PackageTags>twitchlib;twitch,eventsub;webhooks</PackageTags>
@@ -11,14 +11,14 @@
     <AssemblyVersion>3.0.0</AssemblyVersion>
     <PackageReleaseNotes>Added .NET 8 build target, Updated TwitchLib.EventSub.Core to the latest version to include the latest subscription type changes</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
-    <PackageIconUrl>https://cdn.syzuna-programs.de/images/twitchlib.png</PackageIconUrl>
+	<PackageIcon>twitchlib.png</PackageIcon>
     <PackageProjectUrl>https://github.com/TwitchLib/TwitchLib.EventSub.Webhooks</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TwitchLib/TwitchLib.EventSub.Webhooks</RepositoryUrl>
     <NeutralLanguage>en-US</NeutralLanguage>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2023</Copyright>
+    <Copyright>Copyright 2025</Copyright>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
@@ -34,6 +34,7 @@
 
   <ItemGroup>
 	<None Include="..\README.md" Pack="true" PackagePath="\" />
+	<None Include="..\twitchlib.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
