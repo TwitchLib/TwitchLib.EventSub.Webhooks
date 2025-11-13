@@ -1,0 +1,57 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+# change values!!
+@callbackBase=_example_com_
+@clientId=_Client_Id_
+@token=_App_Access_Token_
+@broadcasterUserId=_Broadcaster_User_Id_
+@userId={{broadcasterUserId}}
+
+@secret=supersecuresecret
+@callbackPath=/eventsub/
+@callbackUrl={{callbackBase}}{{callbackPath}}
+
+# @name getSubscriptions
+GET https://api.twitch.tv/helix/eventsub/subscriptions
+Authorization: Bearer {{token}}
+Client-Id: {{clientId}}
+
+###
+
+DELETE https://api.twitch.tv/helix/eventsub/subscriptions?id={{getSubscriptions.response.body.$.data[0].id}}
+Authorization: Bearer {{token}}
+Client-Id: {{clientId}}
+
+###
+
+POST https://api.twitch.tv/helix/eventsub/subscriptions
+Authorization: Bearer {{token}}
+Client-Id: {{clientId}}
+Content-Type: application/json
+
+{
+  "type": "channel.chat.message",
+  "version": "1",
+  "condition": {
+    "broadcaster_user_id": "{{broadcasterUserId}}",
+    "user_id": "{{userId}}"
+  },
+  "transport": {
+    "method": "webhook",
+    "callback": "{{callbackUrl}}",
+    "secret": "{{secret}}"
+  }
+}
+
+###
+
+POST https://api.twitch.tv/helix/chat/messages
+Authorization: Bearer {{token}}
+Client-Id: {{clientId}}
+Content-Type: application/json
+
+{
+  "broadcaster_id" : "{{broadcasterUserId}}",
+  "sender_id" : "{{userId}}",
+  "message" : "Test message"
+}

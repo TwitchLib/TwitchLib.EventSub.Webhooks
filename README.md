@@ -9,13 +9,25 @@ You only need a few lines of code to add and configure it.
 
 | NuGet            |       | [![TwitchLib.EventSub.Webhooks][1]][2]                                       |
 | :--------------- | ----: | :--------------------------------------------------------------------------- |
-| Package Manager  | `PM>` | `Install-Package TwitchLib.EventSub.Webhooks -Version 2.3.0`                 |
-| .NET CLI         | `>`   | `dotnet add package TwitchLib.EventSub.Webhooks --version 2.3.0`             |
-| PackageReference |       | `<PackageReference Include="TwitchLib.EventSub.Webhooks" Version="2.3.0" />` |
-| Paket CLI        | `>`   | `paket add TwitchLib.EventSub.Webhooks --version 2.3.0`                      |
+| Package Manager  | `PM>` | `Install-Package TwitchLib.EventSub.Webhooks -Version 3.0.0`                 |
+| .NET CLI         | `>`   | `dotnet add package TwitchLib.EventSub.Webhooks --version 3.0.0`             |
+| PackageReference |       | `<PackageReference Include="TwitchLib.EventSub.Webhooks" Version="3.0.0" />` |
+| Paket CLI        | `>`   | `paket add TwitchLib.EventSub.Webhooks --version 3.0.0`                      |
 
 [1]: https://img.shields.io/nuget/v/TwitchLib.EventSub.Webhooks.svg?label=TwitchLib.EventSub.Webhooks
 [2]: https://www.nuget.org/packages/TwitchLib.EventSub.Webhooks
+
+## Breaking Changes in Version 3.0
+- Removed deprecated versions of .NET.
+- Events are now asynchronous (return value changed from `void` to `Task`)
+- Events dropped the `On` prefix (`OnChannelChatMessage` => `ChannelChatMessage`)
+- All EventSub events were moved to `TwitchLib.EventSub.Core` Nuget Package, for better management across future EventSub transport Client libraries.
+  That means their namespace changed from `TwitchLib.EventSub.Webhooks.Core.EventArgs.*` to `TwitchLib.EventSub.Core.EventArgs.*`.
+- Like Events, all EventSub Models were moved to the `TwitchLib.EventSub.Core` package, (namespace changed from `TwitchLib.EventSub.Webhooks.Core.Models` to `TwitchLib.EventSub.Core.Models`)
+  but to ensure that the models can be used across projects some changes had to be made:
+    - `Notification` in `TwitchLibEventSubEventArgs<T>` were renamed to `Payload`
+    - `Headers`(`Dictionary<string,string>`) in `TwitchLibEventSubEventArgs<T>` were replaced with `Metadata`(`EventSubMetadata`) and before you can access the values you have to cast it to `WebhookEventSubMetadata`
+    - `EventSubSubscriptionTransport` was renamed to `EventSubTransport`
 
 ## Breaking Changes in Version 2.0
 
@@ -33,62 +45,42 @@ The usual requirements that Twitch has for EventSub webhooks do still apply!
 
 ## Setup
 
-Step 1: Create a new ASP.NET Core project (.NET 5.0 and up)
+Step 1: Create a new ASP.NET Core project (.NET 8.0 and up)
 
 Step 2: Install the TwitchLib.EventSub.Webhooks nuget package. (See above on how to do that)
 
 Step 3: Add necessary services and config to the DI Container
 
 ```csharp
-public void ConfigureServices(IServiceCollection services)
-{
-    services.AddControllers();
-    services.AddTwitchLibEventSubWebhooks(config =>
-    {
-        config.CallbackPath = "/webhooks";
-        config.Secret = "supersecuresecret";
-        config.EnableLogging = true;
-    });
+var builder = WebApplication.CreateBuilder(args);
 
-    services.AddHostedService<EventSubHostedService>();
-}
+builder.Services.AddTwitchLibEventSubWebhooks(config =>
+{
+    config.CallbackPath = "/eventsub/";
+    config.Secret = "supersecuresecret";
+});
+builder.Services.AddHostedService<EventSubHostedService>();
 ```
 
-!!! If you follow these steps your callback url will https://{your_domain}/webhooks !!!
+!!! If you follow these steps your callback url will `https://{your_domain}/eventsub/` !!!
 
 Step 4: Put the TwitchLib.EventSub.Webhooks middleware in the request pipeline
 
 ```csharp
-public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-{
-    if (env.IsDevelopment())
-    {
-        app.UseDeveloperExceptionPage();
-    }
+var app = builder.Build();
 
-    app.UseRouting();
+app.UseTwitchLibEventSubWebhooks();
 
-    app.UseAuthorization();
-
-    app.UseTwitchLibEventSubWebhooks();
-
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllers();
-    });
-}
+app.Run();
 ```
 
 Step 5: Create the HostedService and listen for events
 
 ```csharp
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System.Threading;
-using System.Threading.Tasks;
+using TwitchLib.EventSub.Core.EventArgs.Channel;
 using TwitchLib.EventSub.Webhooks.Core;
 using TwitchLib.EventSub.Webhooks.Core.EventArgs;
-using TwitchLib.EventSub.Webhooks.Core.EventArgs.Channel;
+using TwitchLib.EventSub.Webhooks.Core.Models;
 
 namespace TwitchLib.EventSub.Webhooks.Example
 {
@@ -106,25 +98,40 @@ namespace TwitchLib.EventSub.Webhooks.Example
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _eventSubWebhooks.OnError += OnError;
-            _eventSubWebhooks.OnChannelFollow += OnChannelFollow;
+            _eventSubWebhooks.UnknownEventSubNotification += OnUnknownEventSubNotification;
+            _eventSubWebhooks.ChannelChatMessage += OnChannelChatMessage;
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _eventSubWebhooks.OnError -= OnError;
-            _eventSubWebhooks.OnChannelFollow -= OnChannelFollow;
+            _eventSubWebhooks.UnknownEventSubNotification -= OnUnknownEventSubNotification;
+            _eventSubWebhooks.ChannelChatMessage -= OnChannelChatMessage;
             return Task.CompletedTask;
         }
 
-        private void OnChannelFollow(object sender, ChannelFollowArgs e)
+        private async Task OnChannelChatMessage(object? sender, ChannelChatMessageArgs e)
         {
-            _logger.LogInformation($"{e.Notification.Event.UserName} followed {e.Notification.Event.BroadcasterUserName} at {e.Notification.Event.FollowedAt.ToUniversalTime()}");
+            _logger.LogInformation($"@{e.Payload.Event.ChatterUserName} #{e.Payload.Event.BroadcasterUserName}: {e.Payload.Event.Message.Text}");
         }
 
-        private void OnError(object sender, OnErrorArgs e)
+        private async Task OnError(object? sender, OnErrorArgs e)
         {
             _logger.LogError($"Reason: {e.Reason} - Message: {e.Message}");
+        }
+
+        // Handling notifications that are not (yet) implemented
+        private async Task OnUnknownEventSubNotification(object? sender, UnknownEventSubNotificationArgs e)
+        {
+            var metadata = (WebhookEventSubMetadata)e.Metadata;
+            _logger.LogInformation("Received event that has not yet been implemented: type:{type}, version:{version}", metadata.SubscriptionType, metadata.SubscriptionVersion);
+
+            switch ((metadata.SubscriptionType, metadata.SubscriptionVersion))
+            {
+                case ("channel.chat.message", "1"): /*code to handle the event*/ break;
+                default: break;
+            }
         }
     }
 }

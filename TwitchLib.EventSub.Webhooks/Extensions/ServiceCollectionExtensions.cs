@@ -2,6 +2,7 @@
 using System;
 using TwitchLib.EventSub.Webhooks.Core;
 using TwitchLib.EventSub.Webhooks.Core.Models;
+using TwitchLib.EventSub.Webhooks.Services;
 
 namespace TwitchLib.EventSub.Webhooks.Extensions
 {
@@ -19,6 +20,7 @@ namespace TwitchLib.EventSub.Webhooks.Extensions
         public static IServiceCollection AddTwitchLibEventSubWebhooks(this IServiceCollection services, Action<TwitchLibEventSubOptions> config)
         {
             services.Configure(config);
+            services.AddSingleton<IEventSubDeduplicationService, EventSubDeduplicationService>();
             services.AddSingleton<IEventSubWebhooks, EventSubWebhooks>();
             return services;
         }
