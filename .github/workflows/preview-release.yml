@@ -8,6 +8,8 @@ jobs:
   release-preview:
    if: "! contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
    runs-on: ubuntu-latest
+   permissions:
+      id-token: write  # enable GitHub OIDC token issuance for this job
 
    steps:
    - uses: actions/checkout@v5
@@ -23,5 +25,11 @@ jobs:
      run: dotnet build -c Release --no-restore
    - name: Pack TwitchLib.EventSub.Webhooks
      run: dotnet pack ./TwitchLib.EventSub.Webhooks/TwitchLib.EventSub.Webhooks.csproj -v normal -c Release -o nugets --no-build --version-suffix "preview.${{ github.run_number }}.${{ steps.short-sha.outputs.sha }}"
+     # Get a short-lived NuGet API key
+   - name: NuGet login (OIDC → temp API key)
+     uses: NuGet/login@v1
+     id: login
+     with:
+       user: ${{ secrets.NUGET_USER }}
    - name: Push to Nuget
-     run: dotnet nuget push "./nugets/*.nupkg" -k ${{ secrets.API_NUGET_TOKEN }} -s https://api.nuget.org/v3/index.json
+     run: dotnet nuget push "./nugets/*.nupkg" --api-key ${{steps.login.outputs.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
