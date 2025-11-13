@@ -9,7 +9,19 @@
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <FileVersion>3.0.0</FileVersion>
     <AssemblyVersion>3.0.0</AssemblyVersion>
-    <PackageReleaseNotes>Added .NET 8 build target, Updated TwitchLib.EventSub.Core to the latest version to include the latest subscription type changes</PackageReleaseNotes>
+    <PackageReleaseNotes>.NET 10 update
+added EventSubDeduplicationService
+
+Breaking Changes
+Events are now asynchronous (return value changed from `void` to `Task`)
+Events dropped the `On` prefix (`OnChannelChatMessage` => `ChannelChatMessage`)
+All EventSub events were moved to `TwitchLib.EventSub.Core` Nuget Package, for better management across future EventSub transport Client libraries.
+That means their namespace changed from `TwitchLib.EventSub.Webhooks.Core.EventArgs.*` to `TwitchLib.EventSub.Core.EventArgs.*`.
+Like Events, all EventSub Models were moved to the `TwitchLib.EventSub.Core` package, (namespace changed from `TwitchLib.EventSub.Webhooks.Core.Models` to `TwitchLib.EventSub.Core.Models`) but to ensure that the models can be used across projects some changes had to be made:
+- `Notification` in `TwitchLibEventSubEventArgs T` were renamed to `Payload`
+- `Headers`(`Dictionary string,string`) in `TwitchLibEventSubEventArgs T ` were replaced with `Metadata`(`EventSubMetadata`) and before you can access the values you have to cast it to `WebhookEventSubMetadata`
+- `EventSubSubscriptionTransport` was renamed to `EventSubTransport`
+	</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
 	<PackageIcon>twitchlib.png</PackageIcon>
     <PackageProjectUrl>https://github.com/TwitchLib/TwitchLib.EventSub.Webhooks</PackageProjectUrl>
