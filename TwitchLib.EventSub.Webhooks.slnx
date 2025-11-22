@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="TwitchLib.EventSub.Webhooks.Example/TwitchLib.EventSub.Webhooks.Example.csproj" />
+  <Project Path="TwitchLib.EventSub.Webhooks.Test/TwitchLib.EventSub.Webhooks.Test.csproj" />
+  <Project Path="TwitchLib.EventSub.Webhooks/TwitchLib.EventSub.Webhooks.csproj" />
+</Solution>
