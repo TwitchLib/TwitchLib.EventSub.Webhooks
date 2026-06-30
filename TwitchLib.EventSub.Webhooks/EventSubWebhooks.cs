@@ -208,6 +208,8 @@ namespace TwitchLib.EventSub.Webhooks
         /// <inheritdoc/>
         public event AsyncEventHandler<ChannelChatUserMessageUpdateArgs>? ChannelChatUserMessageUpdate;
         /// <inheritdoc/>
+        public event AsyncEventHandler<ChannelCustomPowerUpRedemptionAddV1Args>? CustomPowerUpRedemptionV1Add;
+        /// <inheritdoc/>
         public event AsyncEventHandler<UserWhisperMessageArgs>? UserWhisperMessage;
 
         /// <inheritdoc/>
@@ -241,6 +243,7 @@ namespace TwitchLib.EventSub.Webhooks
                     ("channel.chat_settings.update", "1") => InvokeEventSubEvent<ChannelChatSettingsUpdateArgs, ChannelChatSettingsUpdate>(ChannelChatSettingsUpdate),
                     ("channel.chat.user_message_hold", "1") => InvokeEventSubEvent<ChannelChatUserMessageHoldArgs, ChannelChatUserMessageHold>(ChannelChatUserMessageHold),
                     ("channel.chat.user_message_update", "1") => InvokeEventSubEvent<ChannelChatUserMessageUpdateArgs, ChannelChatUserMessageUpdate>(ChannelChatUserMessageUpdate),
+                    ("channel.custom_power_up_redemption.add", "1") => InvokeEventSubEvent<ChannelCustomPowerUpRedemptionAddV1Args, CustomPowerUpRedemptionV1>(CustomPowerUpRedemptionV1Add),
                     ("channel.shared_chat.begin", "1") => InvokeEventSubEvent<ChannelSharedChatSessionBeginArgs, ChannelSharedChatSessionBegin>(ChannelSharedChatSessionBegin),
                     ("channel.shared_chat.update", "1") => InvokeEventSubEvent<ChannelSharedChatSessionUpdateArgs, ChannelSharedChatSessionUpdate>(ChannelSharedChatSessionUpdate),
                     ("channel.shared_chat.end", "1") => InvokeEventSubEvent<ChannelSharedChatSessionEndArgs, ChannelSharedChatSessionEnd>(ChannelSharedChatSessionEnd),
@@ -316,7 +319,6 @@ namespace TwitchLib.EventSub.Webhooks
             async Task InvokeEventSubEvent<TEventArgs , TModel>(AsyncEventHandler<TEventArgs>? asyncEventHandler)
                 where TEventArgs : TwitchLibEventSubNotificationArgs<TModel>, new()
             {
-
                 var notification = await JsonSerializer.DeserializeAsync<EventSubNotificationPayload<TModel>>(body, _jsonSerializerOptions).ConfigureAwait(false);
                 await asyncEventHandler.InvokeAsync(this, new TEventArgs { Metadata = metadata, Payload = notification! }).ConfigureAwait(false);
             }
