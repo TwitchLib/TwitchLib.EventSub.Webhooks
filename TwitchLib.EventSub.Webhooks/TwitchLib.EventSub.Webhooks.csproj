@@ -30,7 +30,7 @@ Like Events, all EventSub Models were moved to the `TwitchLib.EventSub.Core` pac
 	<PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2025</Copyright>
+    <Copyright>Copyright $([System.DateTimeOffset]::Now.Year)</Copyright>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
