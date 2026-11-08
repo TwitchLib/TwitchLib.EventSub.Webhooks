@@ -351,6 +351,10 @@ namespace TwitchLib.EventSub.Webhooks.Core
         /// Event that triggers on "channel.chat.user_message_update" notifications
         /// </summary>
         event AsyncEventHandler<ChannelChatUserMessageUpdateArgs>? ChannelChatUserMessageUpdate;
+        /// <summary>
+        /// Event that triggers on "channel.custom_power_up_redemption.add" notifications
+        /// </summary>
+        public event AsyncEventHandler<ChannelCustomPowerUpRedemptionAddV1Args>? CustomPowerUpRedemptionV1Add;
 
 
         /// <summary>
